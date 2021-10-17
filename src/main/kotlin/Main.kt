@@ -1,38 +1,13 @@
 package yamin
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.github.instagram4j.instagram4j.IGClient
-import com.github.instagram4j.instagram4j.IGClient.Builder.LoginHandler
 import com.github.instagram4j.instagram4j.models.user.Profile
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
-import com.github.instagram4j.instagram4j.responses.accounts.LoginResponse
-import com.github.instagram4j.instagram4j.utils.IGChallengeUtils
-import java.util.*
-import java.util.concurrent.Callable
+import yamin.utils.JsonUtils.pretty
+import yamin.utils.LoginHelper
 
 
 fun main() {
-    val scanner = Scanner(System.`in`)
-
-    val inputCode = Callable {
-        print("Please input code: ")
-        scanner.nextLine()
-    }
-
-
-    val challengeHandler = LoginHandler { client: IGClient?, response: LoginResponse? ->
-        IGChallengeUtils.resolveChallenge(
-            client!!,
-            response!!,
-            inputCode
-        )
-    }
-
-    val client = IGClient.builder()
-        .username("graph.agency")
-        .password("137426")
-        .onChallenge(challengeHandler)
-        .login()
+    val client = LoginHelper("graph.agency", "137426").logInWithChallenge()
 
 //    try {
 //        client.actions().timeline().uploadPhoto(File("clean.jpg"), "asdasda")
@@ -86,9 +61,4 @@ fun main() {
 //        )
 //    ).join()
 //    println(data)
-}
-
-fun Any.pretty(): String {
-    val mapper = ObjectMapper()
-    return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(this)
 }
