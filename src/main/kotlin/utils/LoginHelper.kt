@@ -7,7 +7,9 @@ import java.util.*
 import java.util.concurrent.Callable
 
 class LoginHelper(private val username: String, private val password: String) {
+
     private val client = IGClient.builder()
+
     fun logIn(): IGClient {
         return client.username(username).password(password).login()
     }
