@@ -26,22 +26,25 @@ class RequestHelper(private val igClient: IGClient) {
     fun getUserFeed(
         username: String,
         nextMaxId: String? = null,
-        limit: Int = POST_LIMIT_COUNT
-    ): MutableList<TimelineMedia> {
+        limit: Int = POST_LIMIT_COUNT,
+        onFinished: (MutableList<TimelineMedia>, Throwable?) -> Unit
+    ) {
         val posts = mutableListOf<TimelineMedia>()
         val pk = getPk(username)
         if (pk != null) {
-            val response = igClient.sendRequest(FeedUserRequest(pk, nextMaxId)).join()
-            if (response.status == OK) {
-                posts.addAll(response.items.take(limit - posts.size))
-                if (posts.size == limit) return posts
-                if (response.isMore_available) {
-                    val nextData = getUserFeed(username, response.next_max_id, limit - posts.size)
-                    posts.addAll(nextData)
-                }
+            igClient.sendRequest(FeedUserRequest(pk, nextMaxId)).handleAsync { response, _ ->
+                if (response.status == OK) {
+                    posts.addAll(response.items.take(limit - posts.size))
+                    if (posts.size == limit) onFinished(posts, null)
+                    if (response.isMore_available) {
+                        getUserFeed(username, response.next_max_id, limit - posts.size) { nextData, _ ->
+                            posts.addAll(nextData)
+                            onFinished(posts, null)
+                        }
+                    } else onFinished(posts, null)
+                } else onFinished(mutableListOf(), null)
             }
-        }
-        return posts
+        } else onFinished(mutableListOf(), null)
     }
 
     private fun getPk(username: String): Long? {

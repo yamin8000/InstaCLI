@@ -11,6 +11,7 @@ import yamin.utils.LoginHelper
 import yamin.utils.RequestHelper
 import java.io.File
 import java.util.*
+import java.util.concurrent.CancellationException
 import java.util.concurrent.CompletableFuture
 
 fun main() {
@@ -95,9 +96,8 @@ fun menuHandler() {
                 continue
             }
             3 -> {
-                if (client != null) handleUserPostsFetcher(scanner, client)
+                if (client != null) handleUserPostsFetcher(scanner, client) { menuHandler() }
                 else println("Please login first!")
-                continue
             }
             else -> {
                 println("Bad input!")
@@ -126,13 +126,15 @@ fun getClientBySession(scanner: Scanner): IGClient? {
     return IGClient.deserialize(clientFile, cookieFile)
 }
 
-private fun handleUserPostsFetcher(scanner: Scanner, client: IGClient) {
+private fun handleUserPostsFetcher(scanner: Scanner, client: IGClient, onFinished: () -> Unit) {
     println("Please input desired instagram username to see posts: ")
     val targetUsername = scanner.nextLine()
-    val newData = RequestHelper(client).getUserFeed(targetUsername)
-    println("${newData.size} posts have been fetched, show 10 them? (y/n)")
-    val answer = scanner.nextLine()
-    if (answer.lowercase() == "y") println(newData.take(10).pretty())
+    RequestHelper(client).getUserFeed(targetUsername) { posts, _ ->
+        println("${posts.size} posts have been fetched, show 10 them? (y/n)")
+        val answer = scanner.nextLine()
+        if (answer.lowercase() == "y") println(posts.take(10).pretty())
+        onFinished()
+    }
 }
 
 private fun getClientByUsernamePassword(scanner: Scanner): IGClient {
@@ -141,12 +143,16 @@ private fun getClientByUsernamePassword(scanner: Scanner): IGClient {
     println("Please input instagram password: ")
     val password = scanner.nextLine()
 
-    val client = LoginHelper(username, password).logInWithChallenge { _, _ -> println("Login success!") }
+    val loading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
+    val client = LoginHelper(username, password).logInWithChallenge { _, _ ->
+        println("\nLogin success!")
+        loading.cancel(CancellationException("Loading finished!"))
+    }
 
     if (client.isLoggedIn) {
         val request = client.sendRequest(AccountsCurrentUserRequest()).handleAsync { response, _ ->
             val currentUser = response.user
-            println("Current user full name is: ${currentUser.full_name} and username is: ${currentUser.username}")
+            println("\nCurrent user full name is: ${currentUser.full_name} and username is: ${currentUser.username}")
 
             createSessionFiles(client, username)
         }
@@ -169,7 +175,7 @@ fun loading(completableFuture: CompletableFuture<Unit?>, cycleWaitTime: Long = 2
     }
 }
 
-suspend fun loadingAsync(cycleWaitTime: Long = 200, cycles: Int = 100) = CoroutineScope(Dispatchers.Main).launch {
+suspend fun loadingAsync(cycleWaitTime: Long = 200, cycles: Int = 100) {
     repeat(cycles) {
         print("▮")
         delay(cycleWaitTime)
