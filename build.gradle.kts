@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
     implementation("com.github.instagram4j:instagram4j:2.0.6")
 }
 

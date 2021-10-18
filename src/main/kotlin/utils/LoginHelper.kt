@@ -11,10 +11,10 @@ class LoginHelper(private val username: String, private val password: String) {
     private val client = IGClient.builder()
 
     fun logIn(): IGClient {
-        return client.username(username).password(password).login()
+        return client.username(username).password(password).onLogin { t, u -> }.login()
     }
 
-    fun logInWithChallenge(): IGClient {
+    fun logInWithChallenge(onLogin: (IGClient, LoginResponse) -> Unit): IGClient {
         val scanner = Scanner(System.`in`)
 
         val inputCode = Callable {
@@ -28,6 +28,6 @@ class LoginHelper(private val username: String, private val password: String) {
                 inputCode
             )
         }
-        return client.username(username).password(password).onChallenge(challengeHandler).login()
+        return client.username(username).password(password).onChallenge(challengeHandler).onLogin(onLogin).login()
     }
 }
