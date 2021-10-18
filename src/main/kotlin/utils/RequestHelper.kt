@@ -3,7 +3,6 @@ package yamin.utils
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
 import com.github.instagram4j.instagram4j.requests.feed.FeedUserRequest
-import com.github.instagram4j.instagram4j.requests.users.UsersSearchRequest
 import com.github.instagram4j.instagram4j.requests.users.UsersUsernameInfoRequest
 
 const val OK = "ok"

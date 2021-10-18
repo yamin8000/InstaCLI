@@ -1,15 +1,12 @@
 package yamin
 
 import com.github.instagram4j.instagram4j.IGClient
-import com.github.instagram4j.instagram4j.models.user.Profile
-import com.github.instagram4j.instagram4j.requests.accounts.AccountsActionRequest
 import com.github.instagram4j.instagram4j.requests.accounts.AccountsCurrentUserRequest
-import com.github.instagram4j.instagram4j.requests.feed.FeedUserRequest
-import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import yamin.utils.JsonUtils.pretty
 import yamin.utils.LoginHelper
 import yamin.utils.RequestHelper
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 fun main() {
     val menuText = """
@@ -30,17 +27,25 @@ fun main() {
                 client = LoginHelper(username, password).logInWithChallenge()
                 if (client.isLoggedIn) {
                     println("Login success!")
-                    val currentUser = client.sendRequest(AccountsCurrentUserRequest()).join().user
-                    println("current user full name: ${currentUser.full_name}")
-                } else println("Logic failed!")
+                    val request = client.sendRequest(AccountsCurrentUserRequest()).handleAsync { response, _ ->
+                        val currentUser = response.user
+                        println("")
+                        println("Current user full name: ${currentUser.full_name}")
+                    }
+                    loading(request)
+                } else println("Login failed!")
                 continue
             }
             2 -> {
                 if (client != null) {
-                    val newData = RequestHelper(client).getUserFeed("theofficelooper")
-                    println(newData.size)
-                    println(newData.pretty())
+                    println("Please input desired instagram username to see posts: ")
+                    val targetUsername = scanner.nextLine()
+                    val newData = RequestHelper(client).getUserFeed(targetUsername)
+                    println("${newData.size} posts have been fetched, show 10 them? (y/n)")
+                    val answer = scanner.nextLine()
+                    if (answer.lowercase() == "y") println(newData.take(10).pretty())
                 } else println("Please login first!")
+                continue
             }
             else -> {
                 println("Bad input!")
@@ -101,4 +106,11 @@ fun main() {
 //        )
 //    ).join()
 //    println(data)
+}
+
+fun loading(completableFuture: CompletableFuture<Unit?>) {
+    while (!completableFuture.isDone) {
+        print("▮")
+        Thread.sleep(100)
+    }
 }
