@@ -12,6 +12,6 @@ object CONSTANTS {
         2. Login from saved sessions
         3. User posts
         4. Send direct message
-        5. 
+        5. Get friends (followers/following)
     """.trimIndent()
 }

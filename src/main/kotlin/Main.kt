@@ -4,6 +4,7 @@ import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
 import com.github.instagram4j.instagram4j.models.user.User
 import com.github.instagram4j.instagram4j.requests.accounts.AccountsCurrentUserRequest
+import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,6 +53,23 @@ fun menuHandler() {
                 if (client != null) handleSendingDirectMessage(client, scanner)
                 else printlnC { "Please login first!".red }
             }
+            5 -> {
+                if (client != null) {
+                    printlnC { "Enter instagram username to see friends".blue.bright }
+                    val username = scanner.nextLine().trim()
+                    printlnC { "Choose friends' type, Followers = 1, Followings = 2 (1/2)?" }
+                    val typeInput = getIntegerInput(scanner)
+                    val friendshipType =
+                        if (typeInput == 1) FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
+                        else FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
+                    printlnC {
+                        RequestHelper(client).getUserFriends(
+                            username,
+                            friendshipsType = friendshipType
+                        ).pretty().green.bright
+                    }
+                }
+            }
             else -> printlnC { "Invalid menu input!".red }
         }
         continue
@@ -72,7 +90,6 @@ private fun handleSendingDirectMessage(
         return
     } else {
         val pkLoading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
-        //val pk = helper.getPk(usernames)
         val pks = usernames.map { helper.getPk(it) }
         pkLoading.cancel()
         if (pks.isNotEmpty()) {
@@ -113,7 +130,7 @@ fun getClientBySession(scanner: Scanner): IGClient? {
 }
 
 private fun handleUserPostsFetcher(scanner: Scanner, client: IGClient) {
-    printlnC { "Please input desired instagram username to see posts: ".blue.bright }
+    printlnC { "Enter instagram username to see posts: ".blue.bright }
     val targetUsername = scanner.nextLine().trim()
     val getPostsLoading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
     val posts = RequestHelper(client).getUserFeed(targetUsername)
@@ -124,9 +141,9 @@ private fun handleUserPostsFetcher(scanner: Scanner, client: IGClient) {
 }
 
 private fun getClientByUsernamePassword(scanner: Scanner): IGClient {
-    println("Please input instagram username: ")
+    printlnC { "Enter instagram username: ".blue.bright }
     val username = scanner.nextLine().trim()
-    println("Please input instagram password: ")
+    printlnC { "Enter instagram password: ".blue.bright }
     val password = scanner.nextLine().trim()
 
     val logInLoading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
@@ -144,10 +161,12 @@ private fun getClientByUsernamePassword(scanner: Scanner): IGClient {
 private fun previewUserInfo(client: IGClient) {
     val getUserInfoLoading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
     client.sendRequest(AccountsCurrentUserRequest()).handle { response, throwable ->
+        if (response != null && throwable == null) {
+            val currentUser = response.user
+            if (currentUser != null) printUserInfo(currentUser)
+            else loggerE("User info is null")
+        } else loggerD(throwable.stackTraceToString())
         getUserInfoLoading.cancel()
-        val currentUser = response.user
-        if (currentUser != null) printUserInfo(currentUser)
-        if (throwable != null) loggerD(throwable.stackTraceToString())
     }
 }
 

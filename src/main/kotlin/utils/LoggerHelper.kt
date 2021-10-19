@@ -10,6 +10,7 @@ object LoggerHelper {
         if (IS_DEBUG_MODE) {
             val taggedMessage = ">>--$message--<<"
             if (source != null) printlnC { "${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage".yellow }
+            else printlnC { taggedMessage.yellow }
         }
     }
 
@@ -17,6 +18,7 @@ object LoggerHelper {
         if (IS_DEBUG_MODE) {
             val taggedMessage = ">>--$message--<<"
             if (source != null) printlnC { "${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage".red }
+            else printlnC { taggedMessage.red }
         }
     }
 
