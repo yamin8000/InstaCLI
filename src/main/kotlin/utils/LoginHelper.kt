@@ -10,11 +10,25 @@ class LoginHelper(private val username: String, private val password: String) {
 
     private val client = IGClient.builder()
 
+    /**
+     * log in with given username and password
+     *
+     * @throws com.github.instagram4j.instagram4j.exceptions.IGLoginException
+     *
+     */
     fun logIn(): IGClient {
-        return client.username(username).password(password).onLogin { t, u -> }.login()
+        return client.username(username).password(password).login()
     }
 
-    fun logInWithChallenge(onLogin: (IGClient, LoginResponse) -> Unit): IGClient {
+    /**
+     * log in with given username and password
+     *
+     * and also handles log in challenge if it happens
+     *
+     * @throws com.github.instagram4j.instagram4j.exceptions.IGLoginException
+     *
+     */
+    fun logInWithChallenge(): IGClient {
         val scanner = Scanner(System.`in`)
 
         val inputCode = Callable {
@@ -28,6 +42,6 @@ class LoginHelper(private val username: String, private val password: String) {
                 inputCode
             )
         }
-        return client.username(username).password(password).onChallenge(challengeHandler).onLogin(onLogin).login()
+        return client.username(username).password(password).onChallenge(challengeHandler).login()
     }
 }
