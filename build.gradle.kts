@@ -23,5 +23,15 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("yamin.MainKt")
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "yamin.MainKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
