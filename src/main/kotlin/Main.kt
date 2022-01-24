@@ -2,6 +2,11 @@ package yamin
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
+import com.github.instagram4j.instagram4j.models.media.ImageMedia
+import com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselItem
+import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia
+import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
+import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
 import com.github.instagram4j.instagram4j.models.user.User
 import com.github.instagram4j.instagram4j.requests.accounts.AccountsCurrentUserRequest
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
@@ -17,6 +22,7 @@ import yamin.utils.LoggerHelper.loggerE
 import yamin.utils.LoginHelper
 import yamin.utils.RequestHelper
 import java.io.File
+import java.net.URL
 import java.util.*
 
 fun main() {
@@ -138,6 +144,49 @@ private fun handleUserPostsFetcher(scanner: Scanner, client: IGClient) {
     printlnC { "\n${posts.size}".green.bright + " posts have been fetched, enter number of posts you want to see: ".green }
     val count = getIntegerInput(scanner)
     if (count != -1) printlnC { posts.take(count).pretty().green.bright }
+
+    saveImages(posts, targetUsername)
+}
+
+fun saveImages(posts: MutableList<TimelineMedia>, targetUsername: String) {
+    posts.forEach {
+        when (it) {
+            is TimelineCarouselMedia -> {
+                it.carousel_media.forEach { item ->
+                    if (item is ImageCarouselItem)
+                        saveSingleImage(targetUsername, item)
+                }
+            }
+            is TimelineImageMedia -> saveSingleImage(targetUsername, it)
+        }
+    }
+}
+
+private fun saveSingleImage(
+    targetUsername: String,
+    media: Any
+) {
+    File("images/$targetUsername").mkdirs()
+    val imageUrl = getImageUrl(media)
+    if (imageUrl != null) {
+        val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
+        val imageFile = File("images/$targetUsername/$imageName")
+        if (!imageFile.exists()) {
+            val imageLoading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
+            val image = URL(imageUrl).readBytes()
+            imageLoading.cancel()
+            imageFile.writeBytes(image)
+            printlnC { "Image saved successfully to images/$targetUsername/$imageName".green.bright }
+        } else printlnC { "Image already exists, skipping...".yellow.bright }
+    } else printlnC { "Image url is null, skipping...".yellow.bright }
+}
+
+private fun getImageUrl(media: Any): String? {
+    return when (media) {
+        is ImageCarouselItem -> media.image_versions2.candidates.first().url
+        is TimelineImageMedia -> media.image_versions2.candidates.first().url
+        else -> null
+    }
 }
 
 private fun getClientByUsernamePassword(scanner: Scanner): IGClient {
