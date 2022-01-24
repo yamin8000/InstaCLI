@@ -1,6 +1,7 @@
 package yamin.utils
 
 import kotlinx.coroutines.delay
+import utils.printC
 import utils.printlnC
 import yamin.utils.CONSTANTS.IS_DEBUG_MODE
 
@@ -24,7 +25,14 @@ object LoggerHelper {
 
     suspend fun loadingAsync(cycleWaitTime: Long = 1000, cycles: Int = 60) {
         repeat(cycles) {
-            print("▮")
+            when (it % 5) {
+                0 -> printC { "▮".white }
+                1 -> printC { "▮".yellow.bright }
+                2 -> printC { "▮".yellow }
+                3 -> printC { "▮".red.bright }
+                4 -> printC { "▮".red }
+                else -> printC { "▮".red.bright.blink }
+            }
             delay(cycleWaitTime)
         }
     }

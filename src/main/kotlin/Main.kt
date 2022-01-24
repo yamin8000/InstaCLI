@@ -2,7 +2,6 @@ package yamin
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
-import com.github.instagram4j.instagram4j.models.media.ImageMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselItem
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
@@ -14,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import utils.printlnC
+import yamin.utils.CONSTANTS.YES
 import yamin.utils.CONSTANTS.menuText
 import yamin.utils.JsonUtils.pretty
 import yamin.utils.LoggerHelper.loadingAsync
@@ -31,14 +31,14 @@ fun main() {
         menuHandler()
     } catch (logInException: IGLoginException) {
         println("Login failed!")
-        loggerE(logInException.stackTraceToString()) {}
+        loggerE(logInException.stackTraceToString())
     } catch (exception: Exception) {
-        loggerD("General Error!") {}
+        loggerD("General Error!")
         loggerE(exception.stackTraceToString())
     }
 }
 
-fun menuHandler() {
+private fun menuHandler() {
     var client: IGClient? = null
     val scanner = Scanner(System.`in`)
 
@@ -60,21 +60,12 @@ fun menuHandler() {
                 else printlnC { "Please login first!".red }
             }
             5 -> {
-                if (client != null) {
-                    printlnC { "Enter instagram username to see friends".blue.bright }
-                    val username = scanner.nextLine().trim()
-                    printlnC { "Choose friends' type, Followers = 1, Followings = 2 (1/2)?" }
-                    val typeInput = getIntegerInput(scanner)
-                    val friendshipType =
-                        if (typeInput == 1) FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
-                        else FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
-                    printlnC {
-                        RequestHelper(client).getUserFriends(
-                            username,
-                            friendshipsType = friendshipType
-                        ).pretty().green.bright
-                    }
-                }
+                if (client != null) handleGetFriends(scanner, client)
+                else printlnC { "Please login first!".red }
+            }
+            6 -> {
+                if (client != null) handlePostsImagesDownloader(client, scanner)
+                else printlnC { "Please login first!".red }
             }
             else -> printlnC { "Invalid menu input!".red }
         }
@@ -82,10 +73,38 @@ fun menuHandler() {
     } while (true)
 }
 
-private fun handleSendingDirectMessage(
-    client: IGClient,
-    scanner: Scanner
-) {
+private fun handlePostsImagesDownloader(client: IGClient, scanner: Scanner) {
+    printlnC { "Please enter the username or usernames of the user/users you want to download posts from:".green }
+    printlnC { "Separate usernames with a comma (,)".red.bright }
+    val usernames = scanner.nextLine().split(",")
+    val total = usernames.size
+    usernames.forEachIndexed { index, username ->
+        printlnC { "Downloading posts from $username <==> ${index + 1}/$total".yellow.bright }
+        val getPostsLoading = CoroutineScope(Dispatchers.Default).launch { loadingAsync() }
+        val posts = RequestHelper(client).getUserFeed(username)
+        getPostsLoading.cancel()
+        saveImages(posts, username)
+    }
+    printlnC { "Done!".green }
+}
+
+private fun handleGetFriends(scanner: Scanner, client: IGClient) {
+    printlnC { "Enter instagram username to see friends".blue.bright }
+    val username = scanner.nextLine().trim()
+    printlnC { "Choose friends' type, Followers = 1, Followings = 2 (1/2)?".blue.bright }
+    val typeInput = getIntegerInput(scanner)
+    val friendshipType =
+        if (typeInput == 1) FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
+        else FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
+    printlnC {
+        RequestHelper(client).getUserFriends(
+            username,
+            friendshipsType = friendshipType
+        ).pretty().green.bright
+    }
+}
+
+private fun handleSendingDirectMessage(client: IGClient, scanner: Scanner) {
     val helper = RequestHelper(client)
     printlnC { "Enter usernames you want to send message. (multiple usernames are seperated by -): ".blue.bright }
     val usernames = scanner.nextLine().trim().split("-")
@@ -111,7 +130,7 @@ private fun handleSendingDirectMessage(
     }
 }
 
-fun showMenuText() = printlnC { menuText.green.bold }
+private fun showMenuText() = printlnC { menuText.green.bold }
 
 private fun getIntegerInput(scanner: Scanner): Int {
     return try {
@@ -121,7 +140,7 @@ private fun getIntegerInput(scanner: Scanner): Int {
     }
 }
 
-fun getClientBySession(scanner: Scanner): IGClient? {
+private fun getClientBySession(scanner: Scanner): IGClient? {
     val sessions = File("sessions").list()
     if (sessions.isNullOrEmpty()) return null
     printlnC { "Choose your account: ".blue.bright }
@@ -145,27 +164,30 @@ private fun handleUserPostsFetcher(scanner: Scanner, client: IGClient) {
     val count = getIntegerInput(scanner)
     if (count != -1) printlnC { posts.take(count).pretty().green.bright }
 
-    saveImages(posts, targetUsername)
+    printlnC { "Do you want to save posts' images as files? (y/n)".blue.bright }
+    val isSavingImages = scanner.nextLine().trim().lowercase(Locale.getDefault()) == YES
+    if (isSavingImages)
+        saveImages(posts, targetUsername)
 }
 
-fun saveImages(posts: MutableList<TimelineMedia>, targetUsername: String) {
-    posts.forEach {
-        when (it) {
+private fun saveImages(posts: MutableList<TimelineMedia>, targetUsername: String) {
+    val total = posts.size
+    posts.forEachIndexed { index, timelineMedia ->
+        printlnC { "Saving image ${index + 1}/$total".yellow.bright }
+        when (timelineMedia) {
             is TimelineCarouselMedia -> {
-                it.carousel_media.forEach { item ->
+                timelineMedia.carousel_media.forEach { item ->
                     if (item is ImageCarouselItem)
                         saveSingleImage(targetUsername, item)
                 }
             }
-            is TimelineImageMedia -> saveSingleImage(targetUsername, it)
+            is TimelineImageMedia -> saveSingleImage(targetUsername, timelineMedia)
         }
     }
+    printlnC { "All images have been saved!".green.bright }
 }
 
-private fun saveSingleImage(
-    targetUsername: String,
-    media: Any
-) {
+private fun saveSingleImage(targetUsername: String, media: Any) {
     File("images/$targetUsername").mkdirs()
     val imageUrl = getImageUrl(media)
     if (imageUrl != null) {
@@ -220,10 +242,10 @@ private fun previewUserInfo(client: IGClient) {
 }
 
 private fun printUserInfo(currentUser: User) {
-    println("Current user full name is: ${currentUser.full_name} and username is: ${currentUser.username}")
+    printlnC { "Current user full name is: ${currentUser.full_name} and username is: ${currentUser.username}".green.bright }
 }
 
-fun createSessionFiles(client: IGClient, username: String) {
+private fun createSessionFiles(client: IGClient, username: String) {
     File("sessions/$username").mkdirs()
     val clientFile = File("sessions/$username/client.ser")
     val cookieFile = File("sessions/$username/cookie.ser")
