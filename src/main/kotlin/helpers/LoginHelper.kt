@@ -1,4 +1,4 @@
-package yamin.utils
+package yamin.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.responses.accounts.LoginResponse

@@ -1,4 +1,4 @@
-package yamin.utils
+package yamin.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
@@ -13,7 +13,7 @@ import com.github.instagram4j.instagram4j.requests.users.UsersUsernameInfoReques
 import yamin.utils.CONSTANTS.OK
 import yamin.utils.CONSTANTS.POST_LIMIT_MAX_COUNT
 import yamin.utils.CONSTANTS.sleepDelay
-import yamin.utils.LoggerHelper.loggerD
+import yamin.helpers.LoggerHelper.loggerD
 
 /**
  * @param igClient instagram client used for sending request using that user
