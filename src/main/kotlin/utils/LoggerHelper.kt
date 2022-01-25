@@ -23,17 +23,16 @@ object LoggerHelper {
         }
     }
 
-    suspend fun loadingAsync(cycleWaitTime: Long = 1000, cycles: Int = 60) {
+    suspend fun loadingAsync(cycleWaitTime: Long = 500, cycles: Int = 60) {
         repeat(cycles) {
-            when (it % 5) {
-                0 -> printC { "▮".white }
-                1 -> printC { "▮".yellow.bright }
-                2 -> printC { "▮".yellow }
-                3 -> printC { "▮".red.bright }
-                4 -> printC { "▮".red }
-                else -> printC { "▮".red.bright.blink }
+            when (it % 4) {
+                0 -> printC { "/".bold.yellow.bright }
+                1 -> printC { "-".bold.blue.bright }
+                2 -> printC { "\\".bold.red.bright }
+                3 -> printC { "|".bold.green.bright }
             }
             delay(cycleWaitTime)
+            print("\b")
         }
     }
 }
