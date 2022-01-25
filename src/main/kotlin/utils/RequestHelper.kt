@@ -3,12 +3,16 @@ package yamin.utils
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
 import com.github.instagram4j.instagram4j.models.user.Profile
+import com.github.instagram4j.instagram4j.models.user.User
+import com.github.instagram4j.instagram4j.requests.accounts.AccountsCurrentUserRequest
 import com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest
 import com.github.instagram4j.instagram4j.requests.feed.FeedUserRequest
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
+import com.github.instagram4j.instagram4j.requests.users.UsersInfoRequest
 import com.github.instagram4j.instagram4j.requests.users.UsersUsernameInfoRequest
 import yamin.utils.CONSTANTS.OK
-import yamin.utils.CONSTANTS.POST_LIMIT_COUNT
+import yamin.utils.CONSTANTS.POST_LIMIT_MAX_COUNT
+import yamin.utils.CONSTANTS.sleepDelay
 import yamin.utils.LoggerHelper.loggerD
 
 /**
@@ -16,13 +20,27 @@ import yamin.utils.LoggerHelper.loggerD
  */
 class RequestHelper(private val igClient: IGClient) {
 
+    fun getUserInfo(userId: Long): User? {
+        val getUserInfoLoading = LoggerHelper.loadingAsync()
+        val response = igClient.sendRequest(UsersInfoRequest(userId)).join()
+        getUserInfoLoading.cancel()
+        return if (response.status == OK) response.user else null
+    }
+
+    fun getCurrentUserInfo(): User? {
+        val getCurrentUserInfoLoading = LoggerHelper.loadingAsync()
+        val response = igClient.sendRequest(AccountsCurrentUserRequest()).join()
+        getCurrentUserInfoLoading.cancel()
+        return if (response.status == OK) response.user else null
+    }
+
     //duplicate code
     fun getUserFriends(
         username: String,
         pkRecursive: Long? = null,
         friendshipsType: FriendshipsFeedsRequest.FriendshipsFeeds,
         nextMaxId: String? = null,
-        limit: Int = POST_LIMIT_COUNT
+        limit: Int = POST_LIMIT_MAX_COUNT
     ): MutableList<Profile> {
         val friends = mutableListOf<Profile>()
         val userId = pkRecursive ?: getPk(username)
@@ -33,12 +51,12 @@ class RequestHelper(private val igClient: IGClient) {
                 friends.addAll(response.users.take(limit - friends.size))
                 if (friends.size == limit) return friends
                 if (response.isMore_available) {
-                    Thread.sleep(500)
+                    Thread.sleep(sleepDelay)
                     val moreFriends = getUserFriends(username, userId, friendshipsType, nextMaxId, limit - friends.size)
                     friends.addAll(moreFriends)
                 }
             }
-        } else loggerD("use pk/id is null!")
+        } else loggerD("user pk/id is null!")
         return friends
     }
 
@@ -65,23 +83,40 @@ class RequestHelper(private val igClient: IGClient) {
         username: String,
         pkRecursive: Long? = null,
         nextMaxId: String? = null,
-        limit: Int = POST_LIMIT_COUNT
-    ): MutableList<TimelineMedia> {
-        val posts = mutableListOf<TimelineMedia>()
-        val pk = pkRecursive ?: getPk(username)
-        if (pk != null) {
-            val response = igClient.sendRequest(FeedUserRequest(pk, nextMaxId)).join()
-            if (response.status == OK) {
-                posts.addAll(response.items.take(limit - posts.size))
-                if (posts.size == limit) return posts
-                if (response.isMore_available) {
-                    Thread.sleep(500)
-                    val morePosts = getUserFeed(username, pk, response.next_max_id, limit - posts.size)
-                    posts.addAll(morePosts)
+        limit: Int = POST_LIMIT_MAX_COUNT
+    ) = getRawUserFeed(username, pkRecursive, nextMaxId, limit).first
+
+    //todo refactor this method
+    fun getRawUserFeed(
+        username: String,
+        pkRecursive: Long? = null,
+        nextMaxId: String? = null,
+        limit: Int = POST_LIMIT_MAX_COUNT
+    ): Pair<List<TimelineMedia>, String?> {
+        try {
+            var returnNextMaxId: String? = null
+            val posts = mutableListOf<TimelineMedia>()
+            val pk = pkRecursive ?: getPk(username)
+            if (pk != null) {
+                val response = igClient.sendRequest(FeedUserRequest(pk, nextMaxId)).join()
+                if (response.status == OK) {
+                    returnNextMaxId = response.next_max_id
+                    posts.addAll(response.items.take(limit))
+                    if (posts.size == limit) return posts to response.next_max_id
+                    if (response.isMore_available) {
+                        Thread.sleep(sleepDelay)
+                        val rawFeed = getRawUserFeed(username, pk, response.next_max_id, limit - posts.size)
+                        val morePosts = rawFeed.first
+                        returnNextMaxId = rawFeed.second
+                        posts.addAll(morePosts)
+                    }
                 }
-            }
-        } else loggerD("user pk/id is null!")
-        return posts
+            } else loggerD("user pk/id is null!")
+            return posts to returnNextMaxId
+        } catch (e: Exception) {
+            loggerD("getRawUserFeed error: ${e.message}")
+            return listOf<TimelineMedia>() to ""
+        }
     }
 
     /**
