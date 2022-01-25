@@ -93,19 +93,19 @@ class RequestHelper(private val igClient: IGClient) {
         nextMaxId: String? = null,
         limit: Int = POST_LIMIT_MAX_COUNT
     ): Pair<List<TimelineMedia>, String?> {
+        var returnNextMaxId: String? = null
+        val posts = mutableListOf<TimelineMedia>()
         try {
-            var returnNextMaxId: String? = null
-            val posts = mutableListOf<TimelineMedia>()
             val pk = pkRecursive ?: getPk(username)
             if (pk != null) {
                 val response = igClient.sendRequest(FeedUserRequest(pk, nextMaxId)).join()
                 if (response.status == OK) {
                     returnNextMaxId = response.next_max_id
                     posts.addAll(response.items.take(limit))
-                    if (posts.size == limit) return posts to response.next_max_id
+                    if (posts.size == limit) return posts to returnNextMaxId
                     if (response.isMore_available) {
                         Thread.sleep(sleepDelay)
-                        val rawFeed = getRawUserFeed(username, pk, response.next_max_id, limit - posts.size)
+                        val rawFeed = getRawUserFeed(username, pk, returnNextMaxId, limit - posts.size)
                         val morePosts = rawFeed.first
                         returnNextMaxId = rawFeed.second
                         posts.addAll(morePosts)
@@ -115,7 +115,7 @@ class RequestHelper(private val igClient: IGClient) {
             return posts to returnNextMaxId
         } catch (e: Exception) {
             loggerD("getRawUserFeed error: ${e.message}")
-            return listOf<TimelineMedia>() to ""
+            return posts to returnNextMaxId
         }
     }
 

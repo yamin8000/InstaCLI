@@ -107,9 +107,9 @@ private fun handlePostsImagesDownloader() {
             var i = 0
             while (i < mediaCount) {
                 val userFeed = requestHelper.getRawUserFeed(username, nextMaxId = nextMaxId, limit = POST_LIMIT_COUNT)
+                i += userFeed.first.size
                 posts.addAll(userFeed.first)
                 nextMaxId = userFeed.second
-                i += userFeed.first.size
                 saveImages(posts, username, i / POST_LIMIT_COUNT to parts)
             }
             getPostsLoading.cancel()
@@ -233,7 +233,7 @@ private fun saveImages(posts: List<TimelineMedia>, targetUsername: String, indic
                 } else {
                     "${now()} ===> part ${indicator.first} of ${indicator.second} ($targetUsername) images have been saved!"
                 }
-                printlnC { text.green.bright }
+                printlnC { text.green }
                 cancel()
                 break
             }
