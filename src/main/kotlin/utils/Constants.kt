@@ -1,6 +1,7 @@
 package yamin.utils
 
-object CONSTANTS {
+object Constants {
+
     const val IS_DEBUG_MODE = true
 
     val menuText = """
@@ -11,6 +12,7 @@ object CONSTANTS {
         4. Send direct message
         5. Get friends (followers/following)
         6. Download users' posts' images
+        10. Exit
     """.trimIndent()
 
     const val OK = "ok"

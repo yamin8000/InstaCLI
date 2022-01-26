@@ -2,24 +2,22 @@ package yamin
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
-import com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselItem
-import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia
-import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
-import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
+import com.github.instagram4j.instagram4j.models.media.timeline.*
 import com.github.instagram4j.instagram4j.models.user.User
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import kotlinx.coroutines.*
 import utils.printlnC
-import yamin.utils.CONSTANTS.POST_LIMIT_COUNT
-import yamin.utils.CONSTANTS.YES
-import yamin.utils.CONSTANTS.menuText
-import yamin.utils.CONSTANTS.sleepDelay
+import yamin.utils.Constants.POST_LIMIT_COUNT
+import yamin.utils.Constants.YES
+import yamin.utils.Constants.menuText
+import yamin.utils.Constants.sleepDelay
 import yamin.utils.JsonUtils.pretty
 import yamin.helpers.LoggerHelper.loadingAsync
 import yamin.helpers.LoggerHelper.loggerD
 import yamin.helpers.LoggerHelper.loggerE
 import yamin.helpers.LoginHelper
 import yamin.helpers.RequestHelper
+import yamin.utils.ConsoleHelper.getIntegerInput
 import yamin.utils.Utility.now
 import java.io.File
 import java.net.URL
@@ -47,7 +45,7 @@ private fun menuHandler() {
 
     showMenuText()
     do {
-        when (getIntegerInput()) {
+        when (scanner.getIntegerInput()) {
             0 -> showMenuText()
             1 -> {
                 client = getClientByUsernamePassword()
@@ -77,7 +75,11 @@ private fun menuHandler() {
                 if (client != null) handlePostsImagesDownloader()
                 else printlnC { "Please login first!".bold.red }
             }
-            else -> printlnC { "Invalid menu input!".bold.red }
+            10 -> {
+                printlnC { "Bye!".bold.red }
+                return
+            }
+            else -> printlnC { "Invalid menu input!".red.bold }
         }
         continue
     } while (true)
@@ -122,7 +124,7 @@ private fun handleGetFriends() {
     printlnC { "Enter instagram username to see friends".blue.bright }
     val username = scanner.nextLine().trim()
     printlnC { "Choose friends' type, Followers = 1, Followings = 2 (1/2)?".blue.bright }
-    val typeInput = getIntegerInput()
+    val typeInput = scanner.getIntegerInput()
     val friendshipType =
         if (typeInput == 1) FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
         else FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
@@ -163,22 +165,14 @@ private fun sendSingleDirectMessage(message: String, pk: Long, username: String)
     messageLoading.cancel()
 }
 
-private fun showMenuText() = printlnC { menuText.green.bold }
-
-private fun getIntegerInput(): Int {
-    return try {
-        scanner.nextLine().trim().toInt()
-    } catch (exception: NumberFormatException) {
-        -1
-    }
-}
+private fun showMenuText() = printlnC { menuText.cyan.bold }
 
 private fun getClientBySession(): IGClient? {
     val sessions = File("sessions").list()
     if (sessions.isNullOrEmpty()) return null
     printlnC { "Choose your account: ".blue.bright }
     sessions.forEachIndexed { index, name -> println("$index. $name") }
-    val userInput = getIntegerInput()
+    val userInput = scanner.getIntegerInput()
     val clientFile = File("sessions/${sessions[userInput]}/client.ser")
     val cookieFile = File("sessions/${sessions[userInput]}/cookie.ser")
     printlnC { "${now()} ===> Login success!".green.bright }
@@ -188,16 +182,25 @@ private fun getClientBySession(): IGClient? {
 private fun handleUserPostsFetcher() {
     printlnC { "Enter instagram username to see posts: ".blue.bright }
     val targetUsername = scanner.nextLine().trim()
+
+    val posts = fetchUserPosts(targetUsername)
+
+    if (posts.isNotEmpty()) {
+        printlnC { "${now()} ===> \n${posts.size}".green.bright + " posts have been fetched, enter number of posts you want to see: ".green }
+        val count = scanner.getIntegerInput()
+        if (count != -1) printlnC { posts.take(count).pretty().green.bright }
+
+        printlnC { "Do you want to save posts' images as files? (y/n)".blue.bright }
+        val isSavingImages = scanner.nextLine().trim().lowercase(Locale.getDefault()) == YES
+        if (isSavingImages) saveImages(posts, targetUsername)
+    } else printlnC { "($targetUsername) has no posts!".bold.red }
+}
+
+private fun fetchUserPosts(targetUsername: String): List<TimelineMedia> {
     val getPostsLoading = loadingAsync()
     val posts = requestHelper.getUserFeed(targetUsername)
     getPostsLoading.cancel()
-    printlnC { "${now()} ===> \n${posts.size}".green.bright + " posts have been fetched, enter number of posts you want to see: ".green }
-    val count = getIntegerInput()
-    if (count != -1) printlnC { posts.take(count).pretty().green.bright }
-
-    printlnC { "Do you want to save posts' images as files? (y/n)".blue.bright }
-    val isSavingImages = scanner.nextLine().trim().lowercase(Locale.getDefault()) == YES
-    if (isSavingImages) saveImages(posts, targetUsername)
+    return posts
 }
 
 private fun saveImages(posts: List<TimelineMedia>, targetUsername: String, indicator: Pair<Int, Int>? = null) {
@@ -273,7 +276,7 @@ private fun getClientByUsernamePassword(): IGClient {
     val password = scanner.nextLine().trim()
 
     val logInLoading = loadingAsync()
-    val client = LoginHelper(username, password).logInWithChallenge()
+    val client = LoginHelper.logInWithChallenge(username, password)
     logInLoading.cancel()
     loggerD("${now()} ===> Login success!")
 

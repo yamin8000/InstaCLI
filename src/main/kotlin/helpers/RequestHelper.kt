@@ -10,9 +10,9 @@ import com.github.instagram4j.instagram4j.requests.feed.FeedUserRequest
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import com.github.instagram4j.instagram4j.requests.users.UsersInfoRequest
 import com.github.instagram4j.instagram4j.requests.users.UsersUsernameInfoRequest
-import yamin.utils.CONSTANTS.OK
-import yamin.utils.CONSTANTS.POST_LIMIT_MAX_COUNT
-import yamin.utils.CONSTANTS.sleepDelay
+import yamin.utils.Constants.OK
+import yamin.utils.Constants.POST_LIMIT_MAX_COUNT
+import yamin.utils.Constants.sleepDelay
 import yamin.helpers.LoggerHelper.loggerD
 
 /**
@@ -120,7 +120,7 @@ class RequestHelper(private val igClient: IGClient) {
     }
 
     /**
-     * get pk -> primary key -> id of user based on instagram username
+     * Get pk -> primary key -> id of user based on instagram username
      */
     fun getPk(username: String): Long? {
         val response = igClient.sendRequest(UsersUsernameInfoRequest(username)).join()

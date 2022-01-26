@@ -3,8 +3,8 @@ package yamin.helpers
 import kotlinx.coroutines.*
 import utils.printC
 import utils.printlnC
-import yamin.utils.CONSTANTS.IS_DEBUG_MODE
-import yamin.utils.CONSTANTS.sleepDelay
+import yamin.utils.Constants.IS_DEBUG_MODE
+import yamin.utils.Constants.sleepDelay
 
 object LoggerHelper {
 
@@ -26,6 +26,7 @@ object LoggerHelper {
 
     fun loadingAsync(cycleWaitTime: Long = sleepDelay, cycles: Int = 60) = CoroutineScope(Dispatchers.Default).launch {
         val animation = "▁▂▃▄▅▆▇█▇▆▅▄▃▂▁"
+        printlnC { "Loading...".yellow }
         repeat(cycles) {
             printC { animation[it % animation.length].bold.red.bright }
             delay(cycleWaitTime)
