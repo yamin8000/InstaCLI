@@ -4,6 +4,9 @@ import kotlinx.coroutines.*
 import utils.printC
 import utils.printlnC
 import yamin.utils.Constants.IS_DEBUG_MODE
+import yamin.utils.Constants.MAX_COUNT
+import yamin.utils.Constants.animations
+import yamin.utils.Constants.currentLoadingAnimation
 import yamin.utils.Constants.sleepDelay
 
 object LoggerHelper {
@@ -24,13 +27,19 @@ object LoggerHelper {
         }
     }
 
-    fun loadingAsync(cycleWaitTime: Long = sleepDelay, cycles: Int = 60) = CoroutineScope(Dispatchers.Default).launch {
-        val animation = "▁▂▃▄▅▆▇█▇▆▅▄▃▂▁"
-        printlnC { "Loading...".yellow }
-        repeat(cycles) {
-            printC { animation[it % animation.length].bold.red.bright }
-            delay(cycleWaitTime)
-            print("\b")
+    fun loading(cycleWaitTime: Long = sleepDelay, cycles: Int = MAX_COUNT, function: (() -> Unit) -> Unit) =
+        CoroutineScope(Dispatchers.Default).launch {
+            val animation = animations[currentLoadingAnimation]
+            this.launch {
+                repeat(cycles) {
+                    printC { animation[it % animation.length].bold.red.bright }
+                    delay(cycleWaitTime)
+                    print("\b")
+                }
+            }
+            function {
+                print("\b")
+                cancel()
+            }
         }
-    }
 }

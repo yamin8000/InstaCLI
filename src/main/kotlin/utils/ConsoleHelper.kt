@@ -1,5 +1,6 @@
 package yamin.utils
 
+import utils.printlnC
 import java.util.*
 
 object ConsoleHelper {
@@ -10,5 +11,18 @@ object ConsoleHelper {
         } catch (exception: NumberFormatException) {
             -1
         }
+    }
+
+    fun Scanner.getBooleanInput(): Boolean {
+        return try {
+            this.nextLine().trim().lowercase(Locale.getDefault()) in arrayOf("y", "yes", "true", "1")
+        } catch (exception: Exception) {
+            false
+        }
+    }
+
+    fun Scanner.pressAnyKeyToContinue() {
+        printlnC { "Press any key to continue...".bold.blink }
+        this.nextLine()
     }
 }

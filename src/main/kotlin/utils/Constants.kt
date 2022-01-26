@@ -4,23 +4,54 @@ object Constants {
 
     const val IS_DEBUG_MODE = true
 
-    val menuText = """
-        0. Show Menu
-        1. Login with username password
+    val loginMenu = """
+        0. Show menu
+        1. Login with username and password
         2. Login from saved sessions
-        3. User posts
-        4. Send direct message
-        5. Get friends (followers/following)
-        6. Download users' posts' images
+        3. Exit
+    """.trimIndent()
+
+    val mainMenu = """
+        0. Show menu
+        1. Show user's info
+        2. Search for a user
+        3. Show user's posts
+        4. Send direct message to user/users
+        5. Show user's friends (followers/following)
+        6. Save users' posts' images
+        7. Save users' profile pictures
+        9. Settings
         10. Exit
+    """.trimIndent()
+
+    val settingSubmenuText = """
+        0. Loading animation type
     """.trimIndent()
 
     const val OK = "ok"
     const val YES = "y"
     const val NO = "n"
 
-    var POST_LIMIT_MAX_COUNT = Integer.MAX_VALUE
-    const val POST_LIMIT_COUNT = 10
+    var MAX_COUNT = Integer.MAX_VALUE
+    const val LIMIT_COUNT = 10
 
     const val sleepDelay = 100L
+
+    val animations = listOf(
+        "▁▂▃▄▅▆▇█▇▆▅▄▃▂▁",
+        "←↖↑↗→↘↓↙",
+        "▖▘▝▗",
+        "┤┘┴└├┌┬┐",
+        "◢◣◤◥",
+        "◰◳◲◱",
+        "◴◷◶◵",
+        "◐◓◑◒",
+        "◡◡⊙⊙◠◠",
+        "⣾⣽⣻⢿⡿⣟⣯⣷",
+        "⠁⠂⠄⡀⢀⠠⠐⠈",
+        "⠋⠙⠹⠸⠼⠴⠦⠧⠇",
+        "⠏⠟⠻⠿⢿⣿⣿⣿⣿",
+    )
+
+    var currentLoadingAnimation = 0
 }
