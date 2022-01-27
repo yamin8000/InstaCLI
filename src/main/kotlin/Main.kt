@@ -15,8 +15,7 @@ import yamin.helpers.LoggerHelper.loggerD
 import yamin.helpers.LoggerHelper.loggerE
 import yamin.utils.ConsoleHelper.getBooleanInput
 import yamin.utils.ConsoleHelper.getIntegerInput
-import yamin.utils.ConsoleHelper.pressAnyKeyToContinue
-import yamin.utils.Constants.LIMIT_COUNT
+import yamin.utils.ConsoleHelper.pressEnterToContinue
 import yamin.utils.Constants.YES
 import yamin.utils.Constants.loginMenu
 import yamin.utils.Constants.mainMenu
@@ -70,7 +69,7 @@ fun loginHandler(): IGClient {
 }
 
 private fun mainMenuHandler() {
-    scanner.pressAnyKeyToContinue()
+    scanner.pressEnterToContinue()
     showMainMenu()
     if (::igClient.isInitialized) {
         when (scanner.getIntegerInput()) {
@@ -80,7 +79,7 @@ private fun mainMenuHandler() {
             3 -> handleUserPostsFetcher()
             4 -> handleSendingDirectMessage()
             5 -> handleGetFriends()
-            6 -> {}//handlePostsImagesDownloader()
+            6 -> handlePostsImagesDownloader()
             7 -> handleUsersProfilePictureDownloader()
             9 -> Settings(scanner)
             10 -> {
@@ -98,8 +97,19 @@ fun handleUsersProfilePictureDownloader() {
     printlnC { "(Separate each username with a comma (,)".blue.bold }
     printlnC { "Example: user1,user2,user3".blue.bold }
     val usernames = scanner.nextLine().split(",")
-    usernames.forEach { _ ->
-        /* no-op */
+    usernames.forEach { username ->
+        File("images/$username").mkdirs()
+        val (user, error) = UserHelper(igClient).getUserInfoByUsername(username)
+        if (user != null && error == null) {
+            val imageUrl = user.hd_profile_pic_url_info.url
+            val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
+            val imageFile = File("images/$username/$imageName")
+            if (!imageFile.exists()) {
+                val image = URL(imageUrl).readBytes()
+                imageFile.writeBytes(image)
+                printlnC { "${now()} ===> ($username) -> Image saved successfully to images/$username/$imageName".green.bright }
+            } else printlnC { "${now()} ===> ($username) -> Image (${imageName}) already exists, skipping...".yellow.bright }
+        } else printlnC { "Skipping, User with username $username not found!".red.bold }
     }
 }
 
@@ -122,43 +132,30 @@ private fun checkIfMoreUserInfoNeeded(userInfo: User) {
     if (scanner.getBooleanInput()) showFullUserInfo(userInfo)
 }
 
-//private fun handlePostsImagesDownloader() {
-//    val userPostsHelper = UserPostsHelper(igClient)
-//    printlnC { "Please enter the username or usernames of the user/users you want to download posts from:".green }
-//    printlnC { "Separate usernames with a comma (,)".red.bright }
-//    val usernames = scanner.nextLine().split(",")
-//    val total = usernames.size
-//    usernames.forEachIndexed { index, username ->
-//        val (userInfo, userInfoError) = UserHelper(igClient).getUserInfoByUsername(username)
-//        if (userInfo != null && userInfoError == null) {
-//            showShortUserInfo(userInfo)
-//            printlnC { "${now()} ===> Downloading posts from $username <==> ${index + 1}/$total".yellow }
-//            val mediaCount = userInfo.media_count
-//            val posts = mutableListOf<TimelineMedia>()
-//            if (mediaCount <= LIMIT_COUNT) {
-//                posts.addAll(userPostsHelper.getUserFeed(username))
-//                saveImages(posts, username)
-//            } else {
-//                val parts = (mediaCount / LIMIT_COUNT) + 1
-//                var nextMaxId: String? = null
-//                var i = 0
-//                while (i < mediaCount) {
-//                    val userFeed = requestHelper.getRawUserFeed(username, nextMaxId = nextMaxId, limit = LIMIT_COUNT)
-//                    i += userFeed.first.size
-//                    posts.addAll(userFeed.first)
-//                    nextMaxId = userFeed.second
-//                    saveImages(posts, username, i / LIMIT_COUNT to parts)
-//                }
-//                getPostsLoading.cancel()
-//            }
-//        } else {
-//            printlnC { "Failed to get user info! Error: ${userInfoError?.message}".red.bold }
-//            return
-//        }
-//
-//    }
-//    printlnC { "${now()} ===> Done!".bold.green }
-//}
+private fun handlePostsImagesDownloader() {
+    val userPostsHelper = UserPostsHelper(igClient)
+    printlnC { "Please enter the username or usernames of the user/users you want to download posts from:".green }
+    printlnC { "Separate usernames with a comma (,)".red.bright }
+    val usernames = scanner.nextLine().split(",")
+    val total = usernames.size
+    usernames.forEachIndexed { index, username ->
+        val (userInfo, userInfoError) = UserHelper(igClient).getUserInfoByUsername(username)
+        if (userInfo != null && userInfoError == null) {
+            showShortUserInfo(userInfo)
+            printlnC { "${now()} ===> Downloading posts from $username <==> ${index + 1}/$total".yellow }
+            val posts = mutableListOf<TimelineMedia>()
+            val (userPosts, userPostsError) = userPostsHelper.getUserFeed(username)
+            if (userPosts != null && userPostsError == null) {
+                posts.addAll(userPosts)
+            } else printlnC { "Failed to get user posts! Error: ${userPostsError?.message}".red.bold }
+            saveImages(posts, username)
+        } else {
+            printlnC { "Failed to get user info! Error: ${userInfoError?.message}".red.bold }
+            return
+        }
+    }
+    printlnC { "${now()} ===> Done!".bold.green }
+}
 
 private fun handleGetFriends() {
     printlnC { "Enter instagram username to see friends".blue.bright }
@@ -238,21 +235,22 @@ private fun handleUserPostsFetcher() {
     printlnC { "Enter instagram username to see posts: ".blue.bright }
     val targetUsername = scanner.nextLine().trim()
 
-    //val getPostsLoading = loadingAsync()
-    val (posts, error) = UserPostsHelper(igClient).getUserFeed(targetUsername)
-    //getPostsLoading.cancel()
+    loading {
+        val (posts, error) = UserPostsHelper(igClient).getUserFeed(targetUsername)
+        it()
 
-    if (posts != null && error == null) {
-        if (posts.isNotEmpty()) {
-            printlnC { "${now()} ===> \n${posts.size}".green.bright + " posts have been fetched, enter number of posts you want to see: ".green }
-            val count = scanner.getIntegerInput()
-            if (count != -1) printlnC { posts.take(count).pretty().green.bright }
+        if (posts != null && error == null) {
+            if (posts.isNotEmpty()) {
+                printlnC { "${now()} ===> \n${posts.size}".green.bright + " posts have been fetched, enter number of posts you want to see: ".green }
+                val count = scanner.getIntegerInput()
+                if (count != -1) printlnC { posts.take(count).pretty().green.bright }
 
-            printlnC { "Do you want to save posts' images as files? (y/n)".blue.bright }
-            val isSavingImages = scanner.nextLine().trim().lowercase(Locale.getDefault()) == YES
-            if (isSavingImages) saveImages(posts, targetUsername)
-        } else printlnC { "($targetUsername) has no posts!".bold.red }
-    } else printlnC { "Failed to get posts! Error: ${error?.message}".red.bold }
+                printlnC { "Do you want to save posts' images as files? (y/n)".blue.bright }
+                val isSavingImages = scanner.nextLine().trim().lowercase(Locale.getDefault()) == YES
+                if (isSavingImages) saveImages(posts, targetUsername)
+            } else printlnC { "($targetUsername) has no posts!".bold.red }
+        } else printlnC { "Failed to get posts! Error: ${error?.message}".red.bold }
+    }
 }
 
 private fun saveImages(posts: List<TimelineMedia>, targetUsername: String, indicator: Pair<Int, Int>? = null) {
@@ -304,10 +302,8 @@ private fun saveSingleImage(targetUsername: String, media: Any) {
         val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
         val imageFile = File("images/$targetUsername/$imageName")
         if (!imageFile.exists()) {
-            //val imageLoading = loadingAsync()
             val image = URL(imageUrl).readBytes()
             imageFile.writeBytes(image)
-            //imageLoading.cancel()
             printlnC { "${now()} ===> ($targetUsername) -> Image saved successfully to images/$targetUsername/$imageName".green.bright }
         } else printlnC { "${now()} ===> ($targetUsername) -> Image (${imageName}) already exists, skipping...".yellow.bright }
     } else printlnC { "${now()} ===> ($targetUsername) -> Image url is null, skipping...".yellow.bright }
@@ -322,18 +318,17 @@ private fun getImageUrl(media: Any): String? {
 }
 
 private fun getClientByUsernamePassword(): IGClient {
-    printlnC { "Enter instagram username: ".blue.bright }
+    val enterField = "Enter instagram "
+    printlnC { "$enterField username: ".blue.bright }
     val username = scanner.nextLine().trim()
-    printlnC { "Enter instagram password: ".blue.bright }
+    printlnC { "$enterField password: ".blue.bright }
     val password = scanner.nextLine().trim()
 
-    //val logInLoading = loadingAsync()
     val client = LoginHelper.logInWithChallenge(username, password)
-    //logInLoading.cancel()
-    loggerD("${now()} ===> Login success!")
 
     if (client.isLoggedIn) createSessionFiles(client, username)
-    else println("${now()} ===> Login failed!")
+    else printlnC { "${now()} ===> Login failed!".red.bold }
+
     return client
 }
 

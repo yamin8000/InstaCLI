@@ -37,6 +37,8 @@ object Constants {
 
     const val sleepDelay = 100L
 
+    const val LOADING = "Loading..."
+
     val animations = listOf(
         "▁▂▃▄▅▆▇█▇▆▅▄▃▂▁",
         "←↖↑↗→↘↓↙",

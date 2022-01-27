@@ -21,8 +21,8 @@ object ConsoleHelper {
         }
     }
 
-    fun Scanner.pressAnyKeyToContinue() {
-        printlnC { "Press any key to continue...".bold.blink }
+    fun Scanner.pressEnterToContinue() {
+        printlnC { "Press enter key to continue...".bold.blink }
         this.nextLine()
     }
 }

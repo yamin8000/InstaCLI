@@ -4,6 +4,7 @@ import kotlinx.coroutines.*
 import utils.printC
 import utils.printlnC
 import yamin.utils.Constants.IS_DEBUG_MODE
+import yamin.utils.Constants.LOADING
 import yamin.utils.Constants.MAX_COUNT
 import yamin.utils.Constants.animations
 import yamin.utils.Constants.currentLoadingAnimation
@@ -27,19 +28,22 @@ object LoggerHelper {
         }
     }
 
-    fun loading(cycleWaitTime: Long = sleepDelay, cycles: Int = MAX_COUNT, function: (() -> Unit) -> Unit) =
-        CoroutineScope(Dispatchers.Default).launch {
-            val animation = animations[currentLoadingAnimation]
-            this.launch {
-                repeat(cycles) {
-                    printC { animation[it % animation.length].bold.red.bright }
-                    delay(cycleWaitTime)
-                    print("\b")
-                }
-            }
-            function {
+    fun loading(
+        cycleWaitTime: Long = sleepDelay,
+        cycles: Int = MAX_COUNT,
+        function: (() -> Unit) -> Unit
+    ) {
+        val animation = animations[currentLoadingAnimation]
+        val job = CoroutineScope(Dispatchers.Default).launch {
+            repeat(cycles) {
+                printC { animation[it % animation.length].bold.red.bright }
+                delay(cycleWaitTime)
                 print("\b")
-                cancel()
             }
         }
+        function {
+            repeat(LOADING.length + 1) { print("\b") }
+            job.cancel()
+        }
+    }
 }
