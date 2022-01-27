@@ -7,12 +7,14 @@ import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarousel
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
 import com.github.instagram4j.instagram4j.models.user.User
+import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import kotlinx.coroutines.*
 import utils.printlnC
 import yamin.helpers.*
 import yamin.helpers.LoggerHelper.loading
 import yamin.helpers.LoggerHelper.loggerD
 import yamin.helpers.LoggerHelper.loggerE
+import yamin.helpers.LoggerHelper.progress
 import yamin.utils.ConsoleHelper.getBooleanInput
 import yamin.utils.ConsoleHelper.getIntegerInput
 import yamin.utils.ConsoleHelper.getMultipleStrings
@@ -28,6 +30,8 @@ import java.io.File
 import java.net.URL
 import java.util.*
 import kotlin.system.exitProcess
+
+typealias Dyad<T> = Pair<T, Throwable?>
 
 private lateinit var requestHelper: RequestHelper
 
@@ -86,7 +90,7 @@ private fun mainMenuHandler() {
             4 -> handleSendingDirectMessage()
             5 -> handleGetFriends()
             6 -> handlePostsImagesDownloader()
-            7 -> handleUsersProfilePictureDownloader()
+            7 -> downloadUsersProfilePictures(scanner.getMultipleStrings("username"))
             9 -> Settings(scanner)
             10 -> {
                 printlnC { "Bye!".bold.red }
@@ -98,9 +102,8 @@ private fun mainMenuHandler() {
     } else loginHandler()
 }
 
-fun handleUsersProfilePictureDownloader() {
+private fun downloadUsersProfilePictures(usernames: List<String>) {
     val downloader = Downloader(igClient.httpClient)
-    val usernames = scanner.getMultipleStrings("username")
     usernames.forEach { username ->
         File("images/$username").mkdirs()
         val (user, error) = UserHelper(igClient).getUserInfoByUsername(username)
@@ -135,7 +138,7 @@ private fun checkIfMoreUserInfoNeeded(userInfo: User) {
 }
 
 private fun handlePostsImagesDownloader() {
-    val userPostsHelper = UserPostsHelper(igClient)
+    val postsHelper = PostsHelper(igClient)
     printlnC { "Please enter the username or usernames of the user/users you want to download posts from:".green }
     printlnC { "Separate usernames with a comma (,)".red.bright }
     val usernames = scanner.nextLine().split(",")
@@ -146,7 +149,7 @@ private fun handlePostsImagesDownloader() {
             showShortUserInfo(userInfo)
             printlnC { "${now()} ===> Downloading posts from $username <==> ${index + 1}/$total".yellow }
             val posts = mutableListOf<TimelineMedia>()
-            val (userPosts, userPostsError) = userPostsHelper.getUserFeed(username)
+            val (userPosts, userPostsError) = postsHelper.getUserFeed(username)
             if (userPosts != null && userPostsError == null) {
                 posts.addAll(userPosts)
             } else printlnC { "Failed to get user posts! Error: ${userPostsError?.message}".red.bold }
@@ -164,28 +167,23 @@ private fun handleGetFriends() {
     val username = scanner.nextLine().trim()
     printlnC { "Choose friends' type, Followers = 1, Followings = 2 (1/2)?".blue.bright }
     val typeInput = scanner.getIntegerInput()
-    val friendsHelper = UserFriendsHelper(igClient)
-    if (typeInput == 1) {
-        //val loading = loadingAsync()
-        val (followers, error) = friendsHelper.getFollowers(username)
-        //loading.cancel()
+    printlnC { "Enter the number of friends you want to see (default is all available)?".blue.bright }
+    val limit = scanner.getIntegerInput()
+    val friendsHelper = FriendsHelper(igClient)
+    val friendType = when (typeInput) {
+        1 -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
+        2 -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWING
+        else -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
+    }
+    progress {
+        val (followers, error) = friendsHelper.getFriends(username, friendType, limit)
+        it()
         if (followers != null && error == null) {
             if (followers.isNotEmpty()) {
-                printlnC { "Followers:".blue.bright }
-                followers.forEachIndexed { index, profile -> printlnC { "${index + 1}. ${profile.username}" } }
-            } else printlnC { "No followers found!".red.bright }
-        } else printlnC { "Failed to get followers! Error: ${error?.message}".red.bold }
-    }
-    if (typeInput == 2) {
-        //val loading = loadingAsync()
-        val (following, error) = friendsHelper.getFollowing(username, 300)
-        //loading.cancel()
-        if (following != null && error == null) {
-            if (following.isNotEmpty()) {
-                printlnC { "Following:".blue.bright }
-                following.forEachIndexed { index, profile -> printlnC { "${index + 1}. ${profile.username}" } }
-            } else printlnC { "No following found!".red.bright }
-        } else printlnC { "Failed to get following! Error: ${error?.message}".red.bold }
+                printlnC { "Friends:".blue.bright }
+                followers.forEachIndexed { index, profile -> printlnC { "${index + 1}. ${profile.username} => ${profile.full_name}" } }
+            } else printlnC { "No friends found!".red.bright }
+        } else printlnC { "Failed to get friends! Error: ${error?.message}".red.bold }
     }
 }
 
@@ -238,7 +236,7 @@ private fun handleUserPostsFetcher() {
     val targetUsername = scanner.nextLine().trim()
 
     loading {
-        val (posts, error) = UserPostsHelper(igClient).getUserFeed(targetUsername)
+        val (posts, error) = PostsHelper(igClient).getUserFeed(targetUsername)
         it()
 
         if (posts != null && error == null) {

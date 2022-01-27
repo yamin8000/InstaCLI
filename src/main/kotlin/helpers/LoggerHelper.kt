@@ -46,4 +46,25 @@ object LoggerHelper {
             job.cancel()
         }
     }
+
+    fun progress(
+        cycleWaitTime: Long = sleepDelay,
+        cycles: Int = MAX_COUNT,
+        function: (() -> Unit) -> Unit
+    ) {
+        val animation = animations[currentLoadingAnimation]
+        val total = animation.length
+        var progression = 0
+        val job = CoroutineScope(Dispatchers.Default).launch {
+            repeat(cycles) {
+                progression++
+                printC { animation[it % total].bold.reverse.cyan }
+                delay(cycleWaitTime)
+            }
+        }
+        function {
+            repeat(progression) { print("\b") }
+            job.cancel()
+        }
+    }
 }

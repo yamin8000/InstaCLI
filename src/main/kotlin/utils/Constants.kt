@@ -56,4 +56,27 @@ object Constants {
     )
 
     var currentLoadingAnimation = 0
+
+    val affirmatives = listOf(
+        "y",
+        "yes",
+        "true",
+        "1",
+        "yep",
+        "yeah",
+        "yup",
+        "yuh",
+        "بله",
+        "آره",
+        "باشه",
+        "نعم",
+        "да",
+        "давай",
+        "давайте",
+        "si",
+        "oui",
+        "ja",
+        "ok",
+        "okay"
+    )
 }

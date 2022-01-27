@@ -4,26 +4,27 @@ import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.Profile
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import yamin.utils.Constants.LIMIT_COUNT
+import yamin.utils.Constants.MAX_COUNT
 import yamin.utils.Constants.sleepDelay
 import yamin.utils.Utility.limitMustNotBeNegative
 import yamin.utils.Utility.pair
 
-class UserFriendsHelper(private val igClient: IGClient) {
+class FriendsHelper(private val igClient: IGClient) {
 
     fun getFollowers(
         username: String,
-        limit: Int = LIMIT_COUNT,
+        limit: Int = MAX_COUNT,
     ) = getFriends(username, FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS, limit, null)
 
     fun getFollowing(
         username: String,
-        limit: Int = LIMIT_COUNT,
+        limit: Int = MAX_COUNT,
     ) = getFriends(username, FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWING, limit, null)
 
-    private fun getFriends(
+    fun getFriends(
         username: String,
         friendsType: FriendshipsFeedsRequest.FriendshipsFeeds,
-        limit: Int = LIMIT_COUNT,
+        limit: Int = MAX_COUNT,
         nextMaxId: String? = null,
     ): Pair<List<Profile>?, Throwable?> {
         limitMustNotBeNegative(limit)
