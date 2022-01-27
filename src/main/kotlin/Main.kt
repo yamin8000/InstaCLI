@@ -15,6 +15,7 @@ import yamin.helpers.LoggerHelper.loggerD
 import yamin.helpers.LoggerHelper.loggerE
 import yamin.utils.ConsoleHelper.getBooleanInput
 import yamin.utils.ConsoleHelper.getIntegerInput
+import yamin.utils.ConsoleHelper.getMultipleStrings
 import yamin.utils.ConsoleHelper.pressEnterToContinue
 import yamin.utils.Constants.YES
 import yamin.utils.Constants.loginMenu
@@ -26,6 +27,7 @@ import yamin.utils.Utility.now
 import java.io.File
 import java.net.URL
 import java.util.*
+import kotlin.system.exitProcess
 
 private lateinit var requestHelper: RequestHelper
 
@@ -47,20 +49,24 @@ fun main() {
 }
 
 private fun initLogin() {
-    igClient = loginHandler()
+    igClient = loginHandler() ?: exitProcess(0)
     requestHelper = RequestHelper(igClient)
     previewCurrentUserInfo()
     mainMenuHandler()
 }
 
-fun loginHandler(): IGClient {
-    printlnC { "Welcome to ".green.bold + "InstaKiller".green.bright.bold + "!".green.bold }
-    printlnC { "Please login first:".blue.bold }
+fun loginHandler(): IGClient? {
+    printlnC { "Welcome to ".green.bold + "InstaKiller".green.bright.bold }
     printlnC { loginMenu.cyan.bold }
+    printlnC { "Please login first:".blue.bold }
     return when (scanner.getIntegerInput()) {
         0 -> loginHandler()
         1 -> getClientByUsernamePassword()
         2 -> getClientBySession() ?: loginHandler()
+        3 -> {
+            printlnC { "Bye!".red.bold }
+            null
+        }
         else -> {
             printlnC { "Invalid input! Please try again.".red.bold }
             loginHandler()
@@ -84,7 +90,7 @@ private fun mainMenuHandler() {
             9 -> Settings(scanner)
             10 -> {
                 printlnC { "Bye!".bold.red }
-                return
+                exitProcess(0)
             }
             else -> printlnC { "Invalid menu input!".red.bold }
         }
@@ -93,23 +99,19 @@ private fun mainMenuHandler() {
 }
 
 fun handleUsersProfilePictureDownloader() {
-    printlnC { "Please enter the usernames of the users you want to download their profile picture:".blue.bold }
-    printlnC { "(Separate each username with a comma (,)".blue.bold }
-    printlnC { "Example: user1,user2,user3".blue.bold }
-    val usernames = scanner.nextLine().split(",")
+    val downloader = Downloader(igClient.httpClient)
+    val usernames = scanner.getMultipleStrings("username")
     usernames.forEach { username ->
         File("images/$username").mkdirs()
         val (user, error) = UserHelper(igClient).getUserInfoByUsername(username)
         if (user != null && error == null) {
             val imageUrl = user.hd_profile_pic_url_info.url
             val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
-            val imageFile = File("images/$username/$imageName")
-            if (!imageFile.exists()) {
-                val image = URL(imageUrl).readBytes()
-                imageFile.writeBytes(image)
-                printlnC { "${now()} ===> ($username) -> Image saved successfully to images/$username/$imageName".green.bright }
-            } else printlnC { "${now()} ===> ($username) -> Image (${imageName}) already exists, skipping...".yellow.bright }
-        } else printlnC { "Skipping, User with username $username not found!".red.bold }
+            val (imageFile, downloadError) = downloader.download(imageUrl, "images/$username/$imageName")
+            if (imageFile != null && downloadError == null) {
+                printlnC { "Image saved successfully to images/$username/$imageName".green.bright }
+            } else printlnC { "Failed to download image for $username => ${downloadError?.message}".red.bold }
+        } else printlnC { "Skipping, User with username $username not found! => ${error?.message}".red.bold }
     }
 }
 

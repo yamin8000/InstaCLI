@@ -25,4 +25,11 @@ object ConsoleHelper {
         printlnC { "Press enter key to continue...".bold.blink }
         this.nextLine()
     }
+
+    fun Scanner.getMultipleStrings(field: String): List<String> {
+        printlnC { "Please enter $field/${field}s:".blue.bold }
+        printlnC { "If there are more than one $field separate them using a comma (,)".blue.bold }
+        printlnC { "Example: user1,user2,user3".blue.bold }
+        return this.nextLine().split(",")
+    }
 }
