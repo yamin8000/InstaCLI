@@ -6,7 +6,6 @@ import com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselIte
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
-import com.github.instagram4j.instagram4j.models.user.User
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import kotlinx.coroutines.*
 import utils.printlnC
@@ -15,16 +14,13 @@ import yamin.helpers.LoggerHelper.loading
 import yamin.helpers.LoggerHelper.loggerD
 import yamin.helpers.LoggerHelper.loggerE
 import yamin.helpers.LoggerHelper.progress
-import yamin.utils.ConsoleHelper.getBooleanInput
+import yamin.modules.MainModule
+import yamin.modules.UserModule
 import yamin.utils.ConsoleHelper.getIntegerInput
-import yamin.utils.ConsoleHelper.getMultipleStrings
-import yamin.utils.ConsoleHelper.pressEnterToContinue
 import yamin.utils.Constants.YES
 import yamin.utils.Constants.loginMenu
-import yamin.utils.Constants.mainMenu
 import yamin.utils.Constants.sleepDelay
 import yamin.utils.JsonUtils.pretty
-import yamin.utils.Settings
 import yamin.utils.Utility.now
 import java.io.File
 import java.net.URL
@@ -55,8 +51,7 @@ fun main() {
 private fun initLogin() {
     igClient = loginHandler() ?: exitProcess(0)
     requestHelper = RequestHelper(igClient)
-    previewCurrentUserInfo()
-    mainMenuHandler()
+    MainModule(scanner, igClient).run()
 }
 
 fun loginHandler(): IGClient? {
@@ -78,64 +73,28 @@ fun loginHandler(): IGClient? {
     }
 }
 
-private fun mainMenuHandler() {
-    scanner.pressEnterToContinue()
-    showMainMenu()
-    if (::igClient.isInitialized) {
-        when (scanner.getIntegerInput()) {
-            0 -> showMainMenu()
-            1 -> handleShowingUserInfo()
-            2 -> handleSearchingUser()
-            3 -> handleUserPostsFetcher()
-            4 -> handleSendingDirectMessage()
-            5 -> handleGetFriends()
-            6 -> handlePostsImagesDownloader()
-            7 -> downloadUsersProfilePictures(scanner.getMultipleStrings("username"))
-            9 -> Settings(scanner)
-            10 -> {
-                printlnC { "Bye!".bold.red }
-                exitProcess(0)
-            }
-            else -> printlnC { "Invalid menu input!".red.bold }
-        }
-        mainMenuHandler()
-    } else loginHandler()
-}
-
-private fun downloadUsersProfilePictures(usernames: List<String>) {
-    val downloader = Downloader(igClient.httpClient)
-    usernames.forEach { username ->
-        File("images/$username").mkdirs()
-        val (user, error) = UserHelper(igClient).getUserInfoByUsername(username)
-        if (user != null && error == null) {
-            val imageUrl = user.hd_profile_pic_url_info.url
-            val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
-            val (imageFile, downloadError) = downloader.download(imageUrl, "images/$username/$imageName")
-            if (imageFile != null && downloadError == null) {
-                printlnC { "Image saved successfully to images/$username/$imageName".green.bright }
-            } else printlnC { "Failed to download image for $username => ${downloadError?.message}".red.bold }
-        } else printlnC { "Skipping, User with username $username not found! => ${error?.message}".red.bold }
-    }
-}
-
-fun handleSearchingUser() {
-    TODO("Not yet implemented")
-}
-
-fun handleShowingUserInfo() {
-    printlnC { "Please enter the username: ".blue.bold }
-    val username = scanner.nextLine()
-    val (userInfo, error) = UserHelper(igClient).getUserInfoByUsername(username)
-    if (userInfo != null && error == null) {
-        showShortUserInfo(userInfo)
-        checkIfMoreUserInfoNeeded(userInfo)
-    } else printlnC { "Failed to get user info! Error: ${error?.message}".red.bold }
-}
-
-private fun checkIfMoreUserInfoNeeded(userInfo: User) {
-    printlnC { "Do you want to see full user info? (y/n)".blue }
-    if (scanner.getBooleanInput()) showFullUserInfo(userInfo)
-}
+//private fun mainMenuHandler() {
+//    scanner.pressEnterToContinue()
+//    showMainMenu()
+//    if (::igClient.isInitialized) {
+//        when (scanner.getIntegerInput()) {
+//            0 -> showMainMenu()
+//            1 -> UserModule(scanner, igClient).run()
+//            2 -> handleSearchingUser()
+//            3 -> handleUserPostsFetcher()
+//            4 -> handleSendingDirectMessage()
+//            5 -> handleGetFriends()
+//            6 -> handlePostsImagesDownloader()
+//            9 -> Settings(scanner)
+//            10 -> {
+//                printlnC { "Bye!".bold.red }
+//                exitProcess(0)
+//            }
+//            else -> printlnC { "Invalid menu input!".red.bold }
+//        }
+//        mainMenuHandler()
+//    } else loginHandler()
+//}
 
 private fun handlePostsImagesDownloader() {
     val postsHelper = PostsHelper(igClient)
@@ -146,7 +105,7 @@ private fun handlePostsImagesDownloader() {
     usernames.forEachIndexed { index, username ->
         val (userInfo, userInfoError) = UserHelper(igClient).getUserInfoByUsername(username)
         if (userInfo != null && userInfoError == null) {
-            showShortUserInfo(userInfo)
+            UserModule.showShortUserInfo(userInfo)
             printlnC { "${now()} ===> Downloading posts from $username <==> ${index + 1}/$total".yellow }
             val posts = mutableListOf<TimelineMedia>()
             val (userPosts, userPostsError) = postsHelper.getUserFeed(username)
@@ -212,23 +171,6 @@ private fun sendSingleDirectMessage(message: String, pk: Long, username: String)
     val isDataSent = requestHelper.sendDirectMessageByPks(message, pk)
     if (isDataSent) printlnC { "${now()} ===> Message successfully sent to ".green.bright + username.blue.bright.bold }
     //messageLoading.cancel()
-}
-
-private fun showMainMenu() = printlnC { mainMenu.cyan.bold }
-
-private fun getClientBySession(): IGClient? {
-    val sessions = File("sessions").list()
-    if (sessions.isNullOrEmpty()) return null
-    printlnC { "Choose your account: ".blue.bright }
-    sessions.forEachIndexed { index, name -> println("$index. $name") }
-    val userInput = scanner.getIntegerInput()
-    if (userInput in sessions.indices) {
-        val clientFile = File("sessions/${sessions[userInput]}/client.ser")
-        val cookieFile = File("sessions/${sessions[userInput]}/cookie.ser")
-        printlnC { "${now()} ===> Login success!".green.bright }
-        return IGClient.deserialize(clientFile, cookieFile)
-    }
-    return null
 }
 
 private fun handleUserPostsFetcher() {
@@ -317,6 +259,21 @@ private fun getImageUrl(media: Any): String? {
     }
 }
 
+private fun getClientBySession(): IGClient? {
+    val sessions = File("sessions").list()
+    if (sessions.isNullOrEmpty()) return null
+    printlnC { "Choose your account: ".blue.bright }
+    sessions.forEachIndexed { index, name -> println("$index. $name") }
+    val userInput = scanner.getIntegerInput()
+    if (userInput in sessions.indices) {
+        val clientFile = File("sessions/${sessions[userInput]}/client.ser")
+        val cookieFile = File("sessions/${sessions[userInput]}/cookie.ser")
+        printlnC { "${now()} ===> Login success!".green.bright }
+        return IGClient.deserialize(clientFile, cookieFile)
+    }
+    return null
+}
+
 private fun getClientByUsernamePassword(): IGClient {
     val enterField = "Enter instagram "
     printlnC { "$enterField username: ".blue.bright }
@@ -326,39 +283,12 @@ private fun getClientByUsernamePassword(): IGClient {
 
     val client = LoginHelper.logInWithChallenge(username, password)
 
-    if (client.isLoggedIn) createSessionFiles(client, username)
-    else printlnC { "${now()} ===> Login failed!".red.bold }
+    if (client.isLoggedIn) {
+        createSessionFiles(client, username)
+        printlnC { "${now()} ===> Logged in successfully as ($username)".green.bright }
+    } else printlnC { "${now()} ===> Login failed!".red.bold }
 
     return client
-}
-
-private fun previewCurrentUserInfo() {
-    loading {
-        val (userInfo, error) = UserHelper(igClient).getCurrentUserInfo()
-        it()
-        if (userInfo != null && error == null) showShortUserInfo(userInfo) else printlnC { "User info is null".red.bold }
-    }
-}
-
-private fun showShortUserInfo(user: User) {
-    printlnC { "${now()} ===> User info:".green.bright }
-
-    printlnC { "Full name: ".green + user.full_name.green.bright.bold }
-    printlnC { "Username: ".green + user.username.green.bright.bold }
-    printlnC { "Bio: ".green + user.biography.green.bright.bold }
-    printlnC { "Media Count: ".green + user.media_count.green.bright.bold }
-    printlnC { "Follower Count: ".green + user.follower_count.green.bright.bold }
-    printlnC { "Following Count: ".green + user.following_count.green.bright.bold }
-}
-
-private fun showFullUserInfo(user: User) {
-    showShortUserInfo(user)
-    printlnC { "Profile Url: ".green + "https://instagram.com/${user.username}".green.bright }
-    printlnC { "Profile Pic Url: ".green + user.profile_pic_url.green.bright }
-    printlnC { "Private or Public: ".green + (if (user.is_private) "Private" else "Public").green.bright }
-    printlnC { "Verified or not (Blue tick): ".green + (if (user.is_verified) "Verified" else "Not Verified").green.bright }
-    printlnC { "Business or Regular: ".green + (if (user.is_business) "Business" else "Regular").green.bright }
-    printlnC { "External Url: ".green + user.external_url.green.bright }
 }
 
 private fun createSessionFiles(client: IGClient, username: String) {
