@@ -1,7 +1,6 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
-import com.github.instagram4j.instagram4j.responses.accounts.LoginResponse
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils
 import java.util.*
 import java.util.concurrent.Callable

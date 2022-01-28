@@ -1,4 +1,4 @@
-package yamin.modules
+package io.github.yamin8000.modules
 
 object Menus {
 

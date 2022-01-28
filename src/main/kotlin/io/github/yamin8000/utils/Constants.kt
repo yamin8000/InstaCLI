@@ -1,4 +1,4 @@
-package yamin.utils
+package io.github.yamin8000.utils
 
 object Constants {
 

@@ -1,7 +1,7 @@
-package yamin.modules
+package io.github.yamin8000.modules
 
 import com.github.instagram4j.instagram4j.IGClient
-import yamin.modules.Menus.mainMenu
+import io.github.yamin8000.modules.Menus.mainMenu
 import java.util.*
 
 class MainModule(scanner: Scanner, private val igClient: IGClient) : Module(scanner, mainMenu) {

@@ -1,10 +1,9 @@
-package yamin.modules
+package io.github.yamin8000.modules
 
-import yamin.console.printlnC
-import yamin.console.ConsoleHelper.getIntegerInput
-import yamin.console.ConsoleHelper.pressEnterToContinue
-import yamin.console.printC
-import yamin.helpers.LoggerHelper.printBlackBar
+import io.github.yamin8000.console.printlnC
+import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
+import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
+import io.github.yamin8000.helpers.LoggerHelper.printBlackBar
 import java.util.*
 
 open class Module(protected val scanner: Scanner, private val menuText: String) {

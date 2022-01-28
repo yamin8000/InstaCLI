@@ -1,6 +1,6 @@
-package yamin.console
+package io.github.yamin8000.console
 
-import yamin.utils.Constants.affirmatives
+import io.github.yamin8000.utils.Constants.affirmatives
 import java.util.*
 
 object ConsoleHelper {

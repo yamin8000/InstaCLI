@@ -1,13 +1,13 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
 import com.github.instagram4j.instagram4j.requests.feed.FeedUserRequest
 import com.github.instagram4j.instagram4j.responses.feed.FeedUserResponse
-import yamin.Dyad
-import yamin.utils.Constants.MAX_COUNT
-import yamin.utils.Constants.sleepDelay
-import yamin.utils.Utility.pair
+import io.github.yamin8000.Dyad
+import io.github.yamin8000.utils.Constants.MAX_COUNT
+import io.github.yamin8000.utils.Constants.sleepDelay
+import io.github.yamin8000.utils.Utility.pair
 
 class PostsHelper(private val igClient: IGClient) {
 

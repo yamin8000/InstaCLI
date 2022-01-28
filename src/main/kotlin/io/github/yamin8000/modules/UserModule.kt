@@ -1,17 +1,18 @@
-package yamin.modules
+package io.github.yamin8000.modules
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.User
-import yamin.console.printlnC
-import yamin.helpers.Downloader
-import yamin.helpers.LoggerHelper.loading
-import yamin.helpers.LoggerHelper.progress
-import yamin.helpers.UserHelper
-import yamin.modules.Menus.userMenu
-import yamin.console.ConsoleHelper.getBooleanInput
-import yamin.console.ConsoleHelper.getMultipleStrings
-import yamin.utils.Constants.downloadDir
-import yamin.utils.FileUtils.createDirIfNotExists
+import io.github.yamin8000.console.printlnC
+import io.github.yamin8000.utils.ImageUtil.viewImage
+import io.github.yamin8000.helpers.Downloader
+import io.github.yamin8000.helpers.LoggerHelper.loading
+import io.github.yamin8000.helpers.LoggerHelper.progress
+import io.github.yamin8000.helpers.UserHelper
+import io.github.yamin8000.modules.Menus.userMenu
+import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
+import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.utils.Constants.downloadDir
+import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
 import java.util.*
 
 class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scanner, userMenu) {
@@ -63,6 +64,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
         progressDone()
         if (imageFile != null && downloadError == null) {
             printlnC { "Image saved successfully to $downloadDir/images/$username/$imageName".green.bright }
+            if (scanner.getBooleanInput("Do you want to open the image?(y/n)")) viewImage(imageFile)
         } else printlnC { "Skipping, Failed to download image for $username => ${downloadError?.message}".red.bold }
     }
 

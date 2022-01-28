@@ -1,13 +1,13 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.Profile
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
-import yamin.utils.Constants.LIMIT_COUNT
-import yamin.utils.Constants.MAX_COUNT
-import yamin.utils.Constants.sleepDelay
-import yamin.utils.Utility.limitMustNotBeNegative
-import yamin.utils.Utility.pair
+import io.github.yamin8000.Dyad
+import io.github.yamin8000.utils.Constants.MAX_COUNT
+import io.github.yamin8000.utils.Constants.sleepDelay
+import io.github.yamin8000.utils.Utility.limitMustNotBeNegative
+import io.github.yamin8000.utils.Utility.pair
 
 class FriendsHelper(private val igClient: IGClient) {
 
@@ -26,7 +26,7 @@ class FriendsHelper(private val igClient: IGClient) {
         friendsType: FriendshipsFeedsRequest.FriendshipsFeeds,
         limit: Int = MAX_COUNT,
         nextMaxId: String? = null,
-    ): Pair<List<Profile>?, Throwable?> {
+    ): Dyad<List<Profile>?> {
         limitMustNotBeNegative(limit)
         val friends: MutableList<Profile>?
 

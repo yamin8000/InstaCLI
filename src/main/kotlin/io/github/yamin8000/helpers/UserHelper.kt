@@ -1,15 +1,14 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.User
 import com.github.instagram4j.instagram4j.requests.accounts.AccountsCurrentUserRequest
 import com.github.instagram4j.instagram4j.requests.users.UsersInfoRequest
 import com.github.instagram4j.instagram4j.requests.users.UsersUsernameInfoRequest
-import yamin.Dyad
-import yamin.utils.Utility.pair
+import io.github.yamin8000.Dyad
+import io.github.yamin8000.utils.Utility.pair
 
 class UserHelper(private val igClient: IGClient) {
-
 
     /**
      * Get user instagram id (pk) based on [username]

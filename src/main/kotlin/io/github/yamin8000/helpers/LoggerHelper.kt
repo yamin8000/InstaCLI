@@ -1,14 +1,14 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
 import kotlinx.coroutines.*
-import yamin.console.printC
-import yamin.console.printlnC
-import yamin.utils.Constants.IS_DEBUG_MODE
-import yamin.utils.Constants.LOADING
-import yamin.utils.Constants.MAX_COUNT
-import yamin.utils.Constants.animations
-import yamin.utils.Constants.currentLoadingAnimation
-import yamin.utils.Constants.sleepDelay
+import io.github.yamin8000.console.printC
+import io.github.yamin8000.console.printlnC
+import io.github.yamin8000.utils.Constants.IS_DEBUG_MODE
+import io.github.yamin8000.utils.Constants.LOADING
+import io.github.yamin8000.utils.Constants.MAX_COUNT
+import io.github.yamin8000.utils.Constants.animations
+import io.github.yamin8000.utils.Constants.currentLoadingAnimation
+import io.github.yamin8000.utils.Constants.sleepDelay
 
 object LoggerHelper {
 

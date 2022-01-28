@@ -1,23 +1,23 @@
-package yamin.modules
+package io.github.yamin8000.modules
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselItem
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
-import yamin.console.ConsoleHelper.getBooleanInput
-import yamin.console.ConsoleHelper.getIntegerInput
-import yamin.console.ConsoleHelper.getMultipleStrings
-import yamin.console.printlnC
-import yamin.helpers.Downloader
-import yamin.helpers.LoggerHelper.printBlackBar
-import yamin.helpers.LoggerHelper.progress
-import yamin.helpers.PostsHelper
-import yamin.modules.Menus.postInfo
-import yamin.utils.Constants.downloadDir
-import yamin.utils.FileUtils.createDirIfNotExists
-import yamin.utils.Utility
-import yamin.utils.Utility.isoTimeOfEpoch
+import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
+import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
+import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.console.printlnC
+import io.github.yamin8000.helpers.Downloader
+import io.github.yamin8000.helpers.LoggerHelper.printBlackBar
+import io.github.yamin8000.helpers.LoggerHelper.progress
+import io.github.yamin8000.helpers.PostsHelper
+import io.github.yamin8000.modules.Menus.postInfo
+import io.github.yamin8000.utils.Constants.downloadDir
+import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
+import io.github.yamin8000.utils.Utility
+import io.github.yamin8000.utils.Utility.isoTimeOfEpoch
 import java.util.*
 
 class PostModule(scanner: Scanner, private val igClient: IGClient) : Module(scanner, postInfo) {

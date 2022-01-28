@@ -1,6 +1,6 @@
-package yamin.utils
+package io.github.yamin8000.utils
 
-import yamin.utils.Constants.downloadDir
+import io.github.yamin8000.utils.Constants.downloadDir
 import java.io.File
 
 object FileUtils {

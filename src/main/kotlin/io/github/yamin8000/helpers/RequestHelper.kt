@@ -1,10 +1,8 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
-import com.github.instagram4j.instagram4j.models.user.User
-import com.github.instagram4j.instagram4j.requests.accounts.AccountsCurrentUserRequest
 import com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest
-import yamin.utils.Constants.OK
+import io.github.yamin8000.utils.Constants.OK
 
 /**
  * @param igClient instagram client used for sending request using that user

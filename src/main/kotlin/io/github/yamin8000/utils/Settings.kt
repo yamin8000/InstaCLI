@@ -1,10 +1,10 @@
-package yamin.utils
+package io.github.yamin8000.utils
 
-import yamin.console.printlnC
-import yamin.console.ConsoleHelper.getIntegerInput
-import yamin.utils.Constants.animations
-import yamin.utils.Constants.currentLoadingAnimation
-import yamin.utils.Constants.settingSubmenuText
+import io.github.yamin8000.console.printlnC
+import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
+import io.github.yamin8000.utils.Constants.animations
+import io.github.yamin8000.utils.Constants.currentLoadingAnimation
+import io.github.yamin8000.utils.Constants.settingSubmenuText
 import java.util.*
 
 class Settings(private val scanner: Scanner) {

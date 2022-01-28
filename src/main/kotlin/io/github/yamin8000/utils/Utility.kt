@@ -1,7 +1,7 @@
-package yamin.utils
+package io.github.yamin8000.utils
 
 import com.github.instagram4j.instagram4j.responses.IGResponse
-import yamin.utils.Constants.OK
+import io.github.yamin8000.utils.Constants.OK
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter

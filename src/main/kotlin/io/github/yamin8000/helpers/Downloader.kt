@@ -1,12 +1,12 @@
-package yamin.helpers
+package io.github.yamin8000.helpers
 
+import io.github.yamin8000.Dyad
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
-import yamin.utils.Constants.downloadDir
+import io.github.yamin8000.utils.Constants.downloadDir
 import java.io.File
-
 
 class Downloader(private val okHttpClient: OkHttpClient) {
 
@@ -29,7 +29,7 @@ class Downloader(private val okHttpClient: OkHttpClient) {
         }
     }
 
-    private fun download(url: String, directory: String): Pair<File?, Throwable?> {
+    private fun download(url: String, directory: String): Dyad<File?> {
         try {
             val response = okHttpClient.newCall(Request.Builder().url(url).build()).execute()
             val downloadedFile = File("${downloadDir}/$directory")

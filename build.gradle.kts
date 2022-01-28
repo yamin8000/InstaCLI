@@ -6,7 +6,7 @@ plugins {
     application
 }
 
-group = "me.yamin"
+group = "io.github.yamin8000"
 version = "1.0.0"
 
 repositories {
@@ -23,12 +23,12 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClass.set("yamin.MainKt")
+    mainClass.set("io.github.yamin8000.MainKt")
 }
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "yamin.MainKt"
+        attributes["Main-Class"] = "io.github.yamin8000.MainKt"
     }
     configurations["compileClasspath"].forEach { file: File ->
         from(zipTree(file.absoluteFile))
