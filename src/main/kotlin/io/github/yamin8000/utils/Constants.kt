@@ -16,6 +16,7 @@ object Constants {
     var downloadDir = "D:/instaKiller"
     const val OK = "ok"
     var MAX_COUNT = Integer.MAX_VALUE
+    var PAGE_LIMIT = 100
     const val sleepDelay = 100L
 
     const val LOADING = "Loading..."

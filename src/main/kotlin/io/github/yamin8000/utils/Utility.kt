@@ -29,7 +29,7 @@ object Utility {
         }
     }
 
-    fun limitMustNotBeNegative(limit: Int) {
+    fun requirePositiveLimit(limit: Int) {
         if (limit < 1) throw IllegalArgumentException("Limit must be greater than 0")
     }
 }

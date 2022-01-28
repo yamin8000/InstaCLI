@@ -11,11 +11,11 @@ import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
 import io.github.yamin8000.helpers.Downloader
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.PostsHelper
-import io.github.yamin8000.utils.Menus.postMenu
 import io.github.yamin8000.utils.Constants.downloadDir
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
+import io.github.yamin8000.utils.Menus.postMenu
 import io.github.yamin8000.utils.Utility.isoTimeOfEpoch
 import java.util.*
 
@@ -44,15 +44,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
                 it()
                 if (posts != null && error == null) {
                     if (posts.isNotEmpty()) {
-                        ter.println(
-                            "${(TextColors.brightGreen on TextColors.black)(posts.size.toString())} ${
-                                TextColors.green(
-                                    "posts have been fetched, enter number of posts you want to see: "
-                                )
-                            }"
-                        )
-                        val count = scanner.getIntegerInput(range = 1..posts.size)
-                        printPosts(posts.take(count))
+                        printPosts(posts)
                         if (!isSavingOutsideCaller) {
                             val isSaving = scanner.getBooleanInput("Do you want to save posts' images as files? (y/n)")
                             if (isSaving) saveImages(posts, username)

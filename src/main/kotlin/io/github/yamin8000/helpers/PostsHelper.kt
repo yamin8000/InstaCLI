@@ -13,6 +13,28 @@ class PostsHelper(private val igClient: IGClient) {
 
     private val userHelper: UserHelper by lazy(LazyThreadSafetyMode.NONE) { UserHelper(igClient) }
 
+    fun getUserFeed(
+        username: String,
+        limit: Int = MAX_COUNT,
+        nextMaxId: String? = null,
+        pkRecursive: Long? = null,
+    ): Dyad<List<TimelineMedia>?> {
+        val (rawFeeds, error) = getRawUserFeed(username, 1, nextMaxId, pkRecursive)
+        return if (rawFeeds != null && error == null) {
+            val feeds = mutableListOf<TimelineMedia>()
+            rawFeeds.forEach {
+                feeds.addAll(it.items.take(limit))
+                if (feeds.size == limit) return feeds to null
+                if (it.isMore_available) {
+                    Thread.sleep(sleepDelay)
+                    val moreFeeds = getUserFeed(username, limit - feeds.size, it.next_max_id, pkRecursive)
+                    feeds.addAll(moreFeeds.first ?: listOf())
+                }
+            }
+            feeds to null
+        } else null to error
+    }
+
     private fun getRawUserFeed(
         username: String,
         pages: Int = 1,
@@ -39,27 +61,5 @@ class PostsHelper(private val igClient: IGClient) {
                 } else null to feedError
             } else null to pkError
         } else return getRawUserFeed(username, pages, nextMaxId, pkRecursive)
-    }
-
-    fun getUserFeed(
-        username: String,
-        limit: Int = MAX_COUNT,
-        nextMaxId: String? = null,
-        pkRecursive: Long? = null,
-    ): Dyad<List<TimelineMedia>?> {
-        val (rawFeeds, error) = getRawUserFeed(username, 1, nextMaxId, pkRecursive)
-        return if (rawFeeds != null && error == null) {
-            val feeds = mutableListOf<TimelineMedia>()
-            rawFeeds.forEach {
-                feeds.addAll(it.items.take(limit))
-                if (feeds.size == limit) return feeds to null
-                if (it.isMore_available) {
-                    Thread.sleep(sleepDelay)
-                    val moreFeeds = getUserFeed(username, limit - feeds.size, it.next_max_id, pkRecursive)
-                    feeds.addAll(moreFeeds.first ?: listOf())
-                }
-            }
-            feeds to null
-        } else null to error
     }
 }

@@ -5,12 +5,9 @@ import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
-import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
 import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
-import io.github.yamin8000.helpers.FriendsHelper
 import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
-import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.LoginHelper
 import io.github.yamin8000.modules.MainModule
 import io.github.yamin8000.utils.Constants.errorStyle
@@ -69,29 +66,6 @@ fun loginHandler(): IGClient? {
             ter.println(errorStyle("Invalid input! Please try again."))
             loginHandler()
         }
-    }
-}
-
-private fun handleGetFriends() {
-    ter.println(TextColors.blue("Enter instagram username to see friends"))
-    val username = scanner.nextLine().trim()
-    val typeInput = scanner.getIntegerInput("Choose friends' type, Followers = 1, Followings = 2 (1/2)?")
-    val limit = scanner.getIntegerInput("Enter the number of friends you want to see (default is all available)?")
-    val friendsHelper = FriendsHelper(igClient)
-    val friendType = when (typeInput) {
-        1 -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
-        2 -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWING
-        else -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
-    }
-    progress {
-        val (followers, error) = friendsHelper.getFriends(username, friendType, limit)
-        it()
-        if (followers != null && error == null) {
-            if (followers.isNotEmpty()) {
-                ter.println(TextColors.blue("Friends:"))
-                followers.forEachIndexed { index, profile -> ter.println(TextColors.blue("${index + 1}. ${profile.username} => ${profile.full_name}")) }
-            } else ter.println(errorStyle("No friends found!"))
-        } else ter.println(errorStyle("Failed to get friends! Error: ${error?.message}"))
     }
 }
 

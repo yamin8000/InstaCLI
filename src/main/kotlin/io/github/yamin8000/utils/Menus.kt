@@ -49,4 +49,13 @@ object Menus {
         2. Show direct messages (inbox)
         3. Send direct message
     """.trimIndent()
+
+    val friendsMenu = """
+        0. Back
+        1. Show menu
+        2. Show current user followers
+        3. Show current user following
+        4. Show user followers
+        5. Show user following
+    """.trimIndent()
 }
