@@ -30,9 +30,9 @@ However, it's built using `jdk-16.0.2+7-openj9`.
 
 #### Login
 
-First time using **InstaKiller** you have to log in using username and password, after that your session is stored in '~
-/sessions/[username]' folder and if you choose to log in using session you don't have to log in again, and you can just
-use one of the saved sessions.
+First time using **InstaKiller** you have to log in using username and password, after that your session is stored
+in `~/sessions/[username]` folder and if you choose to log in using session you don't have to log in again, and you can
+just use one of the saved sessions.
 
 #### Menu
 
