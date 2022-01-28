@@ -21,6 +21,7 @@ open class BaseModule(protected val scanner: Scanner, private val menuText: Stri
         val lines = menuText.split("\n")
         ter.println(table {
             borderStyle = BorderStyle.ROUNDED
+            borderTextStyle = TextColors.brightBlue
             body { lines.forEach { row(style(it)) } }
         })
         return lines.size

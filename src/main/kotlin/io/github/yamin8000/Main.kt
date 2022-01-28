@@ -49,6 +49,7 @@ private fun initLogin() {
 fun loginHandler(): IGClient? {
     ter.println(table {
         borderStyle = BorderStyle.ROUNDED
+        borderTextStyle = TextColors.brightBlue
         header { row("${TextColors.green("Welcome to")} ${TextColors.brightGreen("InstaKiller")}") }
         body {
             style = menuTextStyle
@@ -98,6 +99,7 @@ private fun getClientBySession(): IGClient? {
     val sessions = File("sessions").list()
     if (sessions.isNullOrEmpty()) return null
     ter.println(table {
+        borderTextStyle = TextColors.brightBlue
         borderStyle = BorderStyle.ROUNDED
         header { row(TextColors.green("Available sessions:")) }
         body {

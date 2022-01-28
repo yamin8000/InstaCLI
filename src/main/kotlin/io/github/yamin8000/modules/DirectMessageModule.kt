@@ -91,6 +91,7 @@ class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : Ba
     private fun printSingleThread(thread: IGThread) {
         ter.println(
             table {
+                borderTextStyle = TextColors.brightBlue
                 borderStyle = BorderStyle.ROUNDED
                 body {
                     style = menuTextStyle
