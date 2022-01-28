@@ -1,8 +1,15 @@
 package io.github.yamin8000.utils
 
+import com.github.ajalt.mordant.rendering.TextColors
+import com.github.ajalt.mordant.rendering.TextStyles
+import com.github.ajalt.mordant.terminal.Terminal
+
 object Constants {
 
     const val IS_DEBUG_MODE = true
+
+    val ter = Terminal()
+    val errorStyle = TextColors.red + TextStyles.bold
 
     val loginMenu = """
         0. Show menu

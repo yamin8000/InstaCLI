@@ -1,9 +1,9 @@
 package io.github.yamin8000
 
+import com.github.ajalt.mordant.rendering.TextColors
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
-import io.github.yamin8000.console.printlnC
 import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
 import io.github.yamin8000.helpers.FriendsHelper
 import io.github.yamin8000.helpers.LoggerHelper.loggerD
@@ -13,8 +13,9 @@ import io.github.yamin8000.helpers.LoginHelper
 import io.github.yamin8000.helpers.RequestHelper
 import io.github.yamin8000.helpers.UserHelper
 import io.github.yamin8000.modules.MainModule
+import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.loginMenu
-import io.github.yamin8000.utils.Utility.now
+import io.github.yamin8000.utils.Constants.ter
 import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
@@ -31,7 +32,7 @@ fun main() {
     try {
         initLogin()
     } catch (logInException: IGLoginException) {
-        printlnC { "Login failed: ${logInException.message}".red.bold }
+        ter.println(errorStyle("Login failed: ${logInException.message}"))
         initLogin()
     } catch (exception: Exception) {
         loggerD("General Error!")
@@ -47,31 +48,29 @@ private fun initLogin() {
 }
 
 fun loginHandler(): IGClient? {
-    printlnC { "Welcome to ".green.bold + "InstaKiller".green.bright.bold }
-    printlnC { loginMenu.cyan.bold }
-    printlnC { "Please login first:".blue.bold }
+    ter.println("${TextColors.green("Welcome to")} ${TextColors.brightGreen("InstaKiller")}")
+    ter.println(TextColors.cyan(loginMenu))
+    ter.println(TextColors.blue("Please login first:"))
     return when (scanner.getIntegerInput()) {
         0 -> loginHandler()
         1 -> getClientByUsernamePassword()
         2 -> getClientBySession() ?: loginHandler()
         3 -> {
-            printlnC { "Bye!".red.bold }
+            ter.println(errorStyle("Bye!"))
             null
         }
         else -> {
-            printlnC { "Invalid input! Please try again.".red.bold }
+            ter.println(errorStyle("Invalid input! Please try again."))
             loginHandler()
         }
     }
 }
 
 private fun handleGetFriends() {
-    printlnC { "Enter instagram username to see friends".blue.bright }
+    ter.println(TextColors.blue("Enter instagram username to see friends"))
     val username = scanner.nextLine().trim()
-    printlnC { "Choose friends' type, Followers = 1, Followings = 2 (1/2)?".blue.bright }
-    val typeInput = scanner.getIntegerInput()
-    printlnC { "Enter the number of friends you want to see (default is all available)?".blue.bright }
-    val limit = scanner.getIntegerInput()
+    val typeInput = scanner.getIntegerInput("Choose friends' type, Followers = 1, Followings = 2 (1/2)?")
+    val limit = scanner.getIntegerInput("Enter the number of friends you want to see (default is all available)?")
     val friendsHelper = FriendsHelper(igClient)
     val friendType = when (typeInput) {
         1 -> FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS
@@ -83,28 +82,28 @@ private fun handleGetFriends() {
         it()
         if (followers != null && error == null) {
             if (followers.isNotEmpty()) {
-                printlnC { "Friends:".blue.bright }
-                followers.forEachIndexed { index, profile -> printlnC { "${index + 1}. ${profile.username} => ${profile.full_name}" } }
-            } else printlnC { "No friends found!".red.bright }
-        } else printlnC { "Failed to get friends! Error: ${error?.message}".red.bold }
+                ter.println(TextColors.blue("Friends:"))
+                followers.forEachIndexed { index, profile -> ter.println(TextColors.blue("${index + 1}. ${profile.username} => ${profile.full_name}")) }
+            } else ter.println(errorStyle("No friends found!"))
+        } else ter.println(errorStyle("Failed to get friends! Error: ${error?.message}"))
     }
 }
 
 private fun handleSendingDirectMessage() {
-    printlnC { "Enter usernames you want to send message. (multiple usernames are seperated by comma (,)): ".blue.bright }
+    ter.println(TextColors.blue("Enter usernames you want to send message. (multiple usernames are seperated by comma (,)): "))
     val usernames = scanner.nextLine().trim().split(",")
-    printlnC { "Enter message you want to send:".blue.bright }
+    ter.println(TextColors.blue("Enter message you want to send:"))
     val message = scanner.nextLine().trim()
     if (message.isNotBlank()) {
         val userHelper = UserHelper(igClient)
         usernames.forEach { username ->
             val (pk, error) = userHelper.getPk(username)
             if (pk != null && error == null) sendSingleDirectMessage(message, pk, username)
-            else printlnC { "Skipping, Failed to get pk of $username! Error: ${error?.message}".red.bold }
+            else ter.println(errorStyle("Skipping, Failed to get pk of $username! Error: ${error?.message}"))
         }
 
     } else {
-        printlnC { "Message is empty, try again!".red.bold }
+        ter.println(errorStyle("Message is empty, try again!"))
         //todo checking if this `return` is necessary
         return
     }
@@ -113,20 +112,20 @@ private fun handleSendingDirectMessage() {
 private fun sendSingleDirectMessage(message: String, pk: Long, username: String) {
     //val messageLoading = loadingAsync()
     val isDataSent = requestHelper.sendDirectMessageByPks(message, pk)
-    if (isDataSent) printlnC { "${now()} ===> Message successfully sent to ".green.bright + username.blue.bright.bold }
+    if (isDataSent) ter.println(TextColors.green("Message successfully sent to ") + TextColors.blue(username))
     //messageLoading.cancel()
 }
 
 private fun getClientBySession(): IGClient? {
     val sessions = File("sessions").list()
     if (sessions.isNullOrEmpty()) return null
-    printlnC { "Choose your account: ".blue.bright }
+    ter.print(TextColors.blue("Choose your account: "))
     sessions.forEachIndexed { index, name -> println("$index. $name") }
     val userInput = scanner.getIntegerInput()
     if (userInput in sessions.indices) {
         val clientFile = File("sessions/${sessions[userInput]}/client.ser")
         val cookieFile = File("sessions/${sessions[userInput]}/cookie.ser")
-        printlnC { "${now()} ===> Login success!".green.bright }
+        ter.println(TextColors.green("Login success!"))
         return IGClient.deserialize(clientFile, cookieFile)
     }
     return null
@@ -134,17 +133,17 @@ private fun getClientBySession(): IGClient? {
 
 private fun getClientByUsernamePassword(): IGClient {
     val enterField = "Enter instagram "
-    printlnC { "$enterField username: ".blue.bright }
+    ter.println(TextColors.blue("$enterField username: "))
     val username = scanner.nextLine().trim()
-    printlnC { "$enterField password: ".blue.bright }
+    ter.println(TextColors.blue("$enterField password: "))
     val password = scanner.nextLine().trim()
 
     val client = LoginHelper.logInWithChallenge(username, password)
 
     if (client.isLoggedIn) {
         createSessionFiles(client, username)
-        printlnC { "${now()} ===> Logged in successfully as ($username)".green.bright }
-    } else printlnC { "${now()} ===> Login failed!".red.bold }
+        ter.println(TextColors.green("Logged in successfully as ($username)"))
+    } else ter.println(errorStyle("Login failed!"))
 
     return client
 }

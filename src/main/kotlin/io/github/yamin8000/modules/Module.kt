@@ -1,9 +1,10 @@
 package io.github.yamin8000.modules
 
-import io.github.yamin8000.console.printlnC
+import com.github.ajalt.mordant.rendering.TextColors
 import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
 import io.github.yamin8000.helpers.LoggerHelper.printBlackBar
+import io.github.yamin8000.utils.Constants.ter
 import java.util.*
 
 open class Module(protected val scanner: Scanner, private val menuText: String) {
@@ -19,7 +20,7 @@ open class Module(protected val scanner: Scanner, private val menuText: String) 
         val maxLineLength = lines.maxOf { it.length }
         lines.forEachIndexed { index, line ->
             if (index == 0) printBlackBar(maxLineLength)
-            printlnC { (line + line.extraSpaces(maxLineLength)).blue.bold.reverse }
+            ter.println(TextColors.magenta((line + line.extraSpaces(maxLineLength))))
             if (index == lines.size - 1) printBlackBar(maxLineLength)
         }
         println()

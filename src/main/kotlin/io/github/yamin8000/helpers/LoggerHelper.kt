@@ -1,35 +1,41 @@
 package io.github.yamin8000.helpers
 
-import kotlinx.coroutines.*
-import io.github.yamin8000.console.printC
-import io.github.yamin8000.console.printlnC
+import com.github.ajalt.mordant.rendering.TextColors
+import com.github.ajalt.mordant.rendering.TextStyle
 import io.github.yamin8000.utils.Constants.IS_DEBUG_MODE
 import io.github.yamin8000.utils.Constants.LOADING
 import io.github.yamin8000.utils.Constants.MAX_COUNT
 import io.github.yamin8000.utils.Constants.animations
 import io.github.yamin8000.utils.Constants.currentLoadingAnimation
 import io.github.yamin8000.utils.Constants.sleepDelay
+import io.github.yamin8000.utils.Constants.ter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 object LoggerHelper {
 
     fun loggerD(message: String, source: (() -> Unit)? = null) {
-        if (IS_DEBUG_MODE) {
-            val taggedMessage = ">>--$message--<<"
-            if (source != null) printlnC { "${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage".yellow }
-            else printlnC { taggedMessage.yellow }
-        }
+        val style = TextColors.yellow
+        logger(style, message, source)
     }
 
     fun loggerE(message: String, source: (() -> Unit)? = null) {
+        val style = TextColors.red
+        logger(style, message, source)
+    }
+
+    private fun logger(textStyle: TextStyle, message: String, source: (() -> Unit)? = null) {
         if (IS_DEBUG_MODE) {
             val taggedMessage = ">>--$message--<<"
-            if (source != null) printlnC { "${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage".red }
-            else printlnC { taggedMessage.red }
+            if (source != null) ter.println(textStyle("${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage"))
+            else ter.println(textStyle(taggedMessage))
         }
     }
 
     fun printBlackBar(length: Int) {
-        printlnC { buildString { for (i in 0 until length) append(" ") }.black.bright.reverse }
+        //printlnC { buildString { for (i in 0 until length) append(" ") }.black.bright.reverse }
     }
 
     fun loading(
@@ -40,7 +46,7 @@ object LoggerHelper {
         val animation = animations[currentLoadingAnimation]
         val job = CoroutineScope(Dispatchers.Default).launch {
             repeat(cycles) {
-                printC { animation[it % animation.length].bold.red.bright }
+                ter.print(TextColors.red(animation[it % animation.length].toString()))
                 delay(cycleWaitTime)
                 print("\b")
             }
@@ -62,7 +68,7 @@ object LoggerHelper {
         val job = CoroutineScope(Dispatchers.Default).launch {
             repeat(cycles) {
                 progression++
-                printC { animation[it % total].bold.reverse.cyan }
+                ter.print(TextColors.magenta(animation[it % total].toString()))
                 delay(cycleWaitTime)
             }
         }
