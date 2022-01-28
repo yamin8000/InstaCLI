@@ -1,6 +1,8 @@
 package io.github.yamin8000
 
+import com.github.ajalt.mordant.rendering.BorderStyle
 import com.github.ajalt.mordant.rendering.TextColors
+import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
@@ -10,19 +12,16 @@ import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.LoginHelper
-import io.github.yamin8000.helpers.RequestHelper
-import io.github.yamin8000.helpers.UserHelper
 import io.github.yamin8000.modules.MainModule
 import io.github.yamin8000.utils.Constants.errorStyle
-import io.github.yamin8000.utils.Constants.loginMenu
+import io.github.yamin8000.utils.Constants.menuTextStyle
 import io.github.yamin8000.utils.Constants.ter
+import io.github.yamin8000.utils.Menus.initMenu
 import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
 
 typealias Dyad<T> = Pair<T, Throwable?>
-
-private lateinit var requestHelper: RequestHelper
 
 private lateinit var igClient: IGClient
 
@@ -43,14 +42,20 @@ fun main() {
 
 private fun initLogin() {
     igClient = loginHandler() ?: exitProcess(0)
-    requestHelper = RequestHelper(igClient)
-    MainModule(scanner, igClient).run()
+    val menu = MainModule(scanner, igClient).run()
+    if (menu == 0) initLogin()
 }
 
 fun loginHandler(): IGClient? {
-    ter.println("${TextColors.green("Welcome to")} ${TextColors.brightGreen("InstaKiller")}")
-    ter.println(TextColors.cyan(loginMenu))
-    ter.println(TextColors.blue("Please login first:"))
+    ter.println(table {
+        borderStyle = BorderStyle.ROUNDED
+        header { row("${TextColors.green("Welcome to")} ${TextColors.brightGreen("InstaKiller")}") }
+        body {
+            style = menuTextStyle
+            initMenu.split("\n").forEach { row(it) }
+        }
+        captionBottom(TextColors.brightBlue("Please login first:"))
+    })
     return when (scanner.getIntegerInput()) {
         0 -> loginHandler()
         1 -> getClientByUsernamePassword()
@@ -89,38 +94,18 @@ private fun handleGetFriends() {
     }
 }
 
-private fun handleSendingDirectMessage() {
-    ter.println(TextColors.blue("Enter usernames you want to send message. (multiple usernames are seperated by comma (,)): "))
-    val usernames = scanner.nextLine().trim().split(",")
-    ter.println(TextColors.blue("Enter message you want to send:"))
-    val message = scanner.nextLine().trim()
-    if (message.isNotBlank()) {
-        val userHelper = UserHelper(igClient)
-        usernames.forEach { username ->
-            val (pk, error) = userHelper.getPk(username)
-            if (pk != null && error == null) sendSingleDirectMessage(message, pk, username)
-            else ter.println(errorStyle("Skipping, Failed to get pk of $username! Error: ${error?.message}"))
-        }
-
-    } else {
-        ter.println(errorStyle("Message is empty, try again!"))
-        //todo checking if this `return` is necessary
-        return
-    }
-}
-
-private fun sendSingleDirectMessage(message: String, pk: Long, username: String) {
-    //val messageLoading = loadingAsync()
-    val isDataSent = requestHelper.sendDirectMessageByPks(message, pk)
-    if (isDataSent) ter.println(TextColors.green("Message successfully sent to ") + TextColors.blue(username))
-    //messageLoading.cancel()
-}
-
 private fun getClientBySession(): IGClient? {
     val sessions = File("sessions").list()
     if (sessions.isNullOrEmpty()) return null
-    ter.print(TextColors.blue("Choose your account: "))
-    sessions.forEachIndexed { index, name -> println("$index. $name") }
+    ter.println(table {
+        borderStyle = BorderStyle.ROUNDED
+        header { row(TextColors.green("Available sessions:")) }
+        body {
+            style = menuTextStyle
+            sessions.forEachIndexed { index, session -> row("$index. $session") }
+        }
+        captionBottom(TextColors.brightBlue("Please choose session:"))
+    })
     val userInput = scanner.getIntegerInput()
     if (userInput in sessions.indices) {
         val clientFile = File("sessions/${sessions[userInput]}/client.ser")

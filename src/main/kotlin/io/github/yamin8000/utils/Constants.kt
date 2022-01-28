@@ -10,31 +10,15 @@ object Constants {
 
     val ter = Terminal()
     val errorStyle = TextColors.red + TextStyles.bold
-
-    val loginMenu = """
-        0. Show menu
-        1. Login with username and password
-        2. Login from saved sessions
-        3. Exit
-    """.trimIndent()
-
-    val settingSubmenuText = """
-        0. Loading animation type
-    """.trimIndent()
+    val askStyle = TextColors.cyan + TextStyles.bold
+    val menuTextStyle = TextColors.blue + TextStyles.bold
 
     var downloadDir = "D:/instaKiller"
-
     const val OK = "ok"
-    const val YES = "y"
-    const val NO = "n"
-
     var MAX_COUNT = Integer.MAX_VALUE
-    const val LIMIT_COUNT = 10
-
     const val sleepDelay = 100L
 
     const val LOADING = "Loading..."
-
     val animations = listOf(
         "▁▂▃▄▅▆▇█▇▆▅▄▃▂▁",
         "←↖↑↗→↘↓↙",
@@ -50,7 +34,6 @@ object Constants {
         "⠋⠙⠹⠸⠼⠴⠦⠧⠇",
         "⠏⠟⠻⠿⢿⣿⣿⣿⣿",
     )
-
     var currentLoadingAnimation = 0
 
     val affirmatives = listOf(

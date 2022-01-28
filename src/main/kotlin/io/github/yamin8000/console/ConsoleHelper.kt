@@ -1,8 +1,8 @@
 package io.github.yamin8000.console
 
 import com.github.ajalt.mordant.rendering.TextColors
-import com.github.ajalt.mordant.rendering.TextStyles
 import io.github.yamin8000.utils.Constants.affirmatives
+import io.github.yamin8000.utils.Constants.askStyle
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
 import java.util.*
@@ -10,7 +10,7 @@ import java.util.*
 object ConsoleHelper {
 
     fun Scanner.getIntegerInput(message: String? = null, range: IntRange? = null): Int {
-        if (message != null) ter.println(TextColors.blue(message))
+        if (message != null) ter.println(askStyle(message))
         return try {
             val input = this.nextLine().trim()
             if (input.isNotBlank() && input.all { it.isDigit() }) {
@@ -23,32 +23,32 @@ object ConsoleHelper {
         }
     }
 
+    private fun checkIfInputIsInRange(number: Int, range: IntRange?): Boolean {
+        return if (range == null) true else number in range
+    }
+
     private fun Scanner.getIntegerInputFailure(error: String, message: String?, range: IntRange?): Int {
         ter.println(errorStyle(error))
         return getIntegerInput(message, range)
     }
 
-    private fun checkIfInputIsInRange(number: Int, range: IntRange?): Boolean {
-        return if (range == null) true else number in range
-    }
-
     fun Scanner.getBooleanInput(message: String? = null): Boolean {
         return try {
-            if (message != null) ter.println(TextColors.blue(message))
+            if (message != null) ter.println(askStyle(message))
             this.nextLine().trim().lowercase(Locale.getDefault()) in affirmatives
         } catch (exception: Exception) {
             false
         }
     }
 
-    fun Scanner.pressEnterToContinue() {
-        ter.println(TextColors.white.bg("Press enter to continue..."))
+    fun Scanner.pressEnterToContinue(message: String = "continue...") {
+        ter.println((TextColors.black on TextColors.brightWhite)("Press enter to $message"))
         this.nextLine()
     }
 
     fun Scanner.getMultipleStrings(field: String): List<String> {
         ter.println(
-            TextStyles.bold(
+            askStyle(
                 """
             Please enter $field/${field}s:
             If there are more than one $field separate them using a comma (,)
@@ -61,6 +61,15 @@ object ConsoleHelper {
             ter.println(errorStyle("Please enter at least one $field."))
             this.getMultipleStrings(field)
         } else input
+    }
+
+    fun Scanner.getSingleString(field: String): String {
+        ter.println(askStyle("Please enter $field"))
+        val input = this.nextLine().trim()
+        return input.ifBlank {
+            ter.println(errorStyle("Input cannot be empty, try again!"))
+            this.getSingleString(field)
+        }
     }
 
     private fun List<String>.isValid() = !(this.isEmpty() || this.all { it.isNotEmpty() })

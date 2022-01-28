@@ -3,27 +3,23 @@ package io.github.yamin8000.modules
 import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.rendering.TextStyles
 import com.github.instagram4j.instagram4j.IGClient
-import com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselItem
-import com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia
-import com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia
-import com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia
+import com.github.instagram4j.instagram4j.models.media.timeline.*
 import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
 import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
 import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
 import io.github.yamin8000.helpers.Downloader
-import io.github.yamin8000.helpers.LoggerHelper.printBlackBar
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.PostsHelper
-import io.github.yamin8000.modules.Menus.postInfo
+import io.github.yamin8000.utils.Menus.postMenu
 import io.github.yamin8000.utils.Constants.downloadDir
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
-import io.github.yamin8000.utils.Utility
 import io.github.yamin8000.utils.Utility.isoTimeOfEpoch
 import java.util.*
 
-class PostModule(scanner: Scanner, private val igClient: IGClient) : Module(scanner, postInfo) {
+class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, postMenu) {
 
     private val downloader: Downloader by lazy(LazyThreadSafetyMode.NONE) { Downloader(igClient.httpClient) }
 
@@ -48,7 +44,13 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
                 it()
                 if (posts != null && error == null) {
                     if (posts.isNotEmpty()) {
-                        ter.println("\n${TextColors.brightGreen.bg(posts.size.toString())} ${TextColors.green(" posts have been fetched, enter number of posts you want to see: ")}")
+                        ter.println(
+                            "${(TextColors.brightGreen on TextColors.black)(posts.size.toString())} ${
+                                TextColors.green(
+                                    "posts have been fetched, enter number of posts you want to see: "
+                                )
+                            }"
+                        )
                         val count = scanner.getIntegerInput(range = 1..posts.size)
                         printPosts(posts.take(count))
                         if (!isSavingOutsideCaller) {
@@ -109,27 +111,25 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
         showUserPosts(true)
     }
 
-    companion object {
-        private fun printPosts(posts: List<TimelineMedia>) {
-            posts.forEach {
-                printSinglePost(it)
-                printBlackBar(100)
-            }
+    private fun printPosts(posts: List<TimelineMedia>) {
+        posts.forEach {
+            printSinglePost(it)
+            scanner.pressEnterToContinue("see next post...")
         }
+    }
 
-        private fun printSinglePost(post: TimelineMedia) {
-            ter.println("${TextColors.green("Caption:")} ${TextStyles.bold(post.caption?.text ?: "")}")
-            ter.println("${TextColors.green("Date:")} ${TextStyles.bold(isoTimeOfEpoch(post.caption.created_at_utc))}")
-            ter.println("${TextColors.green("Likes:")} ${TextStyles.bold(post.like_count.toString())}")
-            ter.println("${TextColors.green("Comments:")} ${TextStyles.bold(post.comment_count.toString())}")
-            ter.println("${TextColors.green("Location:")} ${TextStyles.bold(post.location?.name ?: "")}")
-            val previewComments = post.preview_comments
-            if (previewComments != null) {
-                ter.println(TextColors.green("Top Comments:"))
-                previewComments.forEach {
-                    ter.println("${TextColors.blue(it.user.username)}: ${TextColors.green(it.text)}")
-                }
-            }
-        }
+    private fun printSinglePost(post: TimelineMedia) {
+        ter.println("${TextColors.green("Caption:")} ${TextStyles.bold(post.caption?.text ?: "")}")
+        ter.println("${TextColors.green("Date:")} ${TextStyles.bold(isoTimeOfEpoch(post.caption.created_at_utc))}")
+        ter.println("${TextColors.green("Likes:")} ${TextStyles.bold(post.like_count.toString())}")
+        ter.println("${TextColors.green("Comments:")} ${TextStyles.bold(post.comment_count.toString())}")
+        ter.println("${TextColors.green("Location:")} ${TextStyles.bold(post.location?.name ?: "")}")
+        val previewComments = post.preview_comments
+        if (previewComments != null) printPreviewComments(previewComments)
+    }
+
+    private fun printPreviewComments(previewComments: MutableList<Comment>) {
+        ter.println(TextColors.green("Top Comments:"))
+        previewComments.forEach { ter.println("${TextColors.blue(it.user.username)}: ${TextColors.green(it.text)}") }
     }
 }

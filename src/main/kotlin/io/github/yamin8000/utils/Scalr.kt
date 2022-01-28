@@ -1,3 +1,9 @@
+@file:Suppress(
+    "MemberVisibilityCanBePrivate", "KDocUnresolvedReference", "unused", "UNUSED_PARAMETER",
+    "NAME_SHADOWING", "NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS", "CascadeIf", "SpellCheckingInspection",
+    "GrazieInspection"
+)
+
 package io.github.yamin8000.utils
 
 import io.github.yamin8000.utils.Scalr.Method
@@ -9,18 +15,8 @@ import java.awt.Transparency
 import java.awt.color.ColorSpace
 import java.awt.geom.AffineTransform
 import java.awt.image.*
-import kotlin.Any
-import kotlin.Float
-import kotlin.IllegalArgumentException
-import kotlin.Int
-import kotlin.Long
-import kotlin.String
-import kotlin.Throws
-import kotlin.floatArrayOf
 import kotlin.math.ceil
 import kotlin.math.roundToInt
-import kotlin.require
-import kotlin.requireNotNull
 
 /**
  * Class used to implement performant, high-quality and intelligent image
@@ -535,8 +531,8 @@ object Scalr {
             val dest =
                 createOptimalImage(
                     src,
-                    resultBounds.width.roundToInt().toInt(),
-                    resultBounds.height.roundToInt().toInt()
+                    resultBounds.width.roundToInt(),
+                    resultBounds.height.roundToInt()
                 )
 
             // Perform the operation, update our result to return.

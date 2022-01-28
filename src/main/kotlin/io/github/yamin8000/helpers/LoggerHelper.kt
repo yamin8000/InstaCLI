@@ -34,10 +34,6 @@ object LoggerHelper {
         }
     }
 
-    fun printBlackBar(length: Int) {
-        //printlnC { buildString { for (i in 0 until length) append(" ") }.black.bright.reverse }
-    }
-
     fun loading(
         cycleWaitTime: Long = sleepDelay,
         cycles: Int = MAX_COUNT,

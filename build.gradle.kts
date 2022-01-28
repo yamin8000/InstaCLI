@@ -4,6 +4,8 @@ plugins {
     val kotlinVersion = "1.6.10"
     kotlin("jvm") version kotlinVersion
     application
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("java")
 }
 
 group = "io.github.yamin8000"

@@ -1,23 +1,25 @@
 package io.github.yamin8000.modules
 
 import com.github.ajalt.mordant.rendering.TextColors
+import com.github.ajalt.mordant.rendering.TextStyles
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.User
-import io.github.yamin8000.utils.ImageUtil.viewImage
+import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
+import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
 import io.github.yamin8000.helpers.Downloader
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.UserHelper
-import io.github.yamin8000.modules.Menus.userMenu
-import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
-import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.utils.Constants.askStyle
 import io.github.yamin8000.utils.Constants.downloadDir
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
+import io.github.yamin8000.utils.ImageUtil.viewImage
+import io.github.yamin8000.utils.Menus.userMenu
 import java.util.*
 
-class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scanner, userMenu) {
+class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, userMenu) {
 
     private val downloader: Downloader by lazy(LazyThreadSafetyMode.NONE) { Downloader(igClient.httpClient) }
 
@@ -65,7 +67,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
         val (imageFile, downloadError) = downloader.download(imageUrl, "images/$username/profile_pictures/$imageName")
         progressDone()
         if (imageFile != null && downloadError == null) {
-            ter.println(TextColors.green("Image saved successfully to $downloadDir/images/$username/$imageName"))
+            ter.println(style("Image saved successfully to $downloadDir/images/$username/$imageName"))
             if (scanner.getBooleanInput("Do you want to open the image?(y/n)")) viewImage(imageFile)
         } else ter.println(errorStyle("Skipping, Failed to download image for $username => ${downloadError?.message}"))
     }
@@ -97,31 +99,32 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
     }
 
     private fun checkIfMoreUserInfoNeeded(userInfo: User) {
-        ter.println(TextColors.blue("Do you want to see full user info? (y/n)"))
+        ter.println(askStyle("Do you want to see full user info? (y/n)"))
         if (scanner.getBooleanInput()) showFullUserInfo(userInfo)
     }
 
     companion object {
 
+        private val style = TextColors.green + TextStyles.bold
+
         fun showShortUserInfo(user: User) {
-            ter.println(TextColors.green("User info:"))
-            ter.println(TextColors.green("Username: ${user.username}"))
-            ter.println(TextColors.green("Full Name: ${user.full_name}"))
-            ter.println(TextColors.green("Bio: ${user.biography}"))
-            ter.println(TextColors.green("Media Count: ${user.media_count}"))
-            ter.println(TextColors.green("Follower Count: ${user.follower_count}"))
-            ter.println(TextColors.green("Following Count: ${user.following_count}"))
+            ter.println(style("Username: ${user.username}"))
+            ter.println(style("Full Name: ${user.full_name}"))
+            ter.println(style("Bio: ${user.biography}"))
+            ter.println(style("Media Count: ${user.media_count}"))
+            ter.println(style("Follower Count: ${user.follower_count}"))
+            ter.println(style("Following Count: ${user.following_count}"))
         }
 
         fun showFullUserInfo(user: User) {
             showShortUserInfo(user)
 
-            ter.println(TextColors.green("Profile Url: https://instagram.com/${user.username}"))
-            ter.println(TextColors.green("Profile Pic Url: ${user.profile_pic_url}"))
-            ter.println(TextColors.green("Private or Public: ${if (user.is_private) "Private" else "Public"}"))
-            ter.println(TextColors.green("Verified or not (Blue tick): ${if (user.is_verified) "Verified" else "Not Verified"}"))
-            ter.println(TextColors.green("Business or Regular: ${if (user.is_business) "Business" else "Regular"}"))
-            ter.println(TextColors.green("External Url: ${user.external_url}"))
+            ter.println(style("Profile Url: https://instagram.com/${user.username}"))
+            ter.println(style("Profile Pic Url: ${user.profile_pic_url}"))
+            ter.println(style("Private or Public: ${if (user.is_private) "Private" else "Public"}"))
+            ter.println(style("Verified or not (Blue tick): ${if (user.is_verified) "Verified" else "Not Verified"}"))
+            ter.println(style("Business or Regular: ${if (user.is_business) "Business" else "Regular"}"))
+            ter.println(style("External Url: ${user.external_url}"))
         }
     }
 }
