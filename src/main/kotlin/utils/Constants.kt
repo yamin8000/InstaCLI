@@ -11,22 +11,11 @@ object Constants {
         3. Exit
     """.trimIndent()
 
-    val mainMenu = """
-        0. Show menu
-        1. Show user's info
-        2. Search for a user
-        3. Show user's posts
-        4. Send direct message to user/users
-        5. Show user's friends (followers/following)
-        6. Save users' posts' images
-        7. Save users' profile pictures
-        9. Settings
-        10. Exit
-    """.trimIndent()
-
     val settingSubmenuText = """
         0. Loading animation type
     """.trimIndent()
+
+    var downloadDir = "D:/instaKiller"
 
     const val OK = "ok"
     const val YES = "y"

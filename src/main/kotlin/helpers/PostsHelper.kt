@@ -19,7 +19,7 @@ class PostsHelper(private val igClient: IGClient) {
         nextMaxId: String? = null,
         pkRecursive: Long? = null,
     ): Dyad<List<FeedUserResponse>?> {
-        if (pkRecursive != null) {
+        if (pkRecursive == null) {
             val feeds = mutableListOf<FeedUserResponse>()
             val (pk, pkError) = userHelper.getPk(username)
             return if (pk != null && pkError == null) {
@@ -38,7 +38,7 @@ class PostsHelper(private val igClient: IGClient) {
                     }
                 } else null to feedError
             } else null to pkError
-        } else return getRawUserFeed(username, pages, nextMaxId)
+        } else return getRawUserFeed(username, pages, nextMaxId, pkRecursive)
     }
 
     fun getUserFeed(
@@ -52,6 +52,7 @@ class PostsHelper(private val igClient: IGClient) {
             val feeds = mutableListOf<TimelineMedia>()
             rawFeeds.forEach {
                 feeds.addAll(it.items.take(limit))
+                if (feeds.size == limit) return feeds to null
                 if (it.isMore_available) {
                     Thread.sleep(sleepDelay)
                     val moreFeeds = getUserFeed(username, limit - feeds.size, it.next_max_id, pkRecursive)

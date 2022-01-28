@@ -2,15 +2,16 @@ package yamin.modules
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.User
-import utils.printlnC
+import yamin.console.printlnC
 import yamin.helpers.Downloader
 import yamin.helpers.LoggerHelper.loading
 import yamin.helpers.LoggerHelper.progress
 import yamin.helpers.UserHelper
 import yamin.modules.Menus.userMenu
-import yamin.utils.ConsoleHelper.getBooleanInput
-import yamin.utils.ConsoleHelper.getMultipleStrings
-import java.io.File
+import yamin.console.ConsoleHelper.getBooleanInput
+import yamin.console.ConsoleHelper.getMultipleStrings
+import yamin.utils.Constants.downloadDir
+import yamin.utils.FileUtils.createDirIfNotExists
 import java.util.*
 
 class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scanner, userMenu) {
@@ -36,14 +37,16 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
 
     private fun downloadUsersProfilePictures(usernames: List<String>) {
         usernames.forEach { username ->
-            val userDirectory = File("images/$username/profile_pictures")
-            if (!userDirectory.exists()) userDirectory.mkdirs()
+            createDirIfNotExists("images/$username/profile_pictures")
             loading { loadingDone ->
                 val (user, error) = UserHelper(igClient).getUserInfoByUsername(username)
                 loadingDone()
                 progress { progressDone ->
                     if (user != null && error == null) downloadSingleUserProfilePicture(user, username, progressDone)
-                    else printlnC { "Skipping, User with username $username not found! => ${error?.message}".red.bold }
+                    else {
+                        printlnC { "Skipping, User with username $username not found! => ${error?.message}".red.bold }
+                        progressDone()
+                    }
                 }
             }
         }
@@ -59,7 +62,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
         val (imageFile, downloadError) = downloader.download(imageUrl, "images/$username/profile_pictures/$imageName")
         progressDone()
         if (imageFile != null && downloadError == null) {
-            printlnC { "Image saved successfully to images/$username/$imageName".green.bright }
+            printlnC { "Image saved successfully to $downloadDir/images/$username/$imageName".green.bright }
         } else printlnC { "Skipping, Failed to download image for $username => ${downloadError?.message}".red.bold }
     }
 

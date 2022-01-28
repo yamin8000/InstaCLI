@@ -11,6 +11,7 @@ class MainModule(scanner: Scanner, private val igClient: IGClient) : Module(scan
             0 -> return 0
             1 -> showMenu()
             2 -> UserModule(scanner, igClient).run()
+            3 -> PostModule(scanner, igClient).run()
         }
 
         run()

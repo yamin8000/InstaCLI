@@ -1,6 +1,5 @@
-package yamin.utils
+package yamin.console
 
-import utils.printlnC
 import yamin.utils.Constants.affirmatives
 import java.util.*
 
@@ -29,8 +28,9 @@ object ConsoleHelper {
         return if (range == null) true else number in range
     }
 
-    fun Scanner.getBooleanInput(): Boolean {
+    fun Scanner.getBooleanInput(message: String? = null): Boolean {
         return try {
+            if (message != null) printlnC { message.bold.cyan }
             this.nextLine().trim().lowercase(Locale.getDefault()) in affirmatives
         } catch (exception: Exception) {
             false

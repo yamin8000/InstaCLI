@@ -1,12 +1,12 @@
-package utils
+package yamin.console
 
-import utils.ColoredConsole.Companion.BLACK
-import utils.ColoredConsole.Companion.BRIGHT_BLACK
-import utils.ColoredConsole.Companion.BRIGHT_WHITE
-import utils.ColoredConsole.Companion.RESET
-import utils.ColoredConsole.Companion.WHITE
-import utils.ColoredConsole.Style
-import utils.ColoredConsole.Style.NotApplied
+import yamin.console.ColoredConsole.Companion.BLACK
+import yamin.console.ColoredConsole.Companion.BRIGHT_BLACK
+import yamin.console.ColoredConsole.Companion.BRIGHT_WHITE
+import yamin.console.ColoredConsole.Companion.RESET
+import yamin.console.ColoredConsole.Companion.WHITE
+import yamin.console.ColoredConsole.Style
+import yamin.console.ColoredConsole.Style.NotApplied
 import java.util.regex.Pattern
 
 interface ColoredConsole {

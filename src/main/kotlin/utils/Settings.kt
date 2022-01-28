@@ -1,9 +1,7 @@
 package yamin.utils
 
-import kotlinx.coroutines.delay
-import utils.printC
-import utils.printlnC
-import yamin.utils.ConsoleHelper.getIntegerInput
+import yamin.console.printlnC
+import yamin.console.ConsoleHelper.getIntegerInput
 import yamin.utils.Constants.animations
 import yamin.utils.Constants.currentLoadingAnimation
 import yamin.utils.Constants.settingSubmenuText

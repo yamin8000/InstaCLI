@@ -1,8 +1,8 @@
 package yamin.helpers
 
 import kotlinx.coroutines.*
-import utils.printC
-import utils.printlnC
+import yamin.console.printC
+import yamin.console.printlnC
 import yamin.utils.Constants.IS_DEBUG_MODE
 import yamin.utils.Constants.LOADING
 import yamin.utils.Constants.MAX_COUNT
@@ -26,6 +26,10 @@ object LoggerHelper {
             if (source != null) printlnC { "${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage".red }
             else printlnC { taggedMessage.red }
         }
+    }
+
+    fun printBlackBar(length: Int) {
+        printlnC { buildString { for (i in 0 until length) append(" ") }.black.bright.reverse }
     }
 
     fun loading(
