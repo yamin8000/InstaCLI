@@ -44,8 +44,8 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
                 it()
                 if (posts != null && error == null) {
                     if (posts.isNotEmpty()) {
-                        printPosts(posts)
                         if (!isSavingOutsideCaller) {
+                            printPosts(posts)
                             val isSaving = scanner.getBooleanInput("Do you want to save posts' images as files? (y/n)")
                             if (isSaving) saveImages(posts, username)
                         } else saveImages(posts, username)
