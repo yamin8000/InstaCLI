@@ -9,9 +9,10 @@ object Constants {
     const val IS_DEBUG_MODE = true
 
     val ter = Terminal()
+    val resultStyle = TextColors.green
     val errorStyle = TextColors.red + TextStyles.bold
     val askStyle = TextColors.cyan + TextStyles.bold
-    val menuTextStyle = TextColors.blue + TextStyles.bold
+    val menuStyle = TextColors.blue + TextStyles.bold
 
     var downloadDir = "D:/instaKiller"
     const val OK = "ok"

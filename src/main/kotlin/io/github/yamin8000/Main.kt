@@ -11,7 +11,8 @@ import io.github.yamin8000.helpers.LoggerHelper.loggerE
 import io.github.yamin8000.helpers.LoginHelper
 import io.github.yamin8000.modules.MainModule
 import io.github.yamin8000.utils.Constants.errorStyle
-import io.github.yamin8000.utils.Constants.menuTextStyle
+import io.github.yamin8000.utils.Constants.menuStyle
+import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Menus.initMenu
 import java.io.File
@@ -47,9 +48,9 @@ fun loginHandler(): IGClient? {
     ter.println(table {
         borderStyle = BorderStyle.ROUNDED
         borderTextStyle = TextColors.brightBlue
-        header { row("${TextColors.green("Welcome to")} ${TextColors.brightGreen("InstaKiller")}") }
+        header { row("${resultStyle("Welcome to")} ${TextColors.brightGreen("InstaKiller")}") }
         body {
-            style = menuTextStyle
+            style = menuStyle
             initMenu.split("\n").forEach { row(it) }
         }
         captionBottom(TextColors.brightBlue("Please login first:"))
@@ -75,9 +76,9 @@ private fun getClientBySession(): IGClient? {
     ter.println(table {
         borderTextStyle = TextColors.brightBlue
         borderStyle = BorderStyle.ROUNDED
-        header { row(TextColors.green("Available sessions:")) }
+        header { row(TextColors.blue("Available sessions:")) }
         body {
-            style = menuTextStyle
+            style = menuStyle
             sessions.forEachIndexed { index, session -> row("$index. $session") }
         }
         captionBottom(TextColors.brightBlue("Please choose session:"))
@@ -103,7 +104,7 @@ private fun getClientByUsernamePassword(): IGClient {
 
     if (client.isLoggedIn) {
         createSessionFiles(client, username)
-        ter.println(TextColors.green("Logged in successfully as ($username)"))
+        ter.println(resultStyle("Logged in successfully as ($username)"))
     } else ter.println(errorStyle("Login failed!"))
 
     return client

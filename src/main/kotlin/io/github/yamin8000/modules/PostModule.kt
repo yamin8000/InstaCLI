@@ -4,15 +4,19 @@ import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.rendering.TextStyles
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.*
+import io.github.yamin8000.Dyad
 import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
 import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
 import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
 import io.github.yamin8000.helpers.Downloader
+import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.PostsHelper
+import io.github.yamin8000.helpers.UserHelper
 import io.github.yamin8000.utils.Constants.downloadDir
 import io.github.yamin8000.utils.Constants.errorStyle
+import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
 import io.github.yamin8000.utils.Menus.postMenu
@@ -22,6 +26,8 @@ import java.util.*
 class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, postMenu) {
 
     private val downloader: Downloader by lazy(LazyThreadSafetyMode.NONE) { Downloader(igClient.httpClient) }
+
+    private val userHelper: UserHelper by lazy(LazyThreadSafetyMode.NONE) { UserHelper(igClient) }
 
     override fun run(): Int {
         when (super.run()) {
@@ -35,58 +41,59 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
         return 0
     }
 
-    private fun showUserPosts(isSavingOutsideCaller: Boolean = false) {
+    private fun showUserPosts() {
         val usernames = scanner.getMultipleStrings("username")
-        val limit = scanner.getIntegerInput("Enter number of posts to fetch:", 0 until Integer.MAX_VALUE)
         usernames.forEach { username ->
+            val limit = getMediaLimit(username)
             progress {
-                val (posts, error) = PostsHelper(igClient).getUserFeed(username, limit)
+                val (posts, error) = getSingleUserPost(username, limit)
                 it()
                 if (posts != null && error == null) {
-                    if (posts.isNotEmpty()) {
-                        if (!isSavingOutsideCaller) {
-                            printPosts(posts)
-                            val isSaving = scanner.getBooleanInput("Do you want to save posts' images as files? (y/n)")
-                            if (isSaving) saveImages(posts, username)
-                        } else saveImages(posts, username)
-                    } else ter.println(errorStyle("($username) has no posts!"))
+                    printPosts(posts)
+                    val isSaving = scanner.getBooleanInput("Do you want to save posts' images as files? (y/n)")
+                    if (isSaving) saveImages(posts, username)
                 } else ter.println(errorStyle("Failed to get posts! Error: ${error?.message}"))
             }
         }
     }
 
-    private fun saveImages(posts: List<TimelineMedia>, username: String, indicator: Pair<Int, Int>? = null) {
-        posts.forEach { timelineMedia ->
+    private fun saveImages(posts: List<TimelineMedia>, username: String) {
+        posts.forEachIndexed { index, timelineMedia ->
+            ter.println(TextColors.brightYellow("(${index + 1}/${posts.size}) Saving..."))
             createDirIfNotExists("images/$username/posts")
             when (timelineMedia) {
-                is TimelineCarouselMedia -> {
-                    timelineMedia.carousel_media.forEach { item ->
-                        if (item is ImageCarouselItem) saveSingleImage(username, item)
-                    }
-                }
-                is TimelineImageMedia -> saveSingleImage(username, timelineMedia)
-                else -> ter.println(errorStyle("Skipping, Unsupported media type!"))
+                is TimelineCarouselMedia -> saveCarouselPostImages(timelineMedia.carousel_media, username)
+                is TimelineImageMedia -> saveSinglePostImage(username, timelineMedia)
+                //is TimelineVideoMedia -> saveVideoPost(timelineMedia, username)
+                else -> ter.println(errorStyle("Skipping, Unsupported media type! => ${timelineMedia.media_type}"))
             }
         }
-        val text = if (indicator == null) {
-            "All images of ($username) have been saved!"
-        } else {
-            "part ${indicator.first} of ${indicator.second} ($username) images have been saved!"
-        }
-        ter.println(TextColors.green(text))
+        ter.println(resultStyle("All images of ($username) have been saved!"))
     }
 
-    private fun saveSingleImage(username: String, media: Any) {
+    private fun saveCarouselPostImages(carouselItems: List<CarouselItem>, username: String) {
+        carouselItems.forEach { if (it is ImageCarouselItem) saveSinglePostImage(username, it) }
+    }
+
+    private fun getSingleUserPost(username: String, limit: Int): Dyad<List<TimelineMedia>?> {
+        val (posts, error) = PostsHelper(igClient).getUserFeed(username, limit)
+        return if (posts != null && error == null) {
+            if (posts.isNotEmpty()) posts to null
+            else null to Exception("($username) has no posts!")
+        } else null to Exception("Failed to get posts! Error: ${error?.message}")
+    }
+
+    private fun saveSinglePostImage(username: String, media: Any) {
         val imageUrl = getImageUrl(media)
         if (imageUrl != null) {
             val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
-            val directory = "images/$username/posts/$imageName"
+            val filePath = "images/$username/posts/$imageName"
             progress {
-                val (imageFile, downloadError) = downloader.download(imageUrl, directory)
+                val (imageFile, error) = downloader.download(imageUrl, filePath)
                 it()
-                if (imageFile != null && downloadError == null) {
-                    ter.println(TextColors.green("($username) -> Image saved successfully to $$downloadDir/images/$username/posts/$imageName"))
-                } else ter.println(errorStyle("Skipping, Failed to download image! Error: ${downloadError?.message}"))
+                if (imageFile != null && error == null) {
+                    ter.println(resultStyle("($username) -> Image saved successfully to $$downloadDir/images/$username/posts/$imageName"))
+                } else ter.println(errorStyle("Skipping, Failed to download image! Error: ${error?.message}"))
             }
         } else ter.println(TextColors.yellow("Skipping, ($username) -> Image url is null!"))
     }
@@ -100,7 +107,26 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
     }
 
     private fun saveUserPostsImages() {
-        showUserPosts(true)
+        val usernames = scanner.getMultipleStrings("username")
+        usernames.forEach { username ->
+            val limit = getMediaLimit(username)
+            progress {
+                val (posts, error) = getSingleUserPost(username, limit)
+                it()
+                if (posts != null && error == null) saveImages(posts, username)
+                else ter.println(errorStyle("Failed to get posts! Error: ${error?.message}"))
+            }
+        }
+    }
+
+    private fun getMediaLimit(username: String): Int {
+        return loading {
+            val (user, userError) = userHelper.getUserInfoByUsername(username)
+            it()
+            if (user != null && userError == null) ter.println(TextColors.brightYellow("($username) has ${user.media_count} posts."))
+            else ter.println(errorStyle("Skipping, Failed to get user info! Error: ${userError?.message}"))
+            return@loading scanner.getIntegerInput("Enter number of posts to fetch:", 0 until Integer.MAX_VALUE)
+        } ?: Integer.MAX_VALUE
     }
 
     private fun printPosts(posts: List<TimelineMedia>) {
@@ -111,17 +137,29 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
     }
 
     private fun printSinglePost(post: TimelineMedia) {
-        ter.println("${TextColors.green("Caption:")} ${TextStyles.bold(post.caption?.text ?: "")}")
-        ter.println("${TextColors.green("Date:")} ${TextStyles.bold(isoTimeOfEpoch(post.caption.created_at_utc))}")
-        ter.println("${TextColors.green("Likes:")} ${TextStyles.bold(post.like_count.toString())}")
-        ter.println("${TextColors.green("Comments:")} ${TextStyles.bold(post.comment_count.toString())}")
-        ter.println("${TextColors.green("Location:")} ${TextStyles.bold(post.location?.name ?: "")}")
-        val previewComments = post.preview_comments
-        if (previewComments != null) printPreviewComments(previewComments)
+        ter.println("${resultStyle("Caption:")} ${TextStyles.bold(post.caption?.text ?: "")}")
+        ter.println("${resultStyle("Date:")} ${TextStyles.bold(isoTimeOfEpoch(post.caption.created_at_utc))}")
+        ter.println("${resultStyle("Likes:")} ${TextStyles.bold(post.like_count.toString())}")
+        ter.println("${resultStyle("Comments:")} ${TextStyles.bold(post.comment_count.toString())}")
+        ter.println("${resultStyle("Location:")} ${TextStyles.bold(post.location?.name ?: "")}")
+
+        post.preview_comments?.let { printPreviewComments(it) }
     }
 
     private fun printPreviewComments(previewComments: MutableList<Comment>) {
-        ter.println(TextColors.green("Top Comments:"))
-        previewComments.forEach { ter.println("${TextColors.blue(it.user.username)}: ${TextColors.green(it.text)}") }
+        ter.println(resultStyle("Top Comments:"))
+        previewComments.forEach { ter.println("${TextColors.blue(it.user.username)}: ${resultStyle(it.text)}") }
+    }
+
+    private fun saveVideoPost(timelineMedia: TimelineVideoMedia, username: String) {
+        val videoUrl = timelineMedia.video_versions.first().url
+        val videoName = videoUrl.substringAfterLast("/").substringBefore("?")
+        val filePath = "images/$username/posts/$videoName"
+        progress {
+            val (video, error) = downloader.download(videoUrl, filePath)
+            it()
+            if (video != null && error == null) ter.println(resultStyle("Saved video as $filePath"))
+            else ter.println(errorStyle("Failed to save video! Error: ${error?.message}"))
+        }
     }
 }

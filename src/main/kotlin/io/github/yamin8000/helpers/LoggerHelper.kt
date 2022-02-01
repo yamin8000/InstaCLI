@@ -34,41 +34,41 @@ object LoggerHelper {
         }
     }
 
-    fun loading(
+    fun <T> loading(
         cycleWaitTime: Long = sleepDelay,
         cycles: Int = MAX_COUNT,
-        function: (() -> Unit) -> Unit
-    ) {
+        function: (() -> Unit) -> T?
+    ): T? {
         val animation = animations[currentLoadingAnimation]
         val job = CoroutineScope(Dispatchers.Default).launch {
             repeat(cycles) {
-                ter.print(TextColors.red(animation[it % animation.length].toString()))
+                ter.print(TextColors.brightMagenta(animation[it % animation.length].toString()))
                 delay(cycleWaitTime)
                 print("\b")
             }
         }
-        function {
+        return function {
             repeat(LOADING.length + 1) { print("\b") }
             job.cancel()
         }
     }
 
-    fun progress(
+    fun <T> progress(
         cycleWaitTime: Long = sleepDelay,
         cycles: Int = MAX_COUNT,
-        function: (() -> Unit) -> Unit
-    ) {
+        function: (() -> Unit) -> T?
+    ): T? {
         val animation = animations[currentLoadingAnimation]
         val total = animation.length
         var progression = 0
         val job = CoroutineScope(Dispatchers.Default).launch {
             repeat(cycles) {
                 progression++
-                ter.print(TextColors.magenta(animation[it % total].toString()))
+                ter.print(TextColors.brightMagenta(animation[it % total].toString()))
                 delay(cycleWaitTime)
             }
         }
-        function {
+        return function {
             repeat(progression) { print("\b") }
             job.cancel()
         }

@@ -42,7 +42,7 @@ object ConsoleHelper {
     }
 
     fun Scanner.pressEnterToContinue(message: String = "continue...") {
-        ter.println((TextColors.black on TextColors.brightWhite)("Press enter to $message"))
+        ter.println((TextColors.yellow on TextColors.black)("Press enter to $message"))
         this.nextLine()
     }
 

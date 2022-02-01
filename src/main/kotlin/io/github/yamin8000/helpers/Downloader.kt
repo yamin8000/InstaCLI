@@ -1,11 +1,11 @@
 package io.github.yamin8000.helpers
 
 import io.github.yamin8000.Dyad
+import io.github.yamin8000.utils.Constants.downloadDir
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
 import okio.sink
-import io.github.yamin8000.utils.Constants.downloadDir
 import java.io.File
 
 class Downloader(private val okHttpClient: OkHttpClient) {
@@ -15,24 +15,24 @@ class Downloader(private val okHttpClient: OkHttpClient) {
         if (!file.exists()) file.mkdir()
     }
 
-    fun download(url: String, directory: String, isReplacingOld: Boolean = false): Pair<File?, Throwable?> {
+    fun download(url: String, filePath: String, isReplacingOld: Boolean = false): Pair<File?, Throwable?> {
         return try {
             if (isReplacingOld) {
-                deleteOldFile(directory)
-                download(url, directory)
+                deleteOldFile(filePath)
+                download(url, filePath)
             } else {
-                if (isFileExists(directory)) null to Exception("File already exists, Skipping! => $directory")
-                else download(url, directory)
+                if (isFileExists("${downloadDir}/$filePath")) null to Exception("File already exists, Skipping! => $filePath")
+                else download(url, filePath)
             }
         } catch (e: Exception) {
             null to e
         }
     }
 
-    private fun download(url: String, directory: String): Dyad<File?> {
+    private fun download(url: String, filePath: String): Dyad<File?> {
         try {
             val response = okHttpClient.newCall(Request.Builder().url(url).build()).execute()
-            val downloadedFile = File("${downloadDir}/$directory")
+            val downloadedFile = File("${downloadDir}/$filePath")
             val sink = downloadedFile.sink().buffer()
             val body = response.body
             return if (body != null) {
@@ -48,7 +48,7 @@ class Downloader(private val okHttpClient: OkHttpClient) {
         }
     }
 
-    private fun isFileExists(directory: String) = File("${downloadDir}/$directory").exists()
+    private fun isFileExists(directory: String) = File(directory).exists()
 
     private fun deleteOldFile(directory: String) {
         val file = File("${downloadDir}/$directory")

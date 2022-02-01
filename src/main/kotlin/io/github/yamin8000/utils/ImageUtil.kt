@@ -11,14 +11,14 @@ import javax.imageio.ImageIO
 
 object ImageUtil {
 
-    fun viewImage(file: File) {
+    fun viewImage(file: File, size: Int = 50) {
         val (imageBuffer, _) = imageReader(file)
         if (imageBuffer != null) {
 
             val newImage = Scalr.resize(
                 imageBuffer,
                 Scalr.Method.SPEED,
-                50
+                size
             )
 
             newImage?.let {
