@@ -25,7 +25,13 @@ private lateinit var igClient: IGClient
 
 private val scanner = Scanner(System.`in`)
 
-fun main() {
+fun main(args: Array<String>) {
+    if (args.isNotEmpty()) handleCommandLineOptions(args)
+    else handleRegularMode()
+
+}
+
+fun handleRegularMode() {
     try {
         initLogin()
     } catch (logInException: IGLoginException) {
@@ -36,6 +42,11 @@ fun main() {
         loggerE(exception.stackTraceToString())
         return
     }
+}
+
+fun handleCommandLineOptions(args: Array<String>) {
+    val arguments = args.joinToString(" ").split('-').filter { it.isNotBlank() }
+    println(arguments)
 }
 
 private fun initLogin() {
