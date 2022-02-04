@@ -10,6 +10,7 @@ import io.github.yamin8000.helpers.FriendsHelper
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
+import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.friendsMenu
 import java.util.*
 
@@ -80,7 +81,7 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
         if (nextMaxId != null) {
             val seeMore = scanner.getBooleanInput("Do you want to see more friends? (y/n)")
             if (seeMore) showFriendsPaged(friendType, username, nextMaxId)
-            else ter.println(TextColors.yellow("End of ($username) friends list"))
-        } else ter.println(TextColors.yellow("End of ($username) friends list"))
+            else ter.println(warningStyle("End of ($username) friends list"))
+        } else ter.println(warningStyle("End of ($username) friends list"))
     }
 }

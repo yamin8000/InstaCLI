@@ -12,8 +12,10 @@ object Constants {
     val resultStyle = TextColors.green
     val errorStyle = TextColors.red + TextStyles.bold
     val askStyle = TextColors.cyan + TextStyles.bold
+    val warningStyle = TextColors.yellow + TextStyles.bold
     val menuStyle = TextColors.blue + TextStyles.bold
 
+    const val DOWNLOAD_FOLDER = "DOWNLOAD_FOLDER"
     var downloadDir = "D:/instaKiller"
     const val OK = "ok"
     var MAX_COUNT = Integer.MAX_VALUE
@@ -36,7 +38,11 @@ object Constants {
         "⠋⠙⠹⠸⠼⠴⠦⠧⠇",
         "⠏⠟⠻⠿⢿⣿⣿⣿⣿",
     )
+    const val LOADING_ANIMATION = "LOADING_ANIMATION"
     var currentLoadingAnimation = 0
+
+    const val SESSION_AUTOSAVE = "SESSION_AUTOSAVE"
+    var isAutosavingSession = true
 
     val affirmatives = listOf(
         "y",

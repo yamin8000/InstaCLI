@@ -13,11 +13,11 @@ import io.github.yamin8000.helpers.DirectMessageHelper
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
 import io.github.yamin8000.helpers.UserHelper
-import io.github.yamin8000.utils.Constants
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.menuStyle
 import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
+import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.directMessageMenu
 import java.util.*
 
@@ -72,11 +72,11 @@ class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : Ba
             val (inbox, error) = helper.getInbox()
             it()
             if (inbox != null && error == null) {
-                ter.println(Constants.resultStyle("Unread count: ${inbox.unseen_count}"))
+                ter.println(resultStyle("Unread count: ${inbox.unseen_count}"))
                 val threads = inbox.threads
                 if (threads != null) {
                     if (threads.isNotEmpty()) printThreads(threads)
-                    else ter.println(TextColors.yellow("No direct messages found!"))
+                    else ter.println(warningStyle("No direct messages found!"))
                 } else ter.println(errorStyle("Failed to get threads!"))
             } else ter.println(errorStyle("Failed to get inbox! Error: ${error?.message}"))
         }

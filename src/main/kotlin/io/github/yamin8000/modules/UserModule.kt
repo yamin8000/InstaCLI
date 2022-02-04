@@ -15,6 +15,7 @@ import io.github.yamin8000.utils.Constants.downloadDir
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
+import io.github.yamin8000.utils.FileUtils.createDirInDownloadsIfNotExists
 import io.github.yamin8000.utils.ImageUtil.viewImage
 import io.github.yamin8000.utils.Menus.userMenu
 import java.util.*
@@ -42,7 +43,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
 
     private fun downloadUsersProfilePictures(usernames: List<String>) {
         usernames.forEach { username ->
-            createDirIfNotExists("images/$username/profile_pictures")
+            createDirInDownloadsIfNotExists("images/$username/profile_pictures")
             loading { loadingDone ->
                 val (user, error) = UserHelper(igClient).getUserInfoByUsername(username)
                 loadingDone()

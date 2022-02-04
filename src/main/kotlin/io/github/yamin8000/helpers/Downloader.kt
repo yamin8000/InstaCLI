@@ -2,6 +2,7 @@ package io.github.yamin8000.helpers
 
 import io.github.yamin8000.Dyad
 import io.github.yamin8000.utils.Constants.downloadDir
+import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
@@ -11,8 +12,7 @@ import java.io.File
 class Downloader(private val okHttpClient: OkHttpClient) {
 
     init {
-        val file = File(downloadDir)
-        if (!file.exists()) file.mkdir()
+        createDirIfNotExists(downloadDir)
     }
 
     fun download(url: String, filePath: String, isReplacingOld: Boolean = false): Pair<File?, Throwable?> {

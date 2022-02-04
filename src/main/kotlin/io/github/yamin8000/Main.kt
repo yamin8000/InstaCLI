@@ -12,7 +12,9 @@ import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
 import io.github.yamin8000.helpers.LoginHelper
 import io.github.yamin8000.modules.MainModule
+import io.github.yamin8000.modules.SettingsModule
 import io.github.yamin8000.utils.Constants.errorStyle
+import io.github.yamin8000.utils.Constants.isAutosavingSession
 import io.github.yamin8000.utils.Constants.menuStyle
 import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
@@ -25,16 +27,18 @@ typealias Dyad<T> = Pair<T, Throwable?>
 
 private lateinit var igClient: IGClient
 
-private val scanner = Scanner(System.`in`)
+private val scanner by lazy(LazyThreadSafetyMode.NONE) { Scanner(System.`in`) }
+
+private val sessions by lazy(LazyThreadSafetyMode.NONE) { File("sessions").list() }
 
 fun main(args: Array<String>) {
     if (args.isNotEmpty()) handleCommandLineOptions(args)
     else handleRegularMode()
-
 }
 
 fun handleRegularMode() {
     try {
+        SettingsModule.loadConfigToMemory()
         initLogin()
     } catch (logInException: IGLoginException) {
         ter.println(errorStyle("Login failed: ${logInException.message}"))
@@ -47,12 +51,49 @@ fun handleRegularMode() {
 }
 
 fun handleCommandLineOptions(args: Array<String>) {
-    val arguments = args.joinToString(" ").split('-').filter { it.isNotBlank() }
-    println(arguments)
+    val commands = args.asSequence().filter { it.startsWith("-") }
+        .mapIndexed { index, command ->
+            command.substring(1) to index
+        }.toList()
+
+    for ((command, commandIndex) in commands) {
+        when (command) {
+            "login" -> {
+                loginFromCommandLine(args[commandIndex + 1], args[commandIndex + 2])
+                break
+            }
+            "session" -> {
+                loadSessionFromCommandLine(args[commandIndex + 1])
+                break
+            }
+        }
+    }
+    println(args)
 }
 
-private fun initLogin() {
-    igClient = loginHandler() ?: exitProcess(0)
+fun loadSessionFromCommandLine(sessionArg: String) {
+    var sessionIndex: Int? = null
+    sessions.forEachIndexed { index, session ->
+        if (session == sessionArg) sessionIndex = index
+    }
+    if (sessionIndex == null) {
+        ter.println(errorStyle("Session not found!"))
+        return
+    } else igClient = loginFromSession(sessionIndex ?: return) ?: return
+    initLogin(true)
+}
+
+fun loginFromCommandLine(
+    usernameArg: String,
+    passwordArg: String
+) {
+    igClient = loginWithUsernamePassword(usernameArg, passwordArg) ?: return
+    initLogin(true)
+}
+
+private fun initLogin(isCommandLine: Boolean = false) {
+    if (!isCommandLine)
+        igClient = loginHandler() ?: exitProcess(0)
     val menu = MainModule(scanner, igClient).run()
     if (menu == 0) initLogin()
 }
@@ -84,7 +125,6 @@ fun loginHandler(): IGClient? {
 }
 
 private fun getClientBySession(): IGClient? {
-    val sessions = File("sessions").list()
     if (sessions.isNullOrEmpty()) return null
     ter.println(table {
         borderTextStyle = TextColors.brightBlue
@@ -97,14 +137,16 @@ private fun getClientBySession(): IGClient? {
         captionBottom(TextColors.brightBlue("Please choose session:"))
     })
     val userInput = scanner.getIntegerInput()
-    if (userInput in sessions.indices) {
-        val clientFile = File("sessions/${sessions[userInput]}/client.ser")
-        val cookieFile = File("sessions/${sessions[userInput]}/cookie.ser")
-        ter.println(TextColors.green("Login success!"))
-        val client = IGClient.deserialize(clientFile, cookieFile)
-        return if (client.isLoggedIn) client else null
-    }
+    if (userInput in sessions.indices) return loginFromSession(userInput)
     return null
+}
+
+private fun loginFromSession(sessionIndex: Int): IGClient? {
+    val clientFile = File("sessions/${sessions[sessionIndex]}/client.ser")
+    val cookieFile = File("sessions/${sessions[sessionIndex]}/cookie.ser")
+    ter.println(TextColors.green("Login success!"))
+    val client = IGClient.deserialize(clientFile, cookieFile)
+    return if (client.isLoggedIn) client else null
 }
 
 private fun getClientByUsernamePassword(): IGClient? {
@@ -114,6 +156,13 @@ private fun getClientByUsernamePassword(): IGClient? {
     ter.println(TextColors.blue("$enterField password: "))
     val password = scanner.nextLine().trim()
 
+    return loginWithUsernamePassword(username, password)
+}
+
+private fun loginWithUsernamePassword(
+    username: String,
+    password: String
+): IGClient? {
     val (client, error) = loading {
         val igPair = LoginHelper(scanner).logInWithChallenge(username, password)
         it()
@@ -122,7 +171,8 @@ private fun getClientByUsernamePassword(): IGClient? {
 
     if (client != null && error == null) {
         if (client.isLoggedIn) {
-            createSessionFiles(client, username)
+            if (isAutosavingSession)
+                createSessionFiles(client, username)
             ter.println(resultStyle("Logged in successfully as ($username)"))
         } else {
             ter.println(errorStyle("Login failed!"))
@@ -136,7 +186,10 @@ private fun getClientByUsernamePassword(): IGClient? {
     return client
 }
 
-private fun createSessionFiles(client: IGClient, username: String) {
+private fun createSessionFiles(
+    client: IGClient,
+    username: String
+) {
     File("sessions/$username").mkdirs()
     val clientFile = File("sessions/$username/client.ser")
     val cookieFile = File("sessions/$username/cookie.ser")

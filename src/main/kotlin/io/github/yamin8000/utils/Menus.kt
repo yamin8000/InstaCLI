@@ -14,6 +14,7 @@ object Menus {
         1. Exit
         2. Change loading animation type
         3. Change download folder
+        4. Change session auto save behaviour
     """.trimIndent()
 
     val mainMenu = """
