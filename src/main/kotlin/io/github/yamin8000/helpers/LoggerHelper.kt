@@ -37,8 +37,8 @@ object LoggerHelper {
     fun <T> loading(
         cycleWaitTime: Long = sleepDelay,
         cycles: Int = MAX_COUNT,
-        function: (() -> Unit) -> T?
-    ): T? {
+        function: (() -> Unit) -> T
+    ): T {
         val animation = animations[currentLoadingAnimation]
         val job = CoroutineScope(Dispatchers.Default).launch {
             repeat(cycles) {
@@ -56,8 +56,8 @@ object LoggerHelper {
     fun <T> progress(
         cycleWaitTime: Long = sleepDelay,
         cycles: Int = MAX_COUNT,
-        function: (() -> Unit) -> T?
-    ): T? {
+        function: (() -> Unit) -> T
+    ): T {
         val animation = animations[currentLoadingAnimation]
         val total = animation.length
         var progression = 0

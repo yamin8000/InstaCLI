@@ -126,7 +126,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
             if (user != null && userError == null) ter.println(TextColors.brightYellow("($username) has ${user.media_count} posts."))
             else ter.println(errorStyle("Skipping, Failed to get user info! Error: ${userError?.message}"))
             return@loading scanner.getIntegerInput("Enter number of posts to fetch:", 0 until Integer.MAX_VALUE)
-        } ?: Integer.MAX_VALUE
+        }
     }
 
     private fun printPosts(posts: List<TimelineMedia>) {

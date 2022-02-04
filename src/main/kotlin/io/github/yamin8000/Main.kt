@@ -6,6 +6,8 @@ import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
 import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
+import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
+import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
 import io.github.yamin8000.helpers.LoginHelper
@@ -68,7 +70,7 @@ fun loginHandler(): IGClient? {
     })
     return when (scanner.getIntegerInput()) {
         0 -> loginHandler()
-        1 -> getClientByUsernamePassword()
+        1 -> getClientByUsernamePassword() ?: loginHandler()
         2 -> getClientBySession() ?: loginHandler()
         3 -> {
             ter.println(errorStyle("Bye!"))
@@ -99,24 +101,37 @@ private fun getClientBySession(): IGClient? {
         val clientFile = File("sessions/${sessions[userInput]}/client.ser")
         val cookieFile = File("sessions/${sessions[userInput]}/cookie.ser")
         ter.println(TextColors.green("Login success!"))
-        return IGClient.deserialize(clientFile, cookieFile)
+        val client = IGClient.deserialize(clientFile, cookieFile)
+        return if (client.isLoggedIn) client else null
     }
     return null
 }
 
-private fun getClientByUsernamePassword(): IGClient {
+private fun getClientByUsernamePassword(): IGClient? {
     val enterField = "Enter instagram "
     ter.println(TextColors.blue("$enterField username: "))
     val username = scanner.nextLine().trim()
     ter.println(TextColors.blue("$enterField password: "))
     val password = scanner.nextLine().trim()
 
-    val client = LoginHelper.logInWithChallenge(username, password)
+    val (client, error) = loading {
+        val igPair = LoginHelper(scanner).logInWithChallenge(username, password)
+        it()
+        return@loading igPair
+    }
 
-    if (client.isLoggedIn) {
-        createSessionFiles(client, username)
-        ter.println(resultStyle("Logged in successfully as ($username)"))
-    } else ter.println(errorStyle("Login failed!"))
+    if (client != null && error == null) {
+        if (client.isLoggedIn) {
+            createSessionFiles(client, username)
+            ter.println(resultStyle("Logged in successfully as ($username)"))
+        } else {
+            ter.println(errorStyle("Login failed!"))
+            scanner.pressEnterToContinue()
+        }
+    } else {
+        ter.println(errorStyle("Login failed: ${error?.message}"))
+        scanner.pressEnterToContinue()
+    }
 
     return client
 }

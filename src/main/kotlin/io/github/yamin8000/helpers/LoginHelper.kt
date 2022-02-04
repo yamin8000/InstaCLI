@@ -2,10 +2,11 @@ package io.github.yamin8000.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils
+import io.github.yamin8000.Dyad
 import java.util.*
 import java.util.concurrent.Callable
 
-object LoginHelper {
+class LoginHelper(private val scanner: Scanner) {
 
     private val client = IGClient.builder()
 
@@ -27,13 +28,22 @@ object LoginHelper {
      * @param password Password
      * @throws com.github.instagram4j.instagram4j.exceptions.IGLoginException
      */
-    fun logInWithChallenge(username: String, password: String): IGClient {
-        val scanner = Scanner(System.`in`)
+    fun logInWithChallenge(username: String, password: String): Dyad<IGClient?> {
+        val challengeHandler = getChallengeHandler()
 
+        return try {
+            client.username(username).password(password).onChallenge(challengeHandler).login() to null
+        } catch (e: Exception) {
+            null to e
+        }
+    }
+
+    private fun getChallengeHandler(): IGClient.Builder.LoginHandler {
         val inputCode = Callable {
             print("Please input code: ")
             scanner.nextLine()
         }
+
         val challengeHandler = IGClient.Builder.LoginHandler { client, response ->
             if (client != null && response != null) {
                 IGChallengeUtils.resolveChallenge(
@@ -43,6 +53,6 @@ object LoginHelper {
                 )
             } else null
         }
-        return client.username(username).password(password).onChallenge(challengeHandler).login()
+        return challengeHandler
     }
 }
