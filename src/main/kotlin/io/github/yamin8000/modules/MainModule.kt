@@ -14,7 +14,8 @@ class MainModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
             3 -> PostModule(scanner, igClient).run()
             4 -> FriendsModule(scanner, igClient).run()
             6 -> DirectMessageModule(scanner, igClient).run()
-            7 -> SettingsModule(scanner).run()
+            7 -> LiveStreamModule(scanner, igClient).run()
+            10 -> SettingsModule(scanner).run()
         }
 
         run()

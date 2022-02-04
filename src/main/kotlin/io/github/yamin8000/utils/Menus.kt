@@ -25,7 +25,8 @@ object Menus {
         4. Friend info (follower/following/etc)
         5. Search
         6. Direct Message
-        7. Settings
+        7. Live stream
+        10. Settings
     """.trimIndent()
 
 
@@ -58,5 +59,15 @@ object Menus {
         3. Show current user following
         4. Show user followers
         5. Show user following
+    """.trimIndent()
+
+    val livestreamMenu = """
+        0. Back
+        1. Show menu
+        2. Create livestream
+        3. Start livestream
+        4. Stop livestream
+        5. Show raw livestreams info
+        6. Show livestream viewer count
     """.trimIndent()
 }

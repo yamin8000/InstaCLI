@@ -121,6 +121,15 @@ Alternatively, you can download the jar file from releases section or build it y
 - [x] See other user's posts
 - [ ] See other user's stories
 
+### Live stream
+
+- [x] Create live stream
+- [x] Start live stream
+- [x] Stop live stream
+- [x] See live stream viewer count
+- [ ] See live stream viewer list
+- [ ] See live stream comment list
+
 #### Friends
 
 - [x] See other user's friends (followers, following)
