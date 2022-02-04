@@ -9,6 +9,8 @@ import io.github.yamin8000.utils.Constants.animations
 import io.github.yamin8000.utils.Constants.currentLoadingAnimation
 import io.github.yamin8000.utils.Constants.sleepDelay
 import io.github.yamin8000.utils.Constants.ter
+import io.github.yamin8000.utils.Constants.warningStyle
+import io.github.yamin8000.utils.Utility.now
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -28,7 +30,7 @@ object LoggerHelper {
 
     private fun logger(textStyle: TextStyle, message: String, source: (() -> Unit)? = null) {
         if (IS_DEBUG_MODE) {
-            val taggedMessage = ">>--$message--<<"
+            val taggedMessage = ">>-- $message --<<"
             if (source != null) ter.println(textStyle("${source.javaClass.enclosingClass.name}:${source.javaClass.enclosingMethod.name}$taggedMessage"))
             else ter.println(textStyle(taggedMessage))
         }

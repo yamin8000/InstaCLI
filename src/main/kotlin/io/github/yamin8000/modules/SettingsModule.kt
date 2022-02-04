@@ -25,6 +25,12 @@ class SettingsModule(scanner: Scanner) : BaseModule(scanner, settingSubmenuText)
 
     private val configRegex = Regex("(.+[=].+\\n*)+")
 
+    private val configPath = "config/config.env"
+
+    private val configFile = File(configPath)
+
+    private val configPairs by lazy { loadConfigPairs() }
+
     init {
         createDirIfNotExists("config")
         createConfigFileIfNecessary()
@@ -122,29 +128,20 @@ class SettingsModule(scanner: Scanner) : BaseModule(scanner, settingSubmenuText)
         })
     }
 
-    companion object {
+    private fun loadConfigPairs(): MutableList<Pair<String, String>> {
+        return configFile.readLines().map { line ->
+            val pair = line.trim().split("=").take(2)
+            if (pair.size != 2) throw IllegalArgumentException("Invalid config file")
+            pair.first() to pair.last()
+        }.toMutableList()
+    }
 
-        private const val configPath = "config/config.env"
-
-        private val configFile = File(configPath)
-
-        val configPairs by lazy { loadConfigPairs() }
-
-        private fun loadConfigPairs(): MutableList<Pair<String, String>> {
-            return configFile.readLines().map { line ->
-                val pair = line.trim().split("=").take(2)
-                if (pair.size != 2) throw IllegalArgumentException("Invalid config file")
-                pair.first() to pair.last()
-            }.toMutableList()
-        }
-
-        fun loadConfigToMemory() {
-            configPairs.forEach {
-                when (it.first) {
-                    LOADING_ANIMATION -> currentLoadingAnimation = it.second.toInt()
-                    DOWNLOAD_FOLDER -> downloadDir = it.second
-                    SESSION_AUTOSAVE -> isAutosavingSession = it.second.toBoolean()
-                }
+    private fun loadConfigToMemory() {
+        configPairs.forEach {
+            when (it.first) {
+                LOADING_ANIMATION -> currentLoadingAnimation = it.second.toInt()
+                DOWNLOAD_FOLDER -> downloadDir = it.second
+                SESSION_AUTOSAVE -> isAutosavingSession = it.second.toBoolean()
             }
         }
     }

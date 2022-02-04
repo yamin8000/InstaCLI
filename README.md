@@ -16,6 +16,12 @@
 
 ## Preview
 
+### Basic user info
+
+![basic_user_info](screenshots/alpha/basic_user_info.png)
+
+### More media
+
 [more here](https://github.com/yamin8000/InstaKiller/tree/master/screenshots)
 
 ## Compatibility
@@ -34,9 +40,27 @@ First time using **InstaKiller** you have to log in using username and password,
 in `~/sessions/[username]` folder and if you choose to log in using session you don't have to log in again, and you can
 just use one of the saved sessions.
 
+![initial_login](screenshots/alpha/init_login.png)
+
+Alternatively, you can use command line options to log in and skip the login menu.
+
+- Login with username and password using command line options
+
+```shell
+   java -jar instakiller.jar -login [username] [password]
+```
+
+- Login using session from command line options
+
+```shell
+   java -jar instakiller.jar -session [session_name]
+```
+
 #### Menu
 
 After initial login then you can use various tasks you can find in the menu.
+
+![main_menu](screenshots/alpha/main_menu.png)
 
 #### Privacy notice
 
@@ -70,7 +94,7 @@ Alternatively, you can download the jar file from releases section or build it y
 ### General
 
 - [x] Command line interface
-- [ ] Command line options
+- [x] Command line options
 - [x] Colored output
 
 ### Requests

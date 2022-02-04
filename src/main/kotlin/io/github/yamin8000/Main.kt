@@ -11,6 +11,7 @@ import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
 import io.github.yamin8000.helpers.LoginHelper
+import io.github.yamin8000.models.CommandLineLogin
 import io.github.yamin8000.modules.MainModule
 import io.github.yamin8000.modules.SettingsModule
 import io.github.yamin8000.utils.Constants.errorStyle
@@ -18,7 +19,9 @@ import io.github.yamin8000.utils.Constants.isAutosavingSession
 import io.github.yamin8000.utils.Constants.menuStyle
 import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
+import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.initMenu
+import io.github.yamin8000.utils.Utility
 import java.io.File
 import java.util.*
 import kotlin.system.exitProcess
@@ -31,67 +34,106 @@ private val scanner by lazy(LazyThreadSafetyMode.NONE) { Scanner(System.`in`) }
 
 private val sessions by lazy(LazyThreadSafetyMode.NONE) { File("sessions").list() }
 
-fun main(args: Array<String>) {
-    if (args.isNotEmpty()) handleCommandLineOptions(args)
-    else handleRegularMode()
+private var args = arrayOf<String>()
+
+fun main(arguments: Array<String>) {
+    args = arguments
+
+    if (arguments.isEmpty()) handleRegularMode()
+    else handleCommandLineOptions()
 }
 
 fun handleRegularMode() {
     try {
-        SettingsModule.loadConfigToMemory()
         initLogin()
     } catch (logInException: IGLoginException) {
+        ter.println(warningStyle(Utility.now()))
         ter.println(errorStyle("Login failed: ${logInException.message}"))
         initLogin()
     } catch (exception: Exception) {
-        loggerD("General Error!")
-        loggerE(exception.stackTraceToString())
+        ter.println(warningStyle(Utility.now()))
+        loggerD("General Error!") {}
+        loggerE(exception.stackTraceToString()) {}
         return
     }
 }
 
-fun handleCommandLineOptions(args: Array<String>) {
-    val commands = args.asSequence().filter { it.startsWith("-") }
+fun handleCommandLineOptions() {
+    try {
+        val commands = filterCommands()
+        if (commands.isNotEmpty()) executeCommands(commands)
+        else ter.println(warningStyle("No commands found!"))
+    } catch (exception: Exception) {
+        ter.println(warningStyle(Utility.now()))
+        loggerD("General Error!") {}
+        loggerE(exception.stackTraceToString()) {}
+        return
+    }
+}
+
+private fun filterCommands(): List<Pair<String, Int>> {
+    return args.asSequence().filter { it.startsWith("-") }
         .mapIndexed { index, command ->
             command.substring(1) to index
         }.toList()
+}
 
+private fun executeCommands(commands: List<Pair<String, Int>>) {
     for ((command, commandIndex) in commands) {
         when (command) {
-            "login" -> {
-                loginFromCommandLine(args[commandIndex + 1], args[commandIndex + 2])
-                break
-            }
-            "session" -> {
-                loadSessionFromCommandLine(args[commandIndex + 1])
-                break
-            }
+            "login" -> executeLoginCommand(commandIndex)
+            "session" -> loadSessionFromCommandLine(args[commandIndex + 1])
         }
+        break
     }
-    println(args)
+}
+
+private fun executeLoginCommand(commandIndex: Int) {
+    val isAutosaving = parseAutosavingArg(commandIndex)
+    val login = CommandLineLogin(
+        args[commandIndex + 1],
+        args[commandIndex + 2],
+        isAutosaving
+    )
+    loginFromCommandLine(login)
+}
+
+private fun parseAutosavingArg(commandIndex: Int) =
+    when (args.getOrNull(commandIndex + 3) ?: "autosave-on") {
+        "autosave-on" -> true
+        "autosave-off" -> false
+        else -> throw IllegalArgumentException("Invalid autosaving argument!: ${args[commandIndex + 3]}")
+    }
+
+fun loginFromCommandLine(login: CommandLineLogin) {
+    isAutosavingSession = login.isAutosaving
+    val temp = loginWithUsernamePassword(login.username, login.password)
+
+    if (temp == null) ter.println(errorStyle("Login failed!"))
+    else igClient = temp
+
+    initLogin(true)
 }
 
 fun loadSessionFromCommandLine(sessionArg: String) {
     var sessionIndex: Int? = null
-    sessions.forEachIndexed { index, session ->
+
+    for ((index, session) in sessions.withIndex()) {
         if (session == sessionArg) sessionIndex = index
     }
-    if (sessionIndex == null) {
-        ter.println(errorStyle("Session not found!"))
-        return
-    } else igClient = loginFromSession(sessionIndex ?: return) ?: return
-    initLogin(true)
-}
+    if (sessionIndex != null) {
+        val temp = loginFromSession(sessionIndex)
 
-fun loginFromCommandLine(
-    usernameArg: String,
-    passwordArg: String
-) {
-    igClient = loginWithUsernamePassword(usernameArg, passwordArg) ?: return
-    initLogin(true)
+        if (temp != null) {
+            igClient = temp
+            initLogin(true)
+        } else ter.println(errorStyle("Session loading failed!"))
+    } else ter.println(errorStyle("Session not found!"))
 }
 
 private fun initLogin(isCommandLine: Boolean = false) {
+    SettingsModule(scanner)
+
     if (!isCommandLine)
         igClient = loginHandler() ?: exitProcess(0)
     val menu = MainModule(scanner, igClient).run()
