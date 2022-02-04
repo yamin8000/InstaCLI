@@ -46,13 +46,13 @@ Alternatively, you can use command line options to log in and skip the login men
 
 - Login with username and password using command line options
 
-```shell
+```powershell
    java -jar instakiller.jar -login [username] [password]
 ```
 
 - Login using session from command line options
 
-```shell
+```powershell
    java -jar instakiller.jar -session [session_name]
 ```
 
