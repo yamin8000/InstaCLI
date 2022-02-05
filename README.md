@@ -34,6 +34,19 @@ However, it's built using `jdk-16.0.2+7-openj9`.
 
 ## Usage
 
+#### Disclaimer
+
+> **This project is still in development.**
+>
+> I am not responsible for any damage caused by this project,
+> or any blocked/locked instagram accounts.
+> Use at your own risk and don't use it for illegal purposes.
+> in other words:
+> **don't be an a-hole**
+>
+> Nobody is killed in process of creating this project.
+> This project in no way have any affiliation with Instagram.
+
 #### Login
 
 First time using **InstaKiller** you have to log in using username and password, after that your session is stored
