@@ -62,6 +62,17 @@ After initial login then you can use various tasks you can find in the menu.
 
 ![main_menu](screenshots/alpha/main_menu.png)
 
+#### Submenus documentation
+
+- User info
+- Post info
+- Friend info
+- Search
+- Direct message
+- [Live stream](docs/live.md)
+
+[more docs here](docs)
+
 #### Privacy notice
 
 This app will never save your username and password as plain text, in fact your session is saved using `instagram4j`
