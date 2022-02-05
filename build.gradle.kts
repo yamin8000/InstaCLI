@@ -16,7 +16,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     implementation("com.github.instagram4j:instagram4j:2.0.7")
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta4")
 }
