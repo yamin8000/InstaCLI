@@ -199,3 +199,9 @@ Alternatively, you can download the jar file from releases section or build it y
 > which include larger works using a licensed work, under the same  
 > license. Copyright and license notices must be preserved. Contributors  
 > provide an express grant of patent rights.
+
+#### Credits
+
+[instagram4j](https://github.com/instagram4j/instagram4j)
+
+[mordant](https://github.com/ajalt/mordant)
