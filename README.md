@@ -38,14 +38,21 @@ However, it's built using `jdk-16.0.2+7-openj9`.
 
 > **This project is still in development.**
 >
-> I am not responsible for any damage caused by this project,
-> or any blocked/locked Instagram accounts.
+> I am not responsible for any damage to properties of intellectual or otherwise caused by this project,
+> or any blocked/locked/restricted Instagram accounts.
+>
 > Use at your own risk and don't use it for illegal purposes.
-> in other words:
-> **don't be an a-hole**
+> In other words:
+> - **don't be an a-hole**
+> - **don't be evil**
 >
 > Nobody is killed in process of creating this project.
-> This project in no way has any affiliation with Instagram.
+>
+> This project is in no way has any affiliation, authorization, maintenance, sponsorship from Instagram/Meta.
+>
+> Contributors are not responsible for any damage caused by this project or any repercussions from Instagram/Meta.
+
+[more here](https://github.com/instagram4j/instagram4j#terms-and-conditions)
 
 #### Login
 
