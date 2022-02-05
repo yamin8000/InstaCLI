@@ -135,11 +135,12 @@ Alternatively, you can download the jar file from releases section or build it y
 ### Live stream
 
 - [x] Create live stream
-- [x] Start live stream
-- [x] Stop live stream
-- [x] See live stream viewer count
-- [ ] See live stream viewer list
-- [ ] See live stream comment list
+- [x] Start your live stream
+- [x] Stop your live stream
+- [x] See your live stream viewer count
+- [x] See your live stream viewer list
+- [x] See your live stream comment list
+- [x] Add comment to your live stream
 
 #### Friends
 

@@ -1,7 +1,6 @@
 package io.github.yamin8000.utils
 
 import com.github.instagram4j.instagram4j.responses.IGResponse
-import io.github.yamin8000.utils.Constants.OK
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -22,7 +21,7 @@ object Utility {
     fun <T : IGResponse> CompletableFuture<T>.pair(): Pair<T?, Throwable?> {
         return try {
             val response = this.get()
-            if (response.status == OK) response to null
+            if (response.statusCode in 200 until 300) response to null
             else response to IllegalStateException("Response status is not OK: ${response.status}")
         } catch (e: Throwable) {
             null to e

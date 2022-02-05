@@ -69,5 +69,8 @@ object Menus {
         4. Stop livestream
         5. Show raw livestreams info
         6. Show livestream viewer count
+        7. Show livestream viewer list
+        8. Add comment to livestream
+        9. Show livestream comments list
     """.trimIndent()
 }
