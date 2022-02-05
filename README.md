@@ -39,31 +39,31 @@ However, it's built using `jdk-16.0.2+7-openj9`.
 > **This project is still in development.**
 >
 > I am not responsible for any damage caused by this project,
-> or any blocked/locked instagram accounts.
+> or any blocked/locked Instagram accounts.
 > Use at your own risk and don't use it for illegal purposes.
 > in other words:
 > **don't be an a-hole**
 >
 > Nobody is killed in process of creating this project.
-> This project in no way have any affiliation with Instagram.
+> This project in no way has any affiliation with Instagram.
 
 #### Login
 
-First time using **InstaKiller** you have to log in using username and password, after that your session is stored
+The first time using **InstaKiller** you have to log in using username and password, after that, your session is stored
 in `~/sessions/[username]` folder and if you choose to log in using session you don't have to log in again, and you can
 just use one of the saved sessions.
 
 ![initial_login](screenshots/alpha/init_login.png)
 
-Alternatively, you can use command line options to log in and skip the login menu.
+Alternatively, you can use command-line options to log in and skip the login menu.
 
-- Login with username and password using command line options
+- Login with username and password using command-line options
 
 ```powershell
    java -jar instakiller.jar -login [username] [password]
 ```
 
-- Login using session from command line options
+- Log in using session from command-line options
 
 ```powershell
    java -jar instakiller.jar -session [session_name]
@@ -88,8 +88,8 @@ After initial login then you can use various tasks you can find in the menu.
 
 #### Privacy notice
 
-This app will never save your username and password as plain text, in fact your session is saved using `instagram4j`
-library `IGClient` class, if you're concerned about your privacy, you can disable auto-saving of session and also
+This app will never save your username and password as plain text, in fact, your session is saved using `instagram4j`
+library `IGClient` class, if you're concerned about your privacy, you can disable auto-saving of sessions and also
 since `instagram4j` is open source, you can double-check
 its [code](https://github.com/instagram4j/instagram4j/blob/39635974c391e21a322ab3294275df99d7f75f84/src/main/java/com/github/instagram4j/instagram4j/IGClient.java#L219)
 .
@@ -107,7 +107,7 @@ its [code](https://github.com/instagram4j/instagram4j/blob/39635974c391e21a322ab
    `gradle run`
 4. Enjoy!
 
-Alternatively, you can download the jar file from releases section or build it yourself using `shadowJar` task.
+Alternatively, you can download the jar file from the releases section or build it yourself using `shadowJar` task.
 
 ## Download
 
@@ -136,7 +136,7 @@ Alternatively, you can download the jar file from releases section or build it y
 #### Direct Message
 
 - [x] See your own direct message inbox
-- [x] Send direct message to multiple users
+- [x] Send a direct message to multiple users
 
 #### Media
 
