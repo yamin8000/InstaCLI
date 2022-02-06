@@ -212,3 +212,5 @@ Alternatively, you can download the jar file from the releases section or build 
 [instagram4j](https://github.com/instagram4j/instagram4j)
 
 [mordant](https://github.com/ajalt/mordant)
+
+[imgscalr](https://github.com/rkalla/imgscalr)
