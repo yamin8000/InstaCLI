@@ -28,10 +28,6 @@
 
 **Java8+**, this project is targeted on Java 8 and should be runnable on any Java 8 compatible JVM.
 
-`kotlinOptions.jvmTarget = "1.8"`
-
-However, it's built using `jdk-16.0.2+7-openj9`.
-
 ## Usage
 
 #### Disclaimer
