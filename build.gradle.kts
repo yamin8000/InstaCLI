@@ -19,7 +19,7 @@ dependencies {
     implementation("com.github.instagram4j:instagram4j:2.0.7")
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta4")
 
-    //implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.4")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.4")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
     //implementation("com.fasterxml.jackson.core:jackson-core:2.13.1")
     //implementation("com.fasterxml.jackson.core:jackson-annotations:2.13.1")

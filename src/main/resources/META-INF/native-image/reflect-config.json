@@ -1,0 +1,748 @@
+[
+  {
+    "name":"[B"
+  },
+  {
+    "name":"[D"
+  },
+  {
+    "name":"[J"
+  },
+  {
+    "name":"[Ljava.lang.String;"
+  },
+  {
+    "name":"[Lsun.security.pkcs.SignerInfo;"
+  },
+  {
+    "name":"com.fasterxml.jackson.databind.ext.Java7HandlersImpl",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.fasterxml.jackson.databind.ext.Java7SupportImpl",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.IGClientActions",
+    "allDeclaredFields":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.account.AccountAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.igtv.IgtvAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.search.SearchAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.simulate.SimulateAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.status.StatusAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.story.StoryAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.timeline.TimelineAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.upload.UploadAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.actions.users.UsersAction",
+    "methods":[{"name":"<init>","parameterTypes":["com.github.instagram4j.instagram4j.IGClient"] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.IGBaseModel",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[{"name":"getExtraProperties","parameterTypes":[] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.IGPayload",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[
+      {"name":"getDevice_id","parameterTypes":[] },
+      {"name":"getGuid","parameterTypes":[] },
+      {"name":"getId","parameterTypes":[] },
+      {"name":"getPhone_id","parameterTypes":[] },
+      {"name":"get_csrftoken","parameterTypes":[] },
+      {"name":"get_uid","parameterTypes":[] },
+      {"name":"get_uuid","parameterTypes":[] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.DirectStory",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.IGThread",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.Inbox",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setBlended_inbox_enabled","parameterTypes":["boolean"] },
+      {"name":"setHas_older","parameterTypes":["boolean"] },
+      {"name":"setNext_cursor","parameterTypes":["com.github.instagram4j.instagram4j.models.direct.Inbox$Cursor"] },
+      {"name":"setPrev_cursor","parameterTypes":["com.github.instagram4j.instagram4j.models.direct.Inbox$Cursor"] },
+      {"name":"setThreads","parameterTypes":["java.util.List"] },
+      {"name":"setUnseen_count","parameterTypes":["int"] },
+      {"name":"setUnseen_count_ts","parameterTypes":["long"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.Inbox$Cursor",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setCursor_thread_v2_id","parameterTypes":["java.lang.String"] },
+      {"name":"setCursor_timestamp_seconds","parameterTypes":["java.lang.String"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.item.ThreadItem",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.item.ThreadRavenMediaItem",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.direct.item.ThreadRavenMediaItem$ThreadVisualMedia",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.location.Location",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.ImageMedia",
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.ImageVersions",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setCandidates","parameterTypes":["java.util.List"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.ImageVersionsMeta",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setHeight","parameterTypes":["int"] },
+      {"name":"setUrl","parameterTypes":["java.lang.String"] },
+      {"name":"setWidth","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.Media",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[
+      {"name":"setCan_viewer_reshare","parameterTypes":["boolean"] },
+      {"name":"setCan_viewer_save","parameterTypes":["boolean"] },
+      {"name":"setCaption","parameterTypes":["com.github.instagram4j.instagram4j.models.media.timeline.Comment$Caption"] },
+      {"name":"setClient_cache_key","parameterTypes":["java.lang.String"] },
+      {"name":"setCode","parameterTypes":["java.lang.String"] },
+      {"name":"setDevice_timestamp","parameterTypes":["long"] },
+      {"name":"setFilter_type","parameterTypes":["int"] },
+      {"name":"setId","parameterTypes":["java.lang.String"] },
+      {"name":"setMedia_type","parameterTypes":["java.lang.String"] },
+      {"name":"setPhoto_of_you","parameterTypes":["boolean"] },
+      {"name":"setPk","parameterTypes":["long"] },
+      {"name":"setTaken_at","parameterTypes":["long"] },
+      {"name":"setUser","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.Meta",
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.UserTags",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setIn","parameterTypes":["java.util.List"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.UserTags$UserTag",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setDuration_in_video_in_sec","parameterTypes":["long"] },
+      {"name":"setPosition","parameterTypes":["double[]"] },
+      {"name":"setUser","parameterTypes":["com.github.instagram4j.instagram4j.models.user.Profile"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.VideoVersionsMeta",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setHeight","parameterTypes":["int"] },
+      {"name":"setId","parameterTypes":["java.lang.String"] },
+      {"name":"setType","parameterTypes":["java.lang.String"] },
+      {"name":"setUrl","parameterTypes":["java.lang.String"] },
+      {"name":"setWidth","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.thread.ThreadMedia",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.CarouselItem",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"setCarousel_parent_id","parameterTypes":["java.lang.String"] },
+      {"name":"setMedia_type","parameterTypes":["java.lang.String"] },
+      {"name":"setOriginal_height","parameterTypes":["int"] },
+      {"name":"setOriginal_width","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.Comment",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setBit_flags","parameterTypes":["int"] },
+      {"name":"setComment_like_count","parameterTypes":["int"] },
+      {"name":"setContent_type","parameterTypes":["java.lang.String"] },
+      {"name":"setCreated_at","parameterTypes":["long"] },
+      {"name":"setCreated_at_utc","parameterTypes":["long"] },
+      {"name":"setDid_report_as_spam","parameterTypes":["boolean"] },
+      {"name":"setMedia_id","parameterTypes":["long"] },
+      {"name":"setPk","parameterTypes":["java.lang.String"] },
+      {"name":"setShare_enabled","parameterTypes":["boolean"] },
+      {"name":"setStatus","parameterTypes":["java.lang.String"] },
+      {"name":"setText","parameterTypes":["java.lang.String"] },
+      {"name":"setType","parameterTypes":["int"] },
+      {"name":"setUser","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User"] },
+      {"name":"setUser_id","parameterTypes":["long"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.Comment$Caption",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.ImageCarouselItem",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setImage_versions2","parameterTypes":["com.github.instagram4j.instagram4j.models.media.ImageVersions"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.TimelineCarouselMedia",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setCarousel_media","parameterTypes":["java.util.List"] },
+      {"name":"setCarousel_media_count","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.TimelineImageMedia",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setImage_versions2","parameterTypes":["com.github.instagram4j.instagram4j.models.media.ImageVersions"] },
+      {"name":"setOriginal_height","parameterTypes":["int"] },
+      {"name":"setOriginal_width","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.TimelineMedia",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"setComment_count","parameterTypes":["int"] },
+      {"name":"setHas_liked","parameterTypes":["boolean"] },
+      {"name":"setLike_count","parameterTypes":["int"] },
+      {"name":"setPreview_comments","parameterTypes":["java.util.List"] },
+      {"name":"setUsertags","parameterTypes":["com.github.instagram4j.instagram4j.models.media.UserTags"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.media.timeline.TimelineVideoMedia",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setHas_audio","parameterTypes":["boolean"] },
+      {"name":"setImage_versions2","parameterTypes":["com.github.instagram4j.instagram4j.models.media.ImageVersions"] },
+      {"name":"setOriginal_height","parameterTypes":["int"] },
+      {"name":"setOriginal_width","parameterTypes":["int"] },
+      {"name":"setVideo_duration","parameterTypes":["long"] },
+      {"name":"setVideo_versions","parameterTypes":["java.util.List"] },
+      {"name":"setView_count","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.user.Profile",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setFull_name","parameterTypes":["java.lang.String"] },
+      {"name":"setHas_anonymous_profile_picture","parameterTypes":["boolean"] },
+      {"name":"setPk","parameterTypes":["java.lang.Long"] },
+      {"name":"setProfile_pic_id","parameterTypes":["java.lang.String"] },
+      {"name":"setProfile_pic_url","parameterTypes":["java.lang.String"] },
+      {"name":"setUsername","parameterTypes":["java.lang.String"] },
+      {"name":"set_private","parameterTypes":["boolean"] },
+      {"name":"set_verified","parameterTypes":["boolean"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.user.User",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setAccount_type","parameterTypes":["int"] },
+      {"name":"setBiography","parameterTypes":["java.lang.String"] },
+      {"name":"setExternal_url","parameterTypes":["java.lang.String"] },
+      {"name":"setFollower_count","parameterTypes":["int"] },
+      {"name":"setFollowing_count","parameterTypes":["int"] },
+      {"name":"setHd_profile_pic_url_info","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User$ProfilePic"] },
+      {"name":"setHd_profile_pic_versions","parameterTypes":["java.util.List"] },
+      {"name":"setMedia_count","parameterTypes":["int"] },
+      {"name":"set_business","parameterTypes":["boolean"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.models.user.User$ProfilePic",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setHeight","parameterTypes":["int"] },
+      {"name":"setUrl","parameterTypes":["java.lang.String"] },
+      {"name":"setWidth","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.requests.accounts.AccountsLoginRequest$LoginPayload",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"getEnc_password","parameterTypes":[] },
+      {"name":"getLogin_attempt_account","parameterTypes":[] },
+      {"name":"getUsername","parameterTypes":[] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest$BroadcastPayload",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[{"name":"getAction","parameterTypes":[] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.requests.direct.DirectThreadsBroadcastRequest$BroadcastTextPayload",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"getRecipient_users","parameterTypes":[] },
+      {"name":"getText","parameterTypes":[] },
+      {"name":"getThread_ids","parameterTypes":[] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.requests.qe.QeSyncRequest$1",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "methods":[{"name":"getExperiments","parameterTypes":[] }]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.IGPaginatedResponse",
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.IGResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"getCheckpoint_url","parameterTypes":[] },
+      {"name":"getError_type","parameterTypes":[] },
+      {"name":"getFeedback_message","parameterTypes":[] },
+      {"name":"getFeedback_title","parameterTypes":[] },
+      {"name":"getMessage","parameterTypes":[] },
+      {"name":"getStatus","parameterTypes":[] },
+      {"name":"isLock","parameterTypes":[] },
+      {"name":"isSpam","parameterTypes":[] },
+      {"name":"setLock","parameterTypes":["boolean"] },
+      {"name":"setMessage","parameterTypes":["java.lang.String"] },
+      {"name":"setSpam","parameterTypes":["boolean"] },
+      {"name":"setStatus","parameterTypes":["java.lang.String"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.accounts.AccountsUserResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setUser","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.accounts.LoginResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setLogged_in_user","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.accounts.LoginResponse$TwoFactorInfo",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "queryAllPublicConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.challenge.Challenge",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.direct.DirectInboxResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setInbox","parameterTypes":["com.github.instagram4j.instagram4j.models.direct.Inbox"] },
+      {"name":"setPending_requests_total","parameterTypes":["int"] },
+      {"name":"setSeq_id","parameterTypes":["int"] },
+      {"name":"setViewer","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.feed.FeedUserResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setItems","parameterTypes":["java.util.List"] },
+      {"name":"setNext_max_id","parameterTypes":["java.lang.String"] },
+      {"name":"setNum_results","parameterTypes":["int"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.feed.FeedUsersResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setNext_max_id","parameterTypes":["java.lang.String"] },
+      {"name":"setUsers","parameterTypes":["java.util.List"] }
+    ]
+  },
+  {
+    "name":"com.github.instagram4j.instagram4j.responses.users.UserResponse",
+    "allDeclaredFields":true,
+    "queryAllDeclaredMethods":true,
+    "queryAllDeclaredConstructors":true,
+    "methods":[
+      {"name":"<init>","parameterTypes":[] },
+      {"name":"setUser","parameterTypes":["com.github.instagram4j.instagram4j.models.user.User"] }
+    ]
+  },
+  {
+    "name":"com.sun.crypto.provider.AESCipher$General",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.sun.crypto.provider.DHParameters",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.sun.crypto.provider.HmacCore$HmacSHA256",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.sun.crypto.provider.RSACipher",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"com.sun.crypto.provider.TlsMasterSecretGenerator",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"java.io.Serializable",
+    "queryAllDeclaredMethods":true
+  },
+  {
+    "name":"java.lang.String"
+  },
+  {
+    "name":"java.security.AlgorithmParametersSpi"
+  },
+  {
+    "name":"java.security.KeyStoreSpi"
+  },
+  {
+    "name":"java.security.MessageDigestSpi"
+  },
+  {
+    "name":"java.security.SecureRandomParameters"
+  },
+  {
+    "name":"java.security.interfaces.ECPrivateKey"
+  },
+  {
+    "name":"java.security.interfaces.ECPublicKey"
+  },
+  {
+    "name":"java.security.interfaces.RSAPrivateKey"
+  },
+  {
+    "name":"java.security.interfaces.RSAPublicKey"
+  },
+  {
+    "name":"java.util.Date"
+  },
+  {
+    "name":"javax.imageio.spi.ImageReaderSpi"
+  },
+  {
+    "name":"javax.imageio.spi.ImageReaderWriterSpi",
+    "queriedMethods":[
+      {"name":"getFileSuffixes","parameterTypes":[] },
+      {"name":"getFormatNames","parameterTypes":[] },
+      {"name":"getMIMETypes","parameterTypes":[] }
+    ]
+  },
+  {
+    "name":"javax.imageio.spi.ImageWriterSpi"
+  },
+  {
+    "name":"javax.security.auth.x500.X500Principal",
+    "fields":[{"name":"thisX500Name"}],
+    "methods":[{"name":"<init>","parameterTypes":["sun.security.x509.X500Name"] }]
+  },
+  {
+    "name":"sun.awt.Win32GraphicsEnvironment",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.java2d.marlin.DMarlinRenderingEngine",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.pkcs12.PKCS12KeyStore",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.pkcs12.PKCS12KeyStore$DualFormatPKCS12",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.DRBG",
+    "methods":[{"name":"<init>","parameterTypes":["java.security.SecureRandomParameters"] }]
+  },
+  {
+    "name":"sun.security.provider.DSA$SHA224withDSA",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.DSA$SHA256withDSA",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.JavaKeyStore$JKS",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.MD5",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.SHA",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.SHA2$SHA224",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.SHA2$SHA256",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.SHA5$SHA384",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.SHA5$SHA512",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.X509Factory",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.provider.certpath.PKIXCertPathValidator",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.rsa.PSSParameters",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.rsa.RSAKeyFactory$Legacy",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.rsa.RSAPSSSignature",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.rsa.RSASignature$SHA224withRSA",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.rsa.RSASignature$SHA256withRSA",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.ssl.SSLContextImpl$TLSContext",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.ssl.TrustManagerFactoryImpl$PKIXFactory",
+    "methods":[{"name":"<init>","parameterTypes":[] }]
+  },
+  {
+    "name":"sun.security.util.ObjectIdentifier"
+  },
+  {
+    "name":"sun.security.x509.AuthorityInfoAccessExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.AuthorityKeyIdentifierExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.BasicConstraintsExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.CRLDistributionPointsExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.CertificateExtensions"
+  },
+  {
+    "name":"sun.security.x509.CertificatePoliciesExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.ExtendedKeyUsageExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.IssuerAlternativeNameExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.KeyUsageExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.NetscapeCertTypeExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.PrivateKeyUsageExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.SubjectAlternativeNameExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  },
+  {
+    "name":"sun.security.x509.SubjectKeyIdentifierExtension",
+    "methods":[{"name":"<init>","parameterTypes":["java.lang.Boolean","java.lang.Object"] }]
+  }
+]
