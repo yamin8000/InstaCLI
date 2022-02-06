@@ -114,7 +114,14 @@ Alternatively, you can download the jar file from the releases section or build 
 
 ## Download
 
+Download `jar` file from releases section and run it using `java -jar InstaKiller-x.x.x.jar` command.
+
 [Releases](https://github.com/yamin8000/InstaKiller/releases)
+
+### GraalVM
+
+This project also can be built using GraalVM, I already prepared necessary configurations for it in `resources/META-INF/native-image`.
+You can find native executable for Windows in releases section.
 
 ## Features
 
