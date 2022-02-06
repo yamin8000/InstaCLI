@@ -28,6 +28,15 @@ object Utility {
         }
     }
 
+    fun <U> CompletableFuture<U>.actionPair(): Pair<U?, Throwable?> {
+        return try {
+            val response = this.get()
+            response to null
+        } catch (e: Throwable) {
+            null to e
+        }
+    }
+
     fun requirePositiveLimit(limit: Int) {
         if (limit < 1) throw IllegalArgumentException("Limit must be greater than 0")
     }

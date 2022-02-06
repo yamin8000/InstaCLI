@@ -10,14 +10,14 @@ object Constants {
 
     val ter = Terminal()
     val resultStyle = TextColors.green
+    val infoStyle = TextColors.brightMagenta + TextStyles.bold
     val errorStyle = TextColors.red + TextStyles.bold
     val askStyle = TextColors.cyan + TextStyles.bold
     val warningStyle = TextColors.yellow + TextStyles.bold
     val menuStyle = TextColors.blue + TextStyles.bold
 
     const val DOWNLOAD_FOLDER = "DOWNLOAD_FOLDER"
-    var downloadDir = "D:/instaKiller"
-    const val OK = "ok"
+    var downloadDir = "downloads"
     var MAX_COUNT = Integer.MAX_VALUE
     var PAGE_LIMIT = 100
     const val sleepDelay = 100L

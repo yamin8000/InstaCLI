@@ -57,8 +57,10 @@ object Menus {
         1. Show menu
         2. Show current user followers
         3. Show current user following
-        4. Show user followers
-        5. Show user following
+        4. Show current user unfollowers
+        5. Show user followers
+        6. Show user following
+        7. Show user unfollowers
     """.trimIndent()
 
     val livestreamMenu = """

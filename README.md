@@ -137,8 +137,7 @@ Alternatively, you can download the jar file from the releases section or build 
 
 #### Profile
 
-- [x] See your own profile
-- [x] See other user's profile
+- [x] See user(other, yourself) profile full info
 
 #### Direct Message
 
@@ -164,7 +163,8 @@ Alternatively, you can download the jar file from the releases section or build 
 
 #### Friends
 
-- [x] See other user's friends (followers, following)
+- [x] See user(other, yourself) friends (followers, following)
+- [x] See user(other, yourself) unfollowers (both ways)
 
 #### Batch download
 
@@ -173,6 +173,8 @@ Alternatively, you can download the jar file from the releases section or build 
 - [ ] Batch download multiple users posts videos
 - [ ] Batch download multiple users stories pictures
 - [x] Batch download multiple users profile pictures
+
+> default download directory is: "./downloads"
 
 ### Actions
 
