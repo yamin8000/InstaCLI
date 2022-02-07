@@ -26,6 +26,7 @@ object Menus {
         5. Search
         6. Direct Message
         7. Live stream
+        8. Account
         10. Settings
     """.trimIndent()
 
@@ -33,9 +34,8 @@ object Menus {
     val userMenu = """
             0. Back
             1. Show menu
-            2. Show current user info
-            3. Show user info by username
-            4. Save user profile picture
+            2. Show user info by username
+            3. Save user profile picture
     """.trimIndent()
 
     val postMenu = """
@@ -74,5 +74,12 @@ object Menus {
         7. Show livestream viewer list
         8. Add comment to livestream
         9. Show livestream comments list
+    """.trimIndent()
+
+    val accountMenu = """
+        0. Back
+        1. Show menu
+        2. Show current user info
+        3. Change account bio
     """.trimIndent()
 }

@@ -27,9 +27,8 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
         when (super.run()) {
             0 -> return 0
             1 -> showMenu()
-            2 -> showCurrentUserInfo()
-            3 -> showUsersInfoByUsername()
-            4 -> downloadUsersProfilePictures(scanner.getMultipleStrings("username"))
+            2 -> showUsersInfoByUsername()
+            3 -> downloadUsersProfilePictures(scanner.getMultipleStrings("username"))
             else -> {
                 ter.println(errorStyle("Invalid input, try again!"))
                 run()
@@ -80,14 +79,6 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
                 it()
                 printUserInfo(userInfo, error)
             }
-        }
-    }
-
-    private fun showCurrentUserInfo() {
-        progress {
-            val (userInfo, error) = UserHelper(igClient).getCurrentUserInfo()
-            it()
-            printUserInfo(userInfo, error)
         }
     }
 

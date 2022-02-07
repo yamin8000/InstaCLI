@@ -97,8 +97,8 @@ class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : Ba
                 borderStyle = BorderStyle.ROUNDED
                 body {
                     style = menuStyle
-                    row("Sender", thread.thread_title)
-                    row("Users", thread.users.joinToString(", ") { user -> user.username })
+                    row("Thread title (sender name or group name)", thread.thread_title)
+                    row("User/Users (usernames)", thread.users.joinToString(", ") { user -> user.username })
                     val lastItem = thread.last_permanent_item
                     row("Item", if (lastItem is ThreadTextItem) lastItem.text else "Unknown")
                 }

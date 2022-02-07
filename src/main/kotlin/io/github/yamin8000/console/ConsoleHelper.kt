@@ -4,6 +4,7 @@ import com.github.ajalt.mordant.rendering.TextColors
 import io.github.yamin8000.utils.Constants.affirmatives
 import io.github.yamin8000.utils.Constants.askStyle
 import io.github.yamin8000.utils.Constants.errorStyle
+import io.github.yamin8000.utils.Constants.infoStyle
 import io.github.yamin8000.utils.Constants.ter
 import java.util.*
 
@@ -64,7 +65,7 @@ object ConsoleHelper {
     }
 
     fun Scanner.getSingleString(field: String): String {
-        ter.println(askStyle("Please enter $field"))
+        ter.println(askStyle("Please enter ") + infoStyle(field))
         val input = this.nextLine().trim()
         return input.ifBlank {
             ter.println(errorStyle("Input cannot be empty, try again!"))
