@@ -3,6 +3,7 @@ package io.github.yamin8000.helpers
 import io.github.yamin8000.Dyad
 import io.github.yamin8000.utils.Constants.downloadDir
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
+import io.github.yamin8000.utils.FileUtils.createDirInDownloadsIfNotExists
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okio.buffer
@@ -17,6 +18,8 @@ class Downloader(private val okHttpClient: OkHttpClient) {
 
     fun download(url: String, filePath: String, isReplacingOld: Boolean = false): Pair<File?, Throwable?> {
         return try {
+            val requiredDirectory = filePath.substringBeforeLast("/")
+            createDirInDownloadsIfNotExists(requiredDirectory)
             if (isReplacingOld) {
                 deleteOldFile(filePath)
                 download(url, filePath)

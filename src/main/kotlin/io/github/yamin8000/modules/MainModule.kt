@@ -1,6 +1,7 @@
 package io.github.yamin8000.modules
 
 import com.github.instagram4j.instagram4j.IGClient
+import io.github.yamin8000.helpers.StoryModule
 import io.github.yamin8000.utils.Menus.mainMenu
 import java.util.*
 
@@ -16,6 +17,7 @@ class MainModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
             6 -> DirectMessageModule(scanner, igClient).run()
             7 -> LiveStreamModule(scanner, igClient).run()
             8 -> AccountModule(scanner, igClient).run()
+            9 -> StoryModule(scanner, igClient).run()
             10 -> SettingsModule(scanner).run()
         }
 

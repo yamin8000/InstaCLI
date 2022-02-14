@@ -27,6 +27,7 @@ object Menus {
         6. Direct Message
         7. Live stream
         8. Account
+        9. Story
         10. Settings
     """.trimIndent()
 
@@ -81,5 +82,12 @@ object Menus {
         1. Show menu
         2. Show current user info
         3. Change account bio
+    """.trimIndent()
+
+    val storyMenu = """
+        0. Back
+        1. Show menu
+        2. Show current user stories
+        3. Save users stories
     """.trimIndent()
 }

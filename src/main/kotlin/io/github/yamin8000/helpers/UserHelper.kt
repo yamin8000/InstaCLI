@@ -37,4 +37,9 @@ class UserHelper(private val igClient: IGClient) {
         val (action, error) = igClient.actions.account().currentUser().actionPair()
         return if (action != null && error == null) action.user to null else null to error
     }
+
+    fun getCurrentUserPk() : Dyad<Long?> {
+        val (action, error) = igClient.actions.account().currentUser().actionPair()
+        return if (action != null && error == null) action.user.pk to null else null to error
+    }
 }

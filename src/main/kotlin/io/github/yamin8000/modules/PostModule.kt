@@ -19,7 +19,6 @@ import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
-import io.github.yamin8000.utils.FileUtils.createDirInDownloadsIfNotExists
 import io.github.yamin8000.utils.Menus.postMenu
 import io.github.yamin8000.utils.Utility.isoTimeOfEpoch
 import java.util.*
@@ -61,7 +60,6 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
     private fun saveImages(posts: List<TimelineMedia>, username: String) {
         posts.forEachIndexed { index, timelineMedia ->
             ter.println(TextColors.brightYellow("(${index + 1}/${posts.size}) Saving..."))
-            createDirInDownloadsIfNotExists("images/$username/posts")
             when (timelineMedia) {
                 is TimelineCarouselMedia -> saveCarouselPostImages(timelineMedia.carousel_media, username)
                 is TimelineImageMedia -> saveSinglePostImage(username, timelineMedia)
