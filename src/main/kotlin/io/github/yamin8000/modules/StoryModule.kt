@@ -45,17 +45,17 @@ class StoryModule(scanner: Scanner, private val igClient: IGClient) : BaseModule
         val usernames = scanner.getMultipleStrings("username")
         usernames.forEach { username ->
             loading { stopLoading ->
-                userHelper.getPk(username).solo { pk ->
+                userHelper.getPk(username).solo({ pk ->
                     stopLoading()
-                    progress {
-                        getUserStories(pk).solo { stories ->
-                            it()
+                    progress { stopProgress ->
+                        getUserStories(pk).solo({ stories ->
+                            stopProgress()
                             if (stories.reel != null && stories.reel.items != null) {
                                 saveSingleUserStories(stories.reel.items, username)
                             } else ter.println(errorStyle("No stories found for $username"))
-                        }
+                        }, { stopProgress() })
                     }
-                }
+                }, { stopLoading() })
             }
         }
     }
@@ -76,15 +76,12 @@ class StoryModule(scanner: Scanner, private val igClient: IGClient) : BaseModule
         it: ReelImageMedia,
         username: String
     ) {
-
         val url = it.image_versions2.candidates.first().url
         val name = url.substringAfterLast("/").substringBefore("?")
         progress { progressDone ->
-            downloader.download(url, "images/$username/stories/$name").solo {
-                progressDone()
+            downloader.download(url, "images/$username/stories/$name").solo({
                 ter.println(resultStyle("Saved $name to images/$username/stories/$name"))
-            }
-            progressDone()
+            }, { progressDone() })
         }
     }
 

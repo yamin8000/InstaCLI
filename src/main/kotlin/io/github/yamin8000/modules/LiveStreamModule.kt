@@ -14,6 +14,7 @@ import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus
+import io.github.yamin8000.utils.Utility.solo
 import java.util.*
 
 class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, Menus.livestreamMenu) {
@@ -49,12 +50,11 @@ class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseM
         loading { stopLoading ->
             requireCreatedLive()
             liveStream?.let {
-                val (comments, error) = helper.getComments(it.broadcast_id)
-                stopLoading()
-                if (comments != null && error == null) printComments(comments)
-                else ter.println(errorStyle("Failed to get comments: ${error?.message}"))
+                helper.getComments(it.broadcast_id).solo({ comments ->
+                    stopLoading()
+                    printComments(comments)
+                }, { stopLoading() })
             }
-            stopLoading()
         }
     }
 
@@ -69,11 +69,10 @@ class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseM
         loading { stopLoading ->
             requireCreatedLive()
             liveStream?.let {
-                val (response, error) = helper.addComment(it.broadcast_id, comment)
-                stopLoading()
-                if (response != null && error == null) {
+                helper.addComment(it.broadcast_id, comment).solo({
+                    stopLoading()
                     ter.println(resultStyle("Comment added!"))
-                } else ter.println(errorStyle("Failed to add comment to live stream: ${error?.message}"))
+                }, { stopLoading() })
             }
         }
     }
@@ -82,12 +81,10 @@ class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseM
         loading { stopLoading ->
             requireCreatedLive()
             liveStream?.let {
-                val (viewerList, error) = helper.getViewerList(it.broadcast_id)
-                stopLoading()
-                if (viewerList != null && error == null) {
+                helper.getViewerList(it.broadcast_id).solo({ viewerList ->
                     if (viewerList.isNotEmpty()) printViewerList(viewerList)
                     else ter.println(warningStyle("No viewer found!"))
-                } else ter.println(errorStyle("Failed to get viewer list: ${error?.message}"))
+                }, { stopLoading() })
             }
             stopLoading()
         }

@@ -10,6 +10,7 @@ import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Menus
 import io.github.yamin8000.utils.Utility.pair
+import io.github.yamin8000.utils.Utility.solo
 import java.util.*
 
 class AccountModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, Menus.accountMenu) {
@@ -29,19 +30,18 @@ class AccountModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
     private fun changeAccountBio() {
         val newBio = scanner.getSingleString("new bio: ")
         loading {
-            val (response, error) = igClient.actions.account().setBio(newBio).pair()
-            it()
-            if (response != null && error == null) ter.println(resultStyle("bio changed to $newBio"))
-            else ter.println(resultStyle("bio change failed: ${error?.message}"))
+            igClient.actions.account().setBio(newBio).pair().solo({
+                it()
+                ter.println(resultStyle("bio changed to $newBio"))
+            }, { it() })
         }
     }
 
     private fun showAccountInfo() {
         loading {
-            val (account, error) = igClient.actions.account().currentUser().pair()
-            it()
-            if (account != null && error == null) printAccountInfo(account.user)
-            else ter.println("Failed to get account info: ${error?.message}")
+            igClient.actions.account().currentUser().pair().solo({
+                printAccountInfo(it.user)
+            }, { it() })
         }
     }
 

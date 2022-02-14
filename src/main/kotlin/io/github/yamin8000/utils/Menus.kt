@@ -50,7 +50,7 @@ object Menus {
         0. Back
         1. Show menu
         2. Show direct messages (inbox)
-        3. Send direct message
+        3. Send direct message to user/users
     """.trimIndent()
 
     val friendsMenu = """

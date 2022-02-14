@@ -51,10 +51,18 @@ object Utility {
      *
      * @param T data type
      * @param message error message
-     * @param callback callback for injecting non-null data
+     * @param success callback for injecting non-null data
+     * @param failed callback for showing error message
      */
-    fun <T> Dyad<T?>.solo(message: String? = "Error", callback: (T) -> Unit) {
-        if (this.first != null && this.second == null) callback(this.first!!)
-        else ter.println(errorStyle("$message: ${this.second?.message}"))
+    fun <T> Dyad<T?>.solo(
+        success: (T) -> Unit,
+        failed: ((Throwable?) -> Unit)? = null,
+        message: String? = "Error"
+    ) {
+        if (this.first != null && this.second == null) success(this.first!!)
+        else {
+            ter.println(errorStyle("$message: ${this.second?.message}"))
+            failed?.invoke(this.second)
+        }
     }
 }

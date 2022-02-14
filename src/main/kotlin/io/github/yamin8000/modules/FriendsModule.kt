@@ -17,6 +17,7 @@ import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.friendsMenu
+import io.github.yamin8000.utils.Utility.solo
 import java.util.*
 
 class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, friendsMenu) {
@@ -49,10 +50,10 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
 
     private fun showCurrentUserUnfollowers() {
         loading {
-            val (user, error) = currentUser
-            it()
-            if (user != null && error == null) printUnfollowers(getUserUnfollowers(user.username), user.username)
-            else failedGettingCurrentUser(error)
+            currentUser.solo({ user ->
+                it()
+                printUnfollowers(getUserUnfollowers(user.username), user.username)
+            }, { it() })
         }
     }
 
@@ -72,9 +73,9 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
             ter.println(resultStyle("${index + 1}. ${it.username} (${it.full_name})"))
         }
         scanner.pressEnterToContinue()
-        ter.println(infoStyle("People who follow ($username) but ($username) don't follow them back"))
+        ter.println(infoStyle("People who follow ($username) but ($username) doesn't follow them back"))
         if (userUnfollowers.second.isEmpty())
-            ter.println(resultStyle("Nobody that follow ($username) but ($username) don't follow them back"))
+            ter.println(resultStyle("Nobody that follow ($username) but ($username) doesn't follow them back"))
         userUnfollowers.second.forEachIndexed { index, it ->
             ter.println(resultStyle("${index + 1}. ${it.username} (${it.full_name})"))
         }
@@ -109,9 +110,10 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
 
     private fun showFollowingCount(username: String) {
         loading {
-            val (user, _) = userHelper.getUserInfoByUsername(username)
-            it()
-            ter.println(resultStyle("Total user following: ${user?.following_count ?: "Unknown"}"))
+            userHelper.getUserInfoByUsername(username).solo({ user ->
+                it()
+                ter.println(resultStyle("Total followings of ($username) is: ${user.following_count}"))
+            }, { it() })
         }
     }
 
@@ -124,32 +126,29 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
 
     private fun showFollowersCount(username: String) {
         loading {
-            val (user, _) = userHelper.getUserInfoByUsername(username)
-            it()
-            ter.println(resultStyle("Total user followers: ${user?.follower_count ?: "Unknown"}"))
+            userHelper.getUserInfoByUsername(username).solo({ user ->
+                it()
+                ter.println(resultStyle("Total followers of ($username) is: ${user.follower_count}"))
+            }, { it() })
         }
     }
 
     private fun showCurrentUserFollowing() {
-        loading {
-            val (current, error) = currentUser
-            it()
-            if (current != null && error == null) showUserFollowing(current.username)
-            else failedGettingCurrentUser(error)
+        loading { stopLoading ->
+            currentUser.solo({
+                stopLoading()
+                showUserFollowing(it.username)
+            }, { stopLoading() })
         }
     }
 
     private fun showCurrentUserFollowers() {
-        loading {
-            val (current, error) = currentUser
-            it()
-            if (current != null && error == null) showUserFollowers(current.username)
-            else failedGettingCurrentUser(error)
+        loading { stopLoading ->
+            currentUser.solo({
+                stopLoading()
+                showUserFollowers(it.username)
+            }, { stopLoading() })
         }
-    }
-
-    private fun failedGettingCurrentUser(error: Throwable?) {
-        ter.println(errorStyle("Error getting current user info: ${error?.message}"))
     }
 
     private fun showFriendsPaged(
@@ -160,15 +159,16 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
         progress {
             val (result, nextId) = friendsHelper.getFriendsPaged(username, friendType, nextMaxId)
             it()
-            val (followers, error) = result
 
-            if (followers != null && error == null) {
+            result.solo({ followers ->
                 if (followers.isNotEmpty()) {
                     ter.println(TextColors.blue("Friends:"))
-                    followers.forEachIndexed { index, profile -> ter.println(TextColors.blue("${index + 1}. ${profile?.username} => ${profile?.full_name}")) }
+                    followers.forEachIndexed { index, profile ->
+                        ter.println(TextColors.blue("${index + 1}. ${profile?.username} => ${profile?.full_name}"))
+                    }
                     checkIfMoreNeeded(friendType, username, nextId)
                 } else ter.println(errorStyle("No friends found!"))
-            } else ter.println(errorStyle("Failed to get friends! Error: ${error?.message}"))
+            })
         }
     }
 

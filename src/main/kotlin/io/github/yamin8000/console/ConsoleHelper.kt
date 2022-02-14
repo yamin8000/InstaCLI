@@ -59,7 +59,7 @@ object ConsoleHelper {
         """.trimIndent()
             )
         )
-        val input = this.nextLine().trim().sanitize().split(",").map { it.trim() }
+        val input = this.nextLine().trim().split(",").map { it.trim() }
         return if (input.isValid()) {
             ter.println(errorStyle("Please enter at least one $field."))
             this.getMultipleStrings(field)
@@ -68,7 +68,7 @@ object ConsoleHelper {
 
     fun Scanner.getSingleString(field: String): String {
         ter.println(askStyle("Please enter ") + infoStyle(field))
-        val input = this.nextLine().trim().sanitize()
+        val input = this.nextLine().trim()
         return input.ifBlank {
             ter.println(errorStyle("Input cannot be empty, try again!"))
             this.getSingleString(field)
@@ -76,6 +76,4 @@ object ConsoleHelper {
     }
 
     private fun List<String>.isValid() = !(this.isEmpty() || this.all { it.isNotEmpty() })
-
-    private fun String.sanitize() = this.replace("\\s".toRegex(), "")
 }
