@@ -1,4 +1,4 @@
-package io.github.yamin8000.helpers
+package io.github.yamin8000.modules
 
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.reel.ReelImageMedia
@@ -7,9 +7,10 @@ import com.github.instagram4j.instagram4j.models.media.timeline.Comment
 import com.github.instagram4j.instagram4j.responses.feed.FeedUserStoryResponse
 import io.github.yamin8000.Dyad
 import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.helpers.Downloader
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
-import io.github.yamin8000.modules.BaseModule
+import io.github.yamin8000.helpers.UserHelper
 import io.github.yamin8000.utils.Constants
 import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.resultStyle
