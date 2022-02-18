@@ -22,7 +22,7 @@
 
 ### More media
 
-[more here](https://github.com/yamin8000/InstaKiller/tree/master/screenshots)
+[more here](https://github.com/InstaKiller/InstaKiller/tree/master/screenshots)
 
 ## Compatibility
 
@@ -101,7 +101,7 @@ its [code](https://github.com/instagram4j/instagram4j/blob/39635974c391e21a322ab
 
 1. Clone the repository
 
-   `git@github.com:yamin8000/InstaKiller.git`
+   `git@github.com:InstaKiller/InstaKiller.git`
 2. Build the project
 
    `gradle build`
@@ -116,7 +116,7 @@ Alternatively, you can download the jar file from the releases section or build 
 
 Download `jar` file from releases section and run it using `java -jar InstaKiller-x.x.x.jar` command.
 
-[Releases](https://github.com/yamin8000/InstaKiller/releases)
+[Releases](https://github.com/InstaKiller/InstaKiller/releases)
 
 ### GraalVM
 
