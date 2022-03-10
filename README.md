@@ -177,7 +177,7 @@ You can find native executable for Windows in releases section.
 - [ ] Batch download multiple users stories pictures
 - [x] Batch download multiple users profile pictures
 
-> default download directory is: "./downloads"
+> default download directory is: "~/downloads"
 
 ### Actions
 
