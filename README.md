@@ -178,8 +178,7 @@ in `resources/META-INF/native-image`. You can find native executable for Windows
 - [x] Batch download multiple users stories pictures/videos
 - [x] Batch download multiple users profile pictures
 
-> default download directory is: "~/downloads",
-> where (~) stands for the directory that app is currently running from.
+> default download directory is: ".../downloads",
 > download directory can be changed from the settings menu.
 
 ### Actions
