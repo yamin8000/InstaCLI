@@ -175,7 +175,7 @@ in `resources/META-INF/native-image`. You can find native executable for Windows
 - [ ] Batch download multiple users posts info to a text file (CSV)
 - [x] Batch download multiple users posts pictures
 - [ ] Batch download multiple users posts videos
-- [ ] Batch download multiple users stories pictures
+- [x] Batch download multiple users stories pictures/videos
 - [x] Batch download multiple users profile pictures
 
 > default download directory is: "~/downloads",
