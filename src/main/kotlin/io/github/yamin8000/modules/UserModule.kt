@@ -16,6 +16,7 @@ import io.github.yamin8000.utils.Constants.errorStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.ImageUtil.viewImage
 import io.github.yamin8000.utils.Menus.userMenu
+import io.github.yamin8000.utils.Utility.getName
 import java.util.*
 
 class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, userMenu) {
@@ -60,7 +61,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
         progressDone: () -> Unit
     ) {
         val imageUrl = user.hd_profile_pic_url_info.url
-        val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
+        val imageName = imageUrl.getName()
         val (imageFile, downloadError) = downloader.download(imageUrl, "images/$username/profile_pictures/$imageName")
         progressDone()
         if (imageFile != null && downloadError == null) {

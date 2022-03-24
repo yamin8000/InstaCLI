@@ -3,6 +3,7 @@ package io.github.yamin8000.modules
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.reel.ReelImageMedia
 import com.github.instagram4j.instagram4j.models.media.reel.ReelMedia
+import com.github.instagram4j.instagram4j.models.media.reel.ReelVideoMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.Comment
 import com.github.instagram4j.instagram4j.responses.feed.FeedUserStoryResponse
 import io.github.yamin8000.Dyad
@@ -17,6 +18,7 @@ import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Menus
 import io.github.yamin8000.utils.Utility.actionPair
+import io.github.yamin8000.utils.Utility.getName
 import io.github.yamin8000.utils.Utility.solo
 import java.util.*
 
@@ -47,16 +49,20 @@ class StoryModule(scanner: Scanner, private val igClient: IGClient) : BaseModule
             loading { stopLoading ->
                 userHelper.getPk(username).solo({ pk ->
                     stopLoading()
-                    progress { stopProgress ->
-                        getUserStories(pk).solo({ stories ->
-                            stopProgress()
-                            if (stories.reel != null && stories.reel.items != null) {
-                                saveSingleUserStories(stories.reel.items, username)
-                            } else ter.println(errorStyle("No stories found for $username"))
-                        }, { stopProgress() })
-                    }
+                    getUserStory(pk, username)
                 }, { stopLoading() })
             }
+        }
+    }
+
+    private fun getUserStory(pk: Long, username: String) {
+        progress { stopProgress ->
+            getUserStories(pk).solo({ stories ->
+                stopProgress()
+                if (stories.reel != null && stories.reel.items != null) {
+                    saveSingleUserStories(stories.reel.items, username)
+                } else ter.println(errorStyle("No stories found for $username"))
+            }, { stopProgress() })
         }
     }
 
@@ -68,19 +74,35 @@ class StoryModule(scanner: Scanner, private val igClient: IGClient) : BaseModule
         items.forEach {
             handleStoryCaption(it.caption)
             if (it is ReelImageMedia) saveImageStory(it, username)
+            if (it is ReelVideoMedia) saveVideoStory(it, username)
         }
         ter.println(Constants.infoStyle("Bulk Download of ($username) stories ended!"))
     }
 
     private fun saveImageStory(
-        it: ReelImageMedia,
+        media: ReelImageMedia,
         username: String
     ) {
-        val url = it.image_versions2.candidates.first().url
-        val name = url.substringAfterLast("/").substringBefore("?")
+        val url = media.image_versions2.candidates.first().url
+        val name = url.getName()
         progress { progressDone ->
             downloader.download(url, "images/$username/stories/$name").solo({
+                progressDone()
                 ter.println(resultStyle("Saved $name to images/$username/stories/$name"))
+            }, { progressDone() })
+        }
+    }
+
+    private fun saveVideoStory(
+        media: ReelVideoMedia,
+        username: String
+    ) {
+        val url = media.video_versions.first().url
+        val name = url.getName()
+        progress { progressDone ->
+            downloader.download(url, "videos/$username/stories/$name").solo({
+                progressDone()
+                ter.println(resultStyle("Saved $name to videos/$username/stories/$name"))
             }, { progressDone() })
         }
     }

@@ -86,4 +86,9 @@ object Utility {
             failed?.invoke(this.second)
         }
     }
+
+    /**
+     * return name of the given url
+     */
+    fun String.getName() = this.substringAfterLast("/").substringBefore("?")
 }

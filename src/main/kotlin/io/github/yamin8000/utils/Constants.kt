@@ -21,6 +21,7 @@ object Constants {
     var MAX_COUNT = Integer.MAX_VALUE
     var PAGE_LIMIT = 100
     const val sleepDelay = 100L
+    const val animationDelay = 50L
 
     const val LOADING = "Loading..."
     val animations = listOf(
@@ -37,6 +38,7 @@ object Constants {
         "⠁⠂⠄⡀⢀⠠⠐⠈",
         "⠋⠙⠹⠸⠼⠴⠦⠧⠇",
         "⠏⠟⠻⠿⢿⣿⣿⣿⣿",
+        "▉▊▋▌▍▎▏▎▍▌▋▊▉",
     )
     const val LOADING_ANIMATION = "LOADING_ANIMATION"
     var currentLoadingAnimation = 0

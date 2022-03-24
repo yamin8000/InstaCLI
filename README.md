@@ -1,6 +1,7 @@
 # InstaKiller
 
 **InstaKiller** is a CLI wrapper around [instagram4j](https://github.com/instagram4j/instagram4j) library.
+
 ---
 
 | Icon |                Item                 |
@@ -76,7 +77,7 @@ Alternatively, you can use command-line options to log in and skip the login men
 
 After initial login then you can use various tasks you can find in the menu.
 
-![main_menu](screenshots/alpha/main_menu.png)
+![main_menu](screenshots/1.x/main_menu.png)
 
 #### Submenus documentation
 
@@ -120,8 +121,8 @@ Download `jar` file from releases section and run it using `java -jar InstaKille
 
 ### GraalVM
 
-This project also can be built using GraalVM, I already prepared necessary configurations for it in `resources/META-INF/native-image`.
-You can find native executable for Windows in releases section.
+This project also can be built using GraalVM, I already prepared necessary configurations for it
+in `resources/META-INF/native-image`. You can find native executable for Windows in releases section.
 
 ## Features
 
@@ -145,24 +146,24 @@ You can find native executable for Windows in releases section.
 #### Direct Message
 
 - [x] See your own direct message inbox
-- [x] Send a direct message to multiple users
+- [x] Send a direct message to other user or users
 
 #### Media
 
 - [x] See your own posts
-- [ ] See your own stories
-- [x] See other user's posts
-- [ ] See other user's stories
+- [ ] Save your own stories
+- [x] See other user's or users' posts
+- [x] Save other user's or users' stories (images and videos)
 
 ### Live stream
 
-- [x] Create live stream
+- [x] Create a live stream
 - [x] Start your live stream
 - [x] Stop your live stream
 - [x] See your live stream viewer count
 - [x] See your live stream viewer list
 - [x] See your live stream comment list
-- [x] Add comment to your live stream
+- [x] Add a comment to your live stream
 
 #### Friends
 
@@ -177,7 +178,9 @@ You can find native executable for Windows in releases section.
 - [ ] Batch download multiple users stories pictures
 - [x] Batch download multiple users profile pictures
 
-> default download directory is: "~/downloads"
+> default download directory is: "~/downloads",
+> where (~) stands for the directory that app is currently running from.
+> download directory can be changed from the settings menu.
 
 ### Actions
 
@@ -189,7 +192,8 @@ You can find native executable for Windows in releases section.
 
 #### Account
 
-- [ ] Change your account bio
+- [x] See your account info
+- [x] Change your account bio
 - [ ] Change your account profile picture
 
 #### Timeline

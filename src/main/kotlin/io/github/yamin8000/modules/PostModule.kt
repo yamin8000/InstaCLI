@@ -20,6 +20,7 @@ import io.github.yamin8000.utils.Constants.resultStyle
 import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.postMenu
+import io.github.yamin8000.utils.Utility.getName
 import io.github.yamin8000.utils.Utility.isoTimeOfEpoch
 import java.util.*
 
@@ -85,7 +86,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
     private fun saveSinglePostImage(username: String, media: Any) {
         val imageUrl = getImageUrl(media)
         if (imageUrl != null) {
-            val imageName = imageUrl.substringAfterLast("/").substringBefore("?")
+            val imageName = imageUrl.getName()
             val filePath = "images/$username/posts/$imageName"
             progress {
                 val (imageFile, error) = downloader.download(imageUrl, filePath)
@@ -152,7 +153,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
 
     private fun saveVideoPost(timelineMedia: TimelineVideoMedia, username: String) {
         val videoUrl = timelineMedia.video_versions.first().url
-        val videoName = videoUrl.substringAfterLast("/").substringBefore("?")
+        val videoName = videoUrl.getName()
         val filePath = "images/$username/posts/$videoName"
         progress {
             val (video, error) = downloader.download(videoUrl, filePath)

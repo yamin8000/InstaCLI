@@ -1,6 +1,6 @@
 package io.github.yamin8000.modules
 
-import com.github.ajalt.mordant.rendering.BorderStyle
+import com.github.ajalt.mordant.rendering.BorderType
 import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
@@ -97,8 +97,8 @@ class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : Ba
     private fun printSingleThread(thread: IGThread) {
         ter.println(
             table {
-                borderTextStyle = TextColors.brightBlue
-                borderStyle = BorderStyle.ROUNDED
+                borderStyle = TextColors.brightBlue
+                borderType = BorderType.ROUNDED
                 body {
                     style = menuStyle
                     row("Thread title (sender name or group name)", thread.thread_title)

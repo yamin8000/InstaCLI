@@ -1,6 +1,6 @@
 package io.github.yamin8000.modules
 
-import com.github.ajalt.mordant.rendering.BorderStyle
+import com.github.ajalt.mordant.rendering.BorderType
 import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.rendering.TextStyles
 import com.github.ajalt.mordant.table.table
@@ -20,8 +20,8 @@ open class BaseModule(protected val scanner: Scanner, private val menuText: Stri
     fun showMenu(): Int {
         val lines = menuText.split("\n")
         ter.println(table {
-            borderStyle = BorderStyle.ROUNDED
-            borderTextStyle = TextColors.brightBlue
+            borderType = BorderType.ROUNDED
+            borderStyle = TextColors.brightBlue
             body { lines.forEach { row(style(it)) } }
         })
         return lines.size
