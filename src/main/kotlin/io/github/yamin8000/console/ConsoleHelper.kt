@@ -17,7 +17,7 @@ object ConsoleHelper {
             val input = this.nextLine().trim()
             if (input.isNotBlank() && input.all { it.isDigit() }) {
                 val number = input.toInt()
-                if (checkIfInputIsInRange(number, range)) number
+                if (number.isInRange(range)) number
                 else getIntegerInputFailure("Input is out of range.", message, range)
             } else getIntegerInputFailure("Please enter a number only, try again!", message, range)
         } catch (exception: NumberFormatException) {
@@ -25,9 +25,7 @@ object ConsoleHelper {
         }
     }
 
-    private fun checkIfInputIsInRange(number: Int, range: IntRange?): Boolean {
-        return if (range == null) true else number in range
-    }
+    private fun Int.isInRange(range: IntRange?) = range == null || this in range
 
     private fun Scanner.getIntegerInputFailure(error: String, message: String?, range: IntRange?): Int {
         ter.println(errorStyle(error))
