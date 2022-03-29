@@ -6,6 +6,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("java")
+    id("org.jetbrains.dokka") version kotlinVersion
 }
 
 group = "io.github.yamin8000"

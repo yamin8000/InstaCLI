@@ -9,10 +9,18 @@ import io.github.yamin8000.utils.Constants.infoStyle
 import io.github.yamin8000.utils.Constants.ter
 import java.util.*
 
+/**
+ * Helper class for console input/output
+ */
 object ConsoleHelper {
 
     private val integerInputFailure = "Please enter a number only, try again!"
 
+    /**
+     * Prompts the user for an [Integer] input with the given optional [message],
+     * the number must be between [range] if included otherwise any [Integer] is acceptable.
+     * Eventually return the input as [Int]
+     */
     fun readInteger(message: String? = null, range: IntRange? = null): Int {
         if (message != null) ter.println(askStyle(message))
         return try {
@@ -27,13 +35,23 @@ object ConsoleHelper {
         }
     }
 
+    /**
+     * Extension function for checking if [Int] is in the given [range]
+     */
     private fun Int.isInRange(range: IntRange?) = range == null || this in range
 
+    /**
+     * If the input is not valid (refer to [readInteger]), prompt the user again for an [Integer] input
+     */
     private fun readIntegerAfterFailure(error: String, message: String?, range: IntRange?): Int {
         ter.println(errorStyle(error))
         return readInteger(message, range)
     }
 
+    /**
+     * Prompts the user for a [Boolean] input with the given optional [message],
+     * and eventually return the input as [Boolean]
+     */
     fun readBoolean(message: String? = null): Boolean {
         return try {
             if (message != null) ter.println(askStyle(message))
@@ -43,11 +61,18 @@ object ConsoleHelper {
         }
     }
 
+    /**
+     * Prompts the user to press enter to continue
+     */
     fun pressEnterToContinue(message: String = "continue...") {
         ter.println((TextColors.yellow on TextColors.black)("Press enter to $message"))
         readCleanLine()
     }
 
+    /**
+     * Prompts the user for entering multiple [String] values,
+     * and eventually return a [List] of [String]
+     */
     fun readMultipleStrings(field: String): List<String> {
         ter.println(askStyle("Please enter ${infoStyle("$field/${field}s")}"))
         ter.println(askStyle("If there are more than one ${infoStyle(field)} separate them using a comma (${infoStyle(",")})"))
@@ -60,6 +85,10 @@ object ConsoleHelper {
         } else input
     }
 
+    /**
+     * Prompts the user for a single [String] value,
+     * and eventually return the input as [String]
+     */
     fun readSingleString(field: String): String {
         ter.println(askStyle("Please enter ") + infoStyle(field))
         return readCleanLine().ifBlank {
@@ -68,6 +97,10 @@ object ConsoleHelper {
         }
     }
 
+    /**
+     * Reads a line from input and [String.trim] it,
+     * if the input is null then returns an empty [String]
+     */
     fun readCleanLine(): String = readlnOrNull() ?: "".trim()
 
     private fun List<String>.isValid() = !(this.isEmpty() || this.all { it.isNotEmpty() })

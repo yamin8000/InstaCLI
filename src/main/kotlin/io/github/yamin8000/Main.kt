@@ -5,9 +5,9 @@ import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
-import io.github.yamin8000.console.ConsoleHelper.readInteger
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
 import io.github.yamin8000.console.ConsoleHelper.readCleanLine
+import io.github.yamin8000.console.ConsoleHelper.readInteger
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
@@ -41,6 +41,10 @@ fun main(arguments: Array<String>) {
     else handleCommandLineOptions()
 }
 
+/**
+ * Handles the regular mode of the application,
+ * where the user is prompted to log in.
+ */
 fun handleRegularMode() {
     try {
         initLogin()
@@ -56,6 +60,10 @@ fun handleRegularMode() {
     }
 }
 
+/**
+ * Handles the command line mode of the application,
+ * where log in info is passed in as arguments.
+ */
 fun handleCommandLineOptions() {
     try {
         val commands = filterCommands()

@@ -9,6 +9,9 @@ import io.github.yamin8000.utils.Utility.pair
 
 class DirectMessageHelper(private val igClient: IGClient) {
 
+    /**
+     * Sends a direct message with [message] value to multiple users based on their [pkS]
+     */
     fun sendDirectMessageByPks(message: String, vararg pkS: Long): Dyad<Boolean?> {
         val (sentResponse, error) = igClient.sendRequest(
             DirectThreadsBroadcastRequest(
