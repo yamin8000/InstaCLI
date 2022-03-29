@@ -44,8 +44,7 @@ object LoggerHelper {
         val runnable = Runnable {
             try {
                 while (true) {
-                    val color = getHsvColorStyle(colorIndex)
-                    ter.print(color(animation[colorIndex % animation.length].toString()))
+                    ter.print(getHsvColorStyle(colorIndex)(animation[colorIndex % animation.length].toString()))
                     TimeUnit.MILLISECONDS.sleep(cycleWaitTime)
                     print("\b")
                     colorIndex++
@@ -77,8 +76,7 @@ object LoggerHelper {
             try {
                 while (true) {
                     progression++
-                    val color: TextStyle = getHsvColorStyle(colorIndex)
-                    ter.print(color(animation[progression % total].toString()))
+                    ter.print(getHsvColorStyle(colorIndex)(animation[progression % total].toString()))
                     TimeUnit.MILLISECONDS.sleep(cycleWaitTime)
                     colorIndex++
                 }
