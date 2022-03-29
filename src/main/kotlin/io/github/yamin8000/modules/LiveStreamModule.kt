@@ -4,8 +4,8 @@ import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.Comment
 import com.github.instagram4j.instagram4j.models.user.Profile
 import com.github.instagram4j.instagram4j.responses.live.LiveCreateResponse
-import io.github.yamin8000.console.ConsoleHelper.getSingleString
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
+import io.github.yamin8000.console.ConsoleHelper.readSingleString
 import io.github.yamin8000.helpers.LiveStreamHelper
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.utils.Constants.askStyle
@@ -15,9 +15,8 @@ import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus
 import io.github.yamin8000.utils.Utility.solo
-import java.util.*
 
-class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, Menus.livestreamMenu) {
+class LiveStreamModule(private val igClient: IGClient) : BaseModule(Menus.livestreamMenu) {
 
     private val helper by lazy(LazyThreadSafetyMode.NONE) { LiveStreamHelper(igClient) }
 
@@ -40,7 +39,7 @@ class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseM
                 run()
             }
         }
-        scanner.pressEnterToContinue()
+        pressEnterToContinue()
 
         run()
         return 0
@@ -65,7 +64,7 @@ class LiveStreamModule(scanner: Scanner, private val igClient: IGClient) : BaseM
     }
 
     private fun addCommentToLiveStream() {
-        val comment = scanner.getSingleString("your comment")
+        val comment = readSingleString("your comment")
         loading { stopLoading ->
             requireCreatedLive()
             liveStream?.let {

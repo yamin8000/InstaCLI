@@ -6,8 +6,8 @@ import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.direct.IGThread
 import com.github.instagram4j.instagram4j.models.direct.item.ThreadTextItem
-import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
-import io.github.yamin8000.console.ConsoleHelper.getSingleString
+import io.github.yamin8000.console.ConsoleHelper.readMultipleStrings
+import io.github.yamin8000.console.ConsoleHelper.readSingleString
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
 import io.github.yamin8000.helpers.DirectMessageHelper
 import io.github.yamin8000.helpers.LoggerHelper.loading
@@ -21,9 +21,8 @@ import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.directMessageMenu
 import io.github.yamin8000.utils.Utility.solo
-import java.util.*
 
-class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, directMessageMenu) {
+class DirectMessageModule(private val igClient: IGClient) : BaseModule(directMessageMenu) {
 
     private val helper: DirectMessageHelper by lazy(LazyThreadSafetyMode.NONE) {
         DirectMessageHelper(
@@ -48,9 +47,9 @@ class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : Ba
     }
 
     private fun sendDirectMessageToUsers() {
-        val usernames = scanner.getMultipleStrings("username")
+        val usernames = readMultipleStrings("username")
         ter.println(TextColors.blue("Enter message you want to send:"))
-        val message = scanner.getSingleString("message")
+        val message = readSingleString("message")
         val userHelper = UserHelper(igClient)
         usernames.forEach { username ->
             loading {
@@ -89,7 +88,7 @@ class DirectMessageModule(scanner: Scanner, private val igClient: IGClient) : Ba
     private fun printThreads(threads: List<IGThread>) {
         threads.forEach {
             printSingleThread(it)
-            scanner.pressEnterToContinue("see next direct message")
+            pressEnterToContinue("see next direct message")
         }
         ter.println(resultStyle("All direct messages shown!"))
     }

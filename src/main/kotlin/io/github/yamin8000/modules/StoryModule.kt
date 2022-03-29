@@ -7,7 +7,7 @@ import com.github.instagram4j.instagram4j.models.media.reel.ReelVideoMedia
 import com.github.instagram4j.instagram4j.models.media.timeline.Comment
 import com.github.instagram4j.instagram4j.responses.feed.FeedUserStoryResponse
 import io.github.yamin8000.Dyad
-import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.console.ConsoleHelper.readMultipleStrings
 import io.github.yamin8000.helpers.Downloader
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
@@ -20,9 +20,8 @@ import io.github.yamin8000.utils.Menus
 import io.github.yamin8000.utils.Utility.actionPair
 import io.github.yamin8000.utils.Utility.getName
 import io.github.yamin8000.utils.Utility.solo
-import java.util.*
 
-class StoryModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, Menus.storyMenu) {
+class StoryModule(private val igClient: IGClient) : BaseModule(Menus.storyMenu) {
 
     private val downloader = Downloader(igClient.httpClient)
     private val userHelper = UserHelper(igClient)
@@ -44,7 +43,7 @@ class StoryModule(scanner: Scanner, private val igClient: IGClient) : BaseModule
     }
 
     private fun saveUsersStories() {
-        val usernames = scanner.getMultipleStrings("username")
+        val usernames = readMultipleStrings("username")
         usernames.forEach { username ->
             loading { stopLoading ->
                 userHelper.getPk(username).solo({ pk ->

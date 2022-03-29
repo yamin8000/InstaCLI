@@ -4,9 +4,9 @@ import com.github.ajalt.mordant.rendering.TextColors
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.Profile
 import com.github.instagram4j.instagram4j.requests.friendships.FriendshipsFeedsRequest
-import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
-import io.github.yamin8000.console.ConsoleHelper.getSingleString
+import io.github.yamin8000.console.ConsoleHelper.readSingleString
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
+import io.github.yamin8000.console.ConsoleHelper.readBoolean
 import io.github.yamin8000.helpers.FriendsHelper
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
@@ -18,9 +18,8 @@ import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.friendsMenu
 import io.github.yamin8000.utils.Utility.solo
-import java.util.*
 
-class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, friendsMenu) {
+class FriendsModule(private val igClient: IGClient) : BaseModule(friendsMenu) {
 
     private val friendsHelper by lazy(LazyThreadSafetyMode.NONE) { FriendsHelper(igClient) }
 
@@ -58,7 +57,7 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
     }
 
     private fun showUserUnfollowers() {
-        val username = scanner.getSingleString("username")
+        val username = readSingleString("username")
         printUnfollowers(getUserUnfollowers(username), username)
     }
 
@@ -72,14 +71,14 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
         userUnfollowers.first.forEachIndexed { index, it ->
             ter.println(resultStyle("${index + 1}. ${it.username} (${it.full_name})"))
         }
-        scanner.pressEnterToContinue()
+        pressEnterToContinue()
         ter.println(infoStyle("People who follow ($username) but ($username) doesn't follow them back"))
         if (userUnfollowers.second.isEmpty())
             ter.println(resultStyle("Nobody that follow ($username) but ($username) doesn't follow them back"))
         userUnfollowers.second.forEachIndexed { index, it ->
             ter.println(resultStyle("${index + 1}. ${it.username} (${it.full_name})"))
         }
-        scanner.pressEnterToContinue()
+        pressEnterToContinue()
     }
 
     private fun getUserUnfollowers(username: String): Pair<List<Profile>, List<Profile>> {
@@ -102,10 +101,10 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
     }
 
     private fun showUserFollowing(input: String? = null) {
-        val username = input ?: scanner.getSingleString("username")
+        val username = input ?: readSingleString("username")
         showFollowingCount(username)
         showFriendsPaged(FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWING, username)
-        scanner.pressEnterToContinue()
+        pressEnterToContinue()
     }
 
     private fun showFollowingCount(username: String) {
@@ -118,10 +117,10 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
     }
 
     private fun showUserFollowers(input: String? = null) {
-        val username = input ?: scanner.getSingleString("username")
+        val username = input ?: readSingleString("username")
         showFollowersCount(username)
         showFriendsPaged(FriendshipsFeedsRequest.FriendshipsFeeds.FOLLOWERS, username)
-        scanner.pressEnterToContinue()
+        pressEnterToContinue()
     }
 
     private fun showFollowersCount(username: String) {
@@ -178,7 +177,7 @@ class FriendsModule(scanner: Scanner, private val igClient: IGClient) : BaseModu
         nextMaxId: String? = null
     ) {
         if (nextMaxId != null) {
-            val seeMore = scanner.getBooleanInput("Do you want to see more friends? (y/n)")
+            val seeMore = readBoolean("Do you want to see more friends? (y/n)")
             if (seeMore) showFriendsPaged(friendType, username, nextMaxId)
             else ter.println(warningStyle("End of ($username) friends list"))
         } else ter.println(warningStyle("End of ($username) friends list"))

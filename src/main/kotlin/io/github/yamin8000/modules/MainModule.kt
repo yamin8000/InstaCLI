@@ -2,22 +2,21 @@ package io.github.yamin8000.modules
 
 import com.github.instagram4j.instagram4j.IGClient
 import io.github.yamin8000.utils.Menus.mainMenu
-import java.util.*
 
-class MainModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, mainMenu) {
+class MainModule(private val igClient: IGClient) : BaseModule(mainMenu) {
 
     override fun run(): Int {
         when (super.run()) {
             0 -> return 0
             1 -> showMenu()
-            2 -> UserModule(scanner, igClient).run()
-            3 -> PostModule(scanner, igClient).run()
-            4 -> FriendsModule(scanner, igClient).run()
-            6 -> DirectMessageModule(scanner, igClient).run()
-            7 -> LiveStreamModule(scanner, igClient).run()
-            8 -> AccountModule(scanner, igClient).run()
-            9 -> StoryModule(scanner, igClient).run()
-            10 -> SettingsModule(scanner).run()
+            2 -> UserModule(igClient).run()
+            3 -> PostModule(igClient).run()
+            4 -> FriendsModule(igClient).run()
+            6 -> DirectMessageModule(igClient).run()
+            7 -> LiveStreamModule(igClient).run()
+            8 -> AccountModule(igClient).run()
+            9 -> StoryModule(igClient).run()
+            10 -> SettingsModule().run()
         }
 
         run()

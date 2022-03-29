@@ -11,61 +11,64 @@ import java.util.*
 
 object ConsoleHelper {
 
-    fun Scanner.getIntegerInput(message: String? = null, range: IntRange? = null): Int {
+    private val integerInputFailure = "Please enter a number only, try again!"
+
+    fun readInteger(message: String? = null, range: IntRange? = null): Int {
         if (message != null) ter.println(askStyle(message))
         return try {
-            val input = this.nextLine().trim()
+            val input = readCleanLine()
             if (input.isNotBlank() && input.all { it.isDigit() }) {
                 val number = input.toInt()
                 if (number.isInRange(range)) number
-                else getIntegerInputFailure("Input is out of range.", message, range)
-            } else getIntegerInputFailure("Please enter a number only, try again!", message, range)
+                else readIntegerAfterFailure("Input is out of range.", message, range)
+            } else readIntegerAfterFailure(integerInputFailure, message, range)
         } catch (exception: NumberFormatException) {
-            -1
+            readIntegerAfterFailure(integerInputFailure, message, range)
         }
     }
 
     private fun Int.isInRange(range: IntRange?) = range == null || this in range
 
-    private fun Scanner.getIntegerInputFailure(error: String, message: String?, range: IntRange?): Int {
+    private fun readIntegerAfterFailure(error: String, message: String?, range: IntRange?): Int {
         ter.println(errorStyle(error))
-        return getIntegerInput(message, range)
+        return readInteger(message, range)
     }
 
-    fun Scanner.getBooleanInput(message: String? = null): Boolean {
+    fun readBoolean(message: String? = null): Boolean {
         return try {
             if (message != null) ter.println(askStyle(message))
-            this.nextLine().trim().lowercase(Locale.getDefault()) in affirmatives
+            readCleanLine().lowercase(Locale.getDefault()) in affirmatives
         } catch (exception: Exception) {
             false
         }
     }
 
-    fun Scanner.pressEnterToContinue(message: String = "continue...") {
+    fun pressEnterToContinue(message: String = "continue...") {
         ter.println((TextColors.yellow on TextColors.black)("Press enter to $message"))
-        this.nextLine()
+        readCleanLine()
     }
 
-    fun Scanner.getMultipleStrings(field: String): List<String> {
+    fun readMultipleStrings(field: String): List<String> {
         ter.println(askStyle("Please enter ${infoStyle("$field/${field}s")}"))
         ter.println(askStyle("If there are more than one ${infoStyle(field)} separate them using a comma (${infoStyle(",")})"))
         ter.print(askStyle("Example: "))
         ter.println("${randHsv()("John")},${randHsv()("Paul")},${randHsv()("George")},${randHsv()("Ringo")}")
-        val input = this.nextLine().trim().split(",").map { it.trim() }
+        val input = readCleanLine().split(",").map { it.trim() }
         return if (input.isValid()) {
             ter.println(errorStyle("Please enter at least one $field."))
-            this.getMultipleStrings(field)
+            readMultipleStrings(field)
         } else input
     }
 
-    fun Scanner.getSingleString(field: String): String {
+    fun readSingleString(field: String): String {
         ter.println(askStyle("Please enter ") + infoStyle(field))
-        val input = this.nextLine().trim()
-        return input.ifBlank {
+        return readCleanLine().ifBlank {
             ter.println(errorStyle("Input cannot be empty, try again!"))
-            this.getSingleString(field)
+            this.readSingleString(field)
         }
     }
+
+    fun readCleanLine(): String = readlnOrNull() ?: "".trim()
 
     private fun List<String>.isValid() = !(this.isEmpty() || this.all { it.isNotEmpty() })
 }

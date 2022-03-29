@@ -5,8 +5,9 @@ import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.table.table
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.exceptions.IGLoginException
-import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
+import io.github.yamin8000.console.ConsoleHelper.readInteger
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
+import io.github.yamin8000.console.ConsoleHelper.readCleanLine
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.loggerD
 import io.github.yamin8000.helpers.LoggerHelper.loggerE
@@ -23,14 +24,11 @@ import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.initMenu
 import io.github.yamin8000.utils.Utility
 import java.io.File
-import java.util.*
 import kotlin.system.exitProcess
 
 typealias Dyad<T> = Pair<T, Throwable?>
 
 private lateinit var igClient: IGClient
-
-private val scanner by lazy(LazyThreadSafetyMode.NONE) { Scanner(System.`in`) }
 
 private val sessions by lazy(LazyThreadSafetyMode.NONE) { File("sessions").list() }
 
@@ -132,11 +130,11 @@ fun loadSessionFromCommandLine(sessionArg: String) {
 }
 
 private fun initLogin(isCommandLine: Boolean = false) {
-    SettingsModule(scanner)
+    SettingsModule()
 
     if (!isCommandLine)
         igClient = loginHandler() ?: exitProcess(0)
-    val menu = MainModule(scanner, igClient).run()
+    val menu = MainModule(igClient).run()
     if (menu == 0) initLogin()
 }
 
@@ -151,7 +149,7 @@ fun loginHandler(): IGClient? {
         }
         captionBottom(TextColors.brightBlue("Please login first:"))
     })
-    return when (scanner.getIntegerInput()) {
+    return when (readInteger()) {
         0 -> loginHandler()
         1 -> getClientByUsernamePassword() ?: loginHandler()
         2 -> getClientBySession() ?: loginHandler()
@@ -178,7 +176,7 @@ private fun getClientBySession(): IGClient? {
         }
         captionBottom(TextColors.brightBlue("Please choose session:"))
     })
-    val userInput = scanner.getIntegerInput()
+    val userInput = readInteger()
     if (userInput in sessions.indices) return loginFromSession(userInput)
     return null
 }
@@ -194,9 +192,9 @@ private fun loginFromSession(sessionIndex: Int): IGClient? {
 private fun getClientByUsernamePassword(): IGClient? {
     val enterField = "Enter instagram "
     ter.println(TextColors.blue("$enterField username: "))
-    val username = scanner.nextLine().trim()
+    val username = readCleanLine()
     ter.println(TextColors.blue("$enterField password: "))
-    val password = scanner.nextLine().trim()
+    val password = readCleanLine()
 
     return loginWithUsernamePassword(username, password)
 }
@@ -206,7 +204,7 @@ private fun loginWithUsernamePassword(
     password: String
 ): IGClient? {
     val (client, error) = loading {
-        val igPair = LoginHelper(scanner).logInWithChallenge(username, password)
+        val igPair = LoginHelper().logInWithChallenge(username, password)
         it()
         return@loading igPair
     }
@@ -218,11 +216,11 @@ private fun loginWithUsernamePassword(
             ter.println(resultStyle("Logged in successfully as ($username)"))
         } else {
             ter.println(errorStyle("Login failed!"))
-            scanner.pressEnterToContinue()
+            pressEnterToContinue()
         }
     } else {
         ter.println(errorStyle("Login failed: ${error?.message}"))
-        scanner.pressEnterToContinue()
+        pressEnterToContinue()
     }
 
     return client

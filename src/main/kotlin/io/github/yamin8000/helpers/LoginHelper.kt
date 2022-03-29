@@ -3,10 +3,10 @@ package io.github.yamin8000.helpers
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils
 import io.github.yamin8000.Dyad
-import java.util.*
+import io.github.yamin8000.console.ConsoleHelper.readCleanLine
 import java.util.concurrent.Callable
 
-class LoginHelper(private val scanner: Scanner) {
+class LoginHelper() {
 
     private val client = IGClient.builder()
 
@@ -41,7 +41,7 @@ class LoginHelper(private val scanner: Scanner) {
     private fun getChallengeHandler(): IGClient.Builder.LoginHandler {
         val inputCode = Callable {
             print("Please input code: ")
-            scanner.nextLine()
+            readCleanLine()
         }
 
         val challengeHandler = IGClient.Builder.LoginHandler { client, response ->

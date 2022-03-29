@@ -1,8 +1,8 @@
 package io.github.yamin8000.modules
 
-import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
-import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
-import io.github.yamin8000.console.ConsoleHelper.getSingleString
+import io.github.yamin8000.console.ConsoleHelper.readBoolean
+import io.github.yamin8000.console.ConsoleHelper.readInteger
+import io.github.yamin8000.console.ConsoleHelper.readSingleString
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.utils.Constants.DOWNLOAD_FOLDER
 import io.github.yamin8000.utils.Constants.LOADING_ANIMATION
@@ -18,10 +18,8 @@ import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.FileUtils.createDirIfNotExists
 import io.github.yamin8000.utils.Menus.settingSubmenuText
 import java.io.File
-import java.util.*
 
-
-class SettingsModule(scanner: Scanner) : BaseModule(scanner, settingSubmenuText) {
+class SettingsModule : BaseModule(settingSubmenuText) {
 
     private val configRegex = Regex("(.+[=].+\\n*)+")
 
@@ -53,7 +51,7 @@ class SettingsModule(scanner: Scanner) : BaseModule(scanner, settingSubmenuText)
     private fun changeLoadingAnimationType() {
         ter.println(warningStyle("Current loading animation is: ${animations[currentLoadingAnimation]}"))
         animations.forEachIndexed { index, item -> ter.println("$index. $item") }
-        val input = scanner.getIntegerInput()
+        val input = readInteger()
         currentLoadingAnimation = input
         ter.println(resultStyle("Current loading animation changed to : ${animations[input]}"))
         updateConfigFile(LOADING_ANIMATION to input)
@@ -61,14 +59,14 @@ class SettingsModule(scanner: Scanner) : BaseModule(scanner, settingSubmenuText)
 
     private fun changeDownloadFolder() {
         ter.println(warningStyle("Current download folder is : $downloadDir"))
-        downloadDir = scanner.getSingleString("new download folder: ")
+        downloadDir = readSingleString("new download folder: ")
         ter.println(resultStyle("Current download folder changed to : $downloadDir"))
         updateConfigFile(DOWNLOAD_FOLDER to downloadDir)
     }
 
     private fun changeSessionAutosave() {
         ter.println(warningStyle("Current session autosave is : $isAutosavingSession"))
-        isAutosavingSession = scanner.getBooleanInput("Enable session autosave? (y/n)")
+        isAutosavingSession = readBoolean("Enable session autosave? (y/n)")
         if (isAutosavingSession) ter.println(resultStyle("Session autosave enabled"))
         else ter.println(resultStyle("Session autosave disabled"))
         updateConfigFile(SESSION_AUTOSAVE to isAutosavingSession)

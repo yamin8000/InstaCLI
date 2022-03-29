@@ -4,8 +4,8 @@ import com.github.ajalt.mordant.rendering.TextColors
 import com.github.ajalt.mordant.rendering.TextStyles
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.user.User
-import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
-import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
+import io.github.yamin8000.console.ConsoleHelper.readBoolean
+import io.github.yamin8000.console.ConsoleHelper.readMultipleStrings
 import io.github.yamin8000.helpers.Downloader
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
@@ -17,9 +17,8 @@ import io.github.yamin8000.utils.Constants.ter
 import io.github.yamin8000.utils.ImageUtil.viewImage
 import io.github.yamin8000.utils.Menus.userMenu
 import io.github.yamin8000.utils.Utility.getName
-import java.util.*
 
-class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, userMenu) {
+class UserModule(private val igClient: IGClient) : BaseModule(userMenu) {
 
     private val downloader: Downloader by lazy(LazyThreadSafetyMode.NONE) { Downloader(igClient.httpClient) }
 
@@ -28,7 +27,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
             0 -> return 0
             1 -> showMenu()
             2 -> showUsersInfoByUsername()
-            3 -> downloadUsersProfilePictures(scanner.getMultipleStrings("username"))
+            3 -> downloadUsersProfilePictures(readMultipleStrings("username"))
             else -> {
                 ter.println(errorStyle("Invalid input, try again!"))
                 run()
@@ -66,12 +65,12 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
         progressDone()
         if (imageFile != null && downloadError == null) {
             ter.println(style("Image saved successfully to $downloadDir/images/$username/$imageName"))
-            if (scanner.getBooleanInput("Do you want to open the image?(y/n)")) viewImage(imageFile)
+            if (readBoolean("Do you want to open the image?(y/n)")) viewImage(imageFile)
         } else ter.println(errorStyle("Skipping, Failed to download image for $username => ${downloadError?.message}"))
     }
 
     private fun showUsersInfoByUsername() {
-        val usernames = scanner.getMultipleStrings("username")
+        val usernames = readMultipleStrings("username")
         usernames.forEach { username ->
             progress {
                 val (userInfo, error) = UserHelper(igClient).getUserInfoByUsername(username)
@@ -90,7 +89,7 @@ class UserModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
 
     private fun checkIfMoreUserInfoNeeded(userInfo: User) {
         ter.println(askStyle("Do you want to see full user info? (y/n)"))
-        if (scanner.getBooleanInput()) showFullUserInfo(userInfo)
+        if (readBoolean()) showFullUserInfo(userInfo)
     }
 
     companion object {

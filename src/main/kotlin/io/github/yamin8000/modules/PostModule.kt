@@ -5,10 +5,10 @@ import com.github.ajalt.mordant.rendering.TextStyles
 import com.github.instagram4j.instagram4j.IGClient
 import com.github.instagram4j.instagram4j.models.media.timeline.*
 import io.github.yamin8000.Dyad
-import io.github.yamin8000.console.ConsoleHelper.getBooleanInput
-import io.github.yamin8000.console.ConsoleHelper.getIntegerInput
-import io.github.yamin8000.console.ConsoleHelper.getMultipleStrings
 import io.github.yamin8000.console.ConsoleHelper.pressEnterToContinue
+import io.github.yamin8000.console.ConsoleHelper.readBoolean
+import io.github.yamin8000.console.ConsoleHelper.readInteger
+import io.github.yamin8000.console.ConsoleHelper.readMultipleStrings
 import io.github.yamin8000.helpers.Downloader
 import io.github.yamin8000.helpers.LoggerHelper.loading
 import io.github.yamin8000.helpers.LoggerHelper.progress
@@ -22,9 +22,8 @@ import io.github.yamin8000.utils.Constants.warningStyle
 import io.github.yamin8000.utils.Menus.postMenu
 import io.github.yamin8000.utils.Utility.getName
 import io.github.yamin8000.utils.Utility.isoTimeOfEpoch
-import java.util.*
 
-class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(scanner, postMenu) {
+class PostModule(private val igClient: IGClient) : BaseModule(postMenu) {
 
     private val downloader: Downloader by lazy(LazyThreadSafetyMode.NONE) { Downloader(igClient.httpClient) }
 
@@ -43,7 +42,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
     }
 
     private fun showUserPosts() {
-        val usernames = scanner.getMultipleStrings("username")
+        val usernames = readMultipleStrings("username")
         usernames.forEach { username ->
             val limit = getMediaLimit(username)
             progress {
@@ -51,7 +50,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
                 it()
                 if (posts != null && error == null) {
                     printPosts(posts)
-                    val isSaving = scanner.getBooleanInput("Do you want to save posts' images as files? (y/n)")
+                    val isSaving = readBoolean("Do you want to save posts' images as files? (y/n)")
                     if (isSaving) saveImages(posts, username)
                 } else ter.println(errorStyle("Failed to get posts! Error: ${error?.message}"))
             }
@@ -107,7 +106,7 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
     }
 
     private fun saveUserPostsImages() {
-        val usernames = scanner.getMultipleStrings("username")
+        val usernames = readMultipleStrings("username")
         usernames.forEach { username ->
             val limit = getMediaLimit(username)
             progress {
@@ -125,14 +124,14 @@ class PostModule(scanner: Scanner, private val igClient: IGClient) : BaseModule(
             it()
             if (user != null && userError == null) ter.println(TextColors.brightYellow("($username) has ${user.media_count} posts."))
             else ter.println(errorStyle("Skipping, Failed to get user info! Error: ${userError?.message}"))
-            return@loading scanner.getIntegerInput("Enter number of posts to fetch:", 0 until Integer.MAX_VALUE)
+            return@loading readInteger("Enter number of posts to fetch:", 0 until Integer.MAX_VALUE)
         }
     }
 
     private fun printPosts(posts: List<TimelineMedia>) {
         posts.forEach {
             printSinglePost(it)
-            scanner.pressEnterToContinue("see next post...")
+            pressEnterToContinue("see next post...")
         }
     }
 
