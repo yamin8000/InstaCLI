@@ -32,16 +32,8 @@ tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-tasks.dokkaHtml.configure {
-    outputDirectory.set(projectDir.resolve("docs/dokka/html"))
-}
-
-tasks.dokkaJavadoc.configure {
-    outputDirectory.set(projectDir.resolve("docs/dokka/javadoc"))
-}
-
 tasks.dokkaJekyll.configure {
-    outputDirectory.set(projectDir.resolve("docs/dokka/jekyll"))
+    outputDirectory.set(projectDir.resolve("docs"))
 }
 
 tasks.jar {
