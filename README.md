@@ -88,7 +88,7 @@ After initial login then you can use various tasks you can find in the menu.
 - Direct message
 - [Live stream](docs/live.md)
 
-[more docs here](docs)
+[more docs here](docs) and [here](https://instakiller.github.io/InstaKiller)
 
 #### Privacy notice
 
