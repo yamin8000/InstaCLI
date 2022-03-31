@@ -1,0 +1,17 @@
+---
+title: loggerE
+---
+//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[LoggerHelper](index.html)/[loggerE](logger-e.html)
+
+
+
+# loggerE
+
+
+
+[jvm]\
+fun [loggerE](logger-e.html)(message: [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html), source: () -&gt; [Unit](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html)? = null)
+
+
+
+

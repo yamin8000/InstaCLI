@@ -24,12 +24,24 @@ dependencies {
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha7")
 }
 
+application {
+    mainClass.set("io.github.yamin8000.MainKt")
+}
+
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-application {
-    mainClass.set("io.github.yamin8000.MainKt")
+tasks.dokkaHtml.configure {
+    outputDirectory.set(projectDir.resolve("docs/dokka/html"))
+}
+
+tasks.dokkaJavadoc.configure {
+    outputDirectory.set(projectDir.resolve("docs/dokka/javadoc"))
+}
+
+tasks.dokkaJekyll.configure {
+    outputDirectory.set(projectDir.resolve("docs/dokka/jekyll"))
 }
 
 tasks.jar {

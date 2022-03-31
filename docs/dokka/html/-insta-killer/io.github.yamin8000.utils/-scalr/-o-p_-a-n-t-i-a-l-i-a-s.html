@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>OP_ANTIALIAS</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
+  <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../index.html">InstaKiller</a></div>
+      <div>1.0.1</div>
+      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
+    <div id="container">
+      <div id="leftColumn">
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div class="main-content" id="content" pageIds="InstaKiller::io.github.yamin8000.utils/Scalr/OP_ANTIALIAS/#/PointingToDeclaration//769193423">
+          <div class="breadcrumbs"><a href="../../../index.html">InstaKiller</a>/<a href="../index.html">io.github.yamin8000.utils</a>/<a href="index.html">Scalr</a>/<a href="-o-p_-a-n-t-i-a-l-i-a-s.html">OP_ANTIALIAS</a></div>
+          <div class="cover ">
+            <h1 class="cover"><span><span>OP_ANTIALIAS</span></span></h1>
+          </div>
+          <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="-o-p_-a-n-t-i-a-l-i-a-s.html">OP_ANTIALIAS</a><span class="token operator">: </span><a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/ConvolveOp.html">ConvolveOp</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">A <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/ConvolveOp.html">ConvolveOp</a> using a very light &quot;blur&quot; kernel that acts like an anti-aliasing filter (softens the image a bit) when applied to an image.</p><p class="paragraph">A common request by users of the library was that they wished to &quot;soften&quot; resulting images when scaling them down drastically. After quite a bit of A/B testing, the kernel used by this Op was selected as the closest match for the target which was the softer results from the deprecated <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/AreaAveragingScaleFilter.html">AreaAveragingScaleFilter</a> (which is used internally by the deprecated Image.getScaledInstance method in the JDK that imgscalr is meant to replace).</p><p class="paragraph">This ConvolveOp uses a 3x3 kernel with the values:</p><table cellpadding="4" border="1">
+<tr>
+<td>.0f</td>
+<td>.08f</td>
+<td>.0f</td>
+</tr> *
+<tr>
+<td>.08f</td>
+<td>.68f</td>
+<td>.08f</td>
+</tr> *
+<tr>
+<td>.0f</td>
+<td>.08f</td>
+<td>.0f</td>
+</tr> *
+</table> *<p class="paragraph">For those that have worked with ConvolveOps before, this Op uses the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/ConvolveOp.html#EDGE_NO_OP--">ConvolveOp.EDGE_NO_OP</a> instruction to not process the pixels along the very edge of the image (otherwise EDGE_ZERO_FILL would create a black-border around the image). If you have not worked with a ConvolveOp before, it just means this default OP will &quot;do the right thing&quot; and not give you garbage results.</p><p class="paragraph">This ConvolveOp uses no <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/RenderingHints.html">RenderingHints</a> values as internally the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/ConvolveOp.html">ConvolveOp</a> class only uses hints when doing a color conversion between the source and destination <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/BufferedImage.html">BufferedImage</a> targets. imgscalr allows the <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/ConvolveOp.html">ConvolveOp</a> to create its own destination image every time, so no color conversion is ever needed and thus no hints. <h3>Performance</h3> Use of this (and other) <a href="https://docs.oracle.com/javase/8/docs/api/java/awt/image/ConvolveOp.html">ConvolveOp</a>s are hardware accelerated when possible. For more information on if your image op is hardware accelerated or not, check the source code of the underlying JDK class that actually executes the Op code, <a href="http://www.docjar.com/html/api/sun/awt/image/ImagingLib.java.html">sun.awt.image.ImagingLib</a>. <h3>Known Issues</h3> In all versions of Java (tested up to Java 7 preview Build 131), running this op against a GIF with transparency and attempting to save the resulting image as a GIF results in a corrupted/empty file. The file must be saved out as a PNG to maintain the transparency.</p><h4 class="">Since</h4><p class="paragraph">3.0</p></div></div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
