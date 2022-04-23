@@ -9,7 +9,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.6.20"
 }
 
-group = "io.github.yamin8000"
+group = "io.github.instakiller"
 version = "1.0.2"
 
 repositories {
@@ -25,7 +25,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("io.instakiller.yamin8000.MainKt")
+    mainClass.set("io.github.instakiller.MainKt")
 }
 
 tasks.withType<KotlinCompile>() {
@@ -38,7 +38,7 @@ tasks.dokkaJekyll.configure {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "io.instakiller.yamin8000.MainKt"
+        attributes["Main-Class"] = "io.github.instakiller.MainKt"
     }
     configurations["compileClasspath"].forEach { file: File ->
         from(zipTree(file.absoluteFile))
