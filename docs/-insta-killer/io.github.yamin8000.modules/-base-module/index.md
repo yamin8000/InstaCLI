@@ -1,7 +1,7 @@
 ---
 title: BaseModule
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.modules](../index.html)/[BaseModule](index.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.modules](../index.html)/[BaseModule](index.html)
 
 
 

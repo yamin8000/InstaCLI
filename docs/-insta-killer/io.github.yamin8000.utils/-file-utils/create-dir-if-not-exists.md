@@ -1,7 +1,7 @@
 ---
 title: createDirIfNotExists
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[FileUtils](index.html)/[createDirIfNotExists](create-dir-if-not-exists.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[FileUtils](index.html)/[createDirIfNotExists](create-dir-if-not-exists.html)
 
 
 

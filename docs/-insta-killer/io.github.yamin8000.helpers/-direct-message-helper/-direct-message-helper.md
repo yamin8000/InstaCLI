@@ -1,7 +1,7 @@
 ---
 title: DirectMessageHelper
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[DirectMessageHelper](index.html)/[DirectMessageHelper](-direct-message-helper.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[DirectMessageHelper](index.html)/[DirectMessageHelper](-direct-message-helper.html)
 
 
 

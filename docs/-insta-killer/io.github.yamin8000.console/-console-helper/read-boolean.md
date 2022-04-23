@@ -1,7 +1,7 @@
 ---
 title: readBoolean
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.console](../index.html)/[ConsoleHelper](index.html)/[readBoolean](read-boolean.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.console](../index.html)/[ConsoleHelper](index.html)/[readBoolean](read-boolean.html)
 
 
 

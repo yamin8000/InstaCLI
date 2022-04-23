@@ -1,7 +1,7 @@
 ---
 title: readSingleString
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.console](../index.html)/[ConsoleHelper](index.html)/[readSingleString](read-single-string.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.console](../index.html)/[ConsoleHelper](index.html)/[readSingleString](read-single-string.html)
 
 
 

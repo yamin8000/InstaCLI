@@ -1,11 +1,11 @@
 ---
-title: io.github.yamin8000.helpers
+title: io.github.instakiller.helpers
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000.helpers](index.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller.helpers](index.html)
 
 
 
-# Package io.github.yamin8000.helpers
+# Package io.github.instakiller.helpers
 
 
 

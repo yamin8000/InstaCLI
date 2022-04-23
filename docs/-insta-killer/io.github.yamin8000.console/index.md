@@ -1,11 +1,11 @@
 ---
-title: io.github.yamin8000.console
+title: io.github.instakiller.console
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000.console](index.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller.console](index.html)
 
 
 
-# Package io.github.yamin8000.console
+# Package io.github.instakiller.console
 
 
 

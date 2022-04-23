@@ -1,7 +1,7 @@
 ---
 title: SESSION_AUTOSAVE
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Constants](index.html)/[SESSION_AUTOSAVE](-s-e-s-s-i-o-n_-a-u-t-o-s-a-v-e.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Constants](index.html)/[SESSION_AUTOSAVE](-s-e-s-s-i-o-n_-a-u-t-o-s-a-v-e.html)
 
 
 

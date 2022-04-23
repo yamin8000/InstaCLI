@@ -1,7 +1,7 @@
 ---
 title: handleCommandLineOptions
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000](index.html)/[handleCommandLineOptions](handle-command-line-options.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller](index.html)/[handleCommandLineOptions](handle-command-line-options.html)
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: loginHandler
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000](index.html)/[loginHandler](login-handler.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller](index.html)/[loginHandler](login-handler.html)
 
 
 

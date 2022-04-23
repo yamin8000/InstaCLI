@@ -1,7 +1,7 @@
 ---
 title: FLIP_VERT
 ---
-//[InstaKiller](../../../../../index.html)/[io.github.yamin8000.utils](../../../index.html)/[Scalr](../../index.html)/[Rotation](../index.html)/[FLIP_VERT](index.html)
+//[InstaKiller](../../../../../index.html)/[io.github.instakiller.utils](../../../index.html)/[Scalr](../../index.html)/[Rotation](../index.html)/[FLIP_VERT](index.html)
 
 
 

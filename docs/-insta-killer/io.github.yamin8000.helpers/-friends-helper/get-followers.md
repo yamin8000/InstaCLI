@@ -1,7 +1,7 @@
 ---
 title: getFollowers
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[FriendsHelper](index.html)/[getFollowers](get-followers.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[FriendsHelper](index.html)/[getFollowers](get-followers.html)
 
 
 

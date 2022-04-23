@@ -1,7 +1,7 @@
 ---
 title: Downloader
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[Downloader](index.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[Downloader](index.html)
 
 
 

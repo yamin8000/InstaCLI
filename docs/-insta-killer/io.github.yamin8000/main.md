@@ -1,7 +1,7 @@
 ---
 title: main
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000](index.html)/[main](main.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller](index.html)/[main](main.html)
 
 
 

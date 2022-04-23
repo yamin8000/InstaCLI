@@ -1,7 +1,7 @@
 ---
 title: readInteger
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.console](../index.html)/[ConsoleHelper](index.html)/[readInteger](read-integer.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.console](../index.html)/[ConsoleHelper](index.html)/[readInteger](read-integer.html)
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: showShortUserInfo
 ---
-//[InstaKiller](../../../../index.html)/[io.github.yamin8000.modules](../../index.html)/[UserModule](../index.html)/[Companion](index.html)/[showShortUserInfo](show-short-user-info.html)
+//[InstaKiller](../../../../index.html)/[io.github.instakiller.modules](../../index.html)/[UserModule](../index.html)/[Companion](index.html)/[showShortUserInfo](show-short-user-info.html)
 
 
 

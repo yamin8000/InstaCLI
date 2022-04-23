@@ -1,7 +1,7 @@
 ---
 title: THRESHOLD_QUALITY_BALANCED
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[THRESHOLD_QUALITY_BALANCED](-t-h-r-e-s-h-o-l-d_-q-u-a-l-i-t-y_-b-a-l-a-n-c-e-d.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[THRESHOLD_QUALITY_BALANCED](-t-h-r-e-s-h-o-l-d_-q-u-a-l-i-t-y_-b-a-l-a-n-c-e-d.html)
 
 
 

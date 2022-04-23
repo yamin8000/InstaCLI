@@ -1,7 +1,7 @@
 ---
 title: getCurrentUserPk
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[UserHelper](index.html)/[getCurrentUserPk](get-current-user-pk.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[UserHelper](index.html)/[getCurrentUserPk](get-current-user-pk.html)
 
 
 

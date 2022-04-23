@@ -1,7 +1,7 @@
 ---
 title: getFriendsPaged
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[FriendsHelper](index.html)/[getFriendsPaged](get-friends-paged.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[FriendsHelper](index.html)/[getFriendsPaged](get-friends-paged.html)
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: THRESHOLD_BALANCED_SPEED
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[THRESHOLD_BALANCED_SPEED](-t-h-r-e-s-h-o-l-d_-b-a-l-a-n-c-e-d_-s-p-e-e-d.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[THRESHOLD_BALANCED_SPEED](-t-h-r-e-s-h-o-l-d_-b-a-l-a-n-c-e-d_-s-p-e-e-d.html)
 
 
 

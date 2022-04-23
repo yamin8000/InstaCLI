@@ -1,7 +1,7 @@
 ---
 title: getPk
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[UserHelper](index.html)/[getPk](get-pk.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[UserHelper](index.html)/[getPk](get-pk.html)
 
 
 

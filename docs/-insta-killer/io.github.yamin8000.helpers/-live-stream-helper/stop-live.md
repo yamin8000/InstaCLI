@@ -1,7 +1,7 @@
 ---
 title: stopLive
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[LiveStreamHelper](index.html)/[stopLive](stop-live.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[LiveStreamHelper](index.html)/[stopLive](stop-live.html)
 
 
 

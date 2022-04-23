@@ -1,7 +1,7 @@
 ---
 title: FIT_EXACT
 ---
-//[InstaKiller](../../../../../index.html)/[io.github.yamin8000.utils](../../../index.html)/[Scalr](../../index.html)/[Mode](../index.html)/[FIT_EXACT](index.html)
+//[InstaKiller](../../../../../index.html)/[io.github.instakiller.utils](../../../index.html)/[Scalr](../../index.html)/[Mode](../index.html)/[FIT_EXACT](index.html)
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: settingSubmenuText
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Menus](index.html)/[settingSubmenuText](setting-submenu-text.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Menus](index.html)/[settingSubmenuText](setting-submenu-text.html)
 
 
 

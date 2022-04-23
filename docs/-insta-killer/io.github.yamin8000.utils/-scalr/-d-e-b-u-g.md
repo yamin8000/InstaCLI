@@ -1,7 +1,7 @@
 ---
 title: DEBUG
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[DEBUG](-d-e-b-u-g.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[DEBUG](-d-e-b-u-g.html)
 
 
 

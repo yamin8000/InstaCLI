@@ -1,7 +1,7 @@
 ---
 title: BALANCED
 ---
-//[InstaKiller](../../../../../index.html)/[io.github.yamin8000.utils](../../../index.html)/[Scalr](../../index.html)/[Method](../index.html)/[BALANCED](index.html)
+//[InstaKiller](../../../../../index.html)/[io.github.instakiller.utils](../../../index.html)/[Scalr](../../index.html)/[Method](../index.html)/[BALANCED](index.html)
 
 
 

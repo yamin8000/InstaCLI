@@ -1,7 +1,7 @@
 ---
 title: OP_DARKER
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[OP_DARKER](-o-p_-d-a-r-k-e-r.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[OP_DARKER](-o-p_-d-a-r-k-e-r.html)
 
 
 

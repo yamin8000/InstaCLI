@@ -1,7 +1,7 @@
 ---
 title: username
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.models](../index.html)/[CommandLineLogin](index.html)/[username](username.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.models](../index.html)/[CommandLineLogin](index.html)/[username](username.html)
 
 
 

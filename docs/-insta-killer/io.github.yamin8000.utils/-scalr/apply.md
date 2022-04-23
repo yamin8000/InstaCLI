@@ -1,7 +1,7 @@
 ---
 title: apply
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[apply](apply.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[apply](apply.html)
 
 
 

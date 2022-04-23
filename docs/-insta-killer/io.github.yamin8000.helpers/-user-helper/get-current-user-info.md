@@ -1,7 +1,7 @@
 ---
 title: getCurrentUserInfo
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[UserHelper](index.html)/[getCurrentUserInfo](get-current-user-info.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[UserHelper](index.html)/[getCurrentUserInfo](get-current-user-info.html)
 
 
 

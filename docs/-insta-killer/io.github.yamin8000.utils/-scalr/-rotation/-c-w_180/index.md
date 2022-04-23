@@ -1,7 +1,7 @@
 ---
 title: CW_180
 ---
-//[InstaKiller](../../../../../index.html)/[io.github.yamin8000.utils](../../../index.html)/[Scalr](../../index.html)/[Rotation](../index.html)/[CW_180](index.html)
+//[InstaKiller](../../../../../index.html)/[io.github.instakiller.utils](../../../index.html)/[Scalr](../../index.html)/[Rotation](../index.html)/[CW_180](index.html)
 
 
 

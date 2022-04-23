@@ -1,7 +1,7 @@
 ---
 title: FriendsModule
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.modules](../index.html)/[FriendsModule](index.html)/[FriendsModule](-friends-module.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.modules](../index.html)/[FriendsModule](index.html)/[FriendsModule](-friends-module.html)
 
 
 

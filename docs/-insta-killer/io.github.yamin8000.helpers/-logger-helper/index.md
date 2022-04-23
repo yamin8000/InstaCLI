@@ -1,7 +1,7 @@
 ---
 title: LoggerHelper
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[LoggerHelper](index.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[LoggerHelper](index.html)
 
 
 

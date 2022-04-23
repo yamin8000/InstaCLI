@@ -1,11 +1,11 @@
 ---
-title: io.github.yamin8000.models
+title: io.github.instakiller.models
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000.models](index.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller.models](index.html)
 
 
 
-# Package io.github.yamin8000.models
+# Package io.github.instakiller.models
 
 
 

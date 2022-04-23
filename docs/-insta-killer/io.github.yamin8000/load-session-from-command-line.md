@@ -1,7 +1,7 @@
 ---
 title: loadSessionFromCommandLine
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000](index.html)/[loadSessionFromCommandLine](load-session-from-command-line.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller](index.html)/[loadSessionFromCommandLine](load-session-from-command-line.html)
 
 
 

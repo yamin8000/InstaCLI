@@ -1,7 +1,7 @@
 ---
 title: PostModule
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.modules](../index.html)/[PostModule](index.html)/[PostModule](-post-module.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.modules](../index.html)/[PostModule](index.html)/[PostModule](-post-module.html)
 
 
 

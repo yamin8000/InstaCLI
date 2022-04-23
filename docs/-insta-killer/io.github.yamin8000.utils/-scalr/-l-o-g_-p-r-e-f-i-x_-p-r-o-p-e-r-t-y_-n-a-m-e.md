@@ -1,7 +1,7 @@
 ---
 title: LOG_PREFIX_PROPERTY_NAME
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[LOG_PREFIX_PROPERTY_NAME](-l-o-g_-p-r-e-f-i-x_-p-r-o-p-e-r-t-y_-n-a-m-e.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[LOG_PREFIX_PROPERTY_NAME](-l-o-g_-p-r-e-f-i-x_-p-r-o-p-e-r-t-y_-n-a-m-e.html)
 
 
 

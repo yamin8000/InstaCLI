@@ -1,7 +1,7 @@
 ---
 title: AccountModule
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.modules](../index.html)/[AccountModule](index.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.modules](../index.html)/[AccountModule](index.html)
 
 
 

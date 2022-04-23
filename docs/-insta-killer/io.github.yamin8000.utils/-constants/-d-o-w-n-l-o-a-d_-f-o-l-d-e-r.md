@@ -1,7 +1,7 @@
 ---
 title: DOWNLOAD_FOLDER
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Constants](index.html)/[DOWNLOAD_FOLDER](-d-o-w-n-l-o-a-d_-f-o-l-d-e-r.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Constants](index.html)/[DOWNLOAD_FOLDER](-d-o-w-n-l-o-a-d_-f-o-l-d-e-r.html)
 
 
 

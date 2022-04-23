@@ -1,7 +1,7 @@
 ---
 title: now
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Utility](index.html)/[now](now.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Utility](index.html)/[now](now.html)
 
 
 

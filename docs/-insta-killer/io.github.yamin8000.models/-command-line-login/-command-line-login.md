@@ -1,7 +1,7 @@
 ---
 title: CommandLineLogin
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.models](../index.html)/[CommandLineLogin](index.html)/[CommandLineLogin](-command-line-login.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.models](../index.html)/[CommandLineLogin](index.html)/[CommandLineLogin](-command-line-login.html)
 
 
 

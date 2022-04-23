@@ -1,7 +1,7 @@
 ---
 title: isAutosaving
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.models](../index.html)/[CommandLineLogin](index.html)/[isAutosaving](is-autosaving.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.models](../index.html)/[CommandLineLogin](index.html)/[isAutosaving](is-autosaving.html)
 
 
 

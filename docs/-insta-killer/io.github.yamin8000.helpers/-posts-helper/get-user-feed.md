@@ -1,7 +1,7 @@
 ---
 title: getUserFeed
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[PostsHelper](index.html)/[getUserFeed](get-user-feed.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[PostsHelper](index.html)/[getUserFeed](get-user-feed.html)
 
 
 

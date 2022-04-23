@@ -6,11 +6,11 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("java")
-    id("org.jetbrains.dokka") version kotlinVersion
+    id("org.jetbrains.dokka") version "1.6.20"
 }
 
 group = "io.github.yamin8000"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("io.github.yamin8000.MainKt")
+    mainClass.set("io.instakiller.yamin8000.MainKt")
 }
 
 tasks.withType<KotlinCompile>() {
@@ -38,7 +38,7 @@ tasks.dokkaJekyll.configure {
 
 tasks.jar {
     manifest {
-        attributes["Main-Class"] = "io.github.yamin8000.MainKt"
+        attributes["Main-Class"] = "io.instakiller.yamin8000.MainKt"
     }
     configurations["compileClasspath"].forEach { file: File ->
         from(zipTree(file.absoluteFile))

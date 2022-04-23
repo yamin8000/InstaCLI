@@ -1,7 +1,7 @@
 ---
 title: handleRegularMode
 ---
-//[InstaKiller](../../index.html)/[io.github.yamin8000](index.html)/[handleRegularMode](handle-regular-mode.html)
+//[InstaKiller](../../index.html)/[io.github.instakiller](index.html)/[handleRegularMode](handle-regular-mode.html)
 
 
 

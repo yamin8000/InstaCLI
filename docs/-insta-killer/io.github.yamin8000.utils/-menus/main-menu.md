@@ -1,7 +1,7 @@
 ---
 title: mainMenu
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Menus](index.html)/[mainMenu](main-menu.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Menus](index.html)/[mainMenu](main-menu.html)
 
 
 

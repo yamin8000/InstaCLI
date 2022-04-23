@@ -1,7 +1,7 @@
 ---
 title: OP_BRIGHTER
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[OP_BRIGHTER](-o-p_-b-r-i-g-h-t-e-r.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[OP_BRIGHTER](-o-p_-b-r-i-g-h-t-e-r.html)
 
 
 

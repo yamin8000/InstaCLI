@@ -1,7 +1,7 @@
 ---
 title: run
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.modules](../index.html)/[SettingsModule](index.html)/[run](run.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.modules](../index.html)/[SettingsModule](index.html)/[run](run.html)
 
 
 

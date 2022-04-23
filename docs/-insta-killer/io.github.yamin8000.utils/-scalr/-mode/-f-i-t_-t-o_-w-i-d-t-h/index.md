@@ -1,7 +1,7 @@
 ---
 title: FIT_TO_WIDTH
 ---
-//[InstaKiller](../../../../../index.html)/[io.github.yamin8000.utils](../../../index.html)/[Scalr](../../index.html)/[Mode](../index.html)/[FIT_TO_WIDTH](index.html)
+//[InstaKiller](../../../../../index.html)/[io.github.instakiller.utils](../../../index.html)/[Scalr](../../index.html)/[Mode](../index.html)/[FIT_TO_WIDTH](index.html)
 
 
 

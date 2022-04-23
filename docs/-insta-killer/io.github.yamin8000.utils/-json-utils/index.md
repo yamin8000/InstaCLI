@@ -1,7 +1,7 @@
 ---
 title: JsonUtils
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[JsonUtils](index.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[JsonUtils](index.html)
 
 
 

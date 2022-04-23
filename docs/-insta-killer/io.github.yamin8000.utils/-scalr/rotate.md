@@ -1,7 +1,7 @@
 ---
 title: rotate
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[rotate](rotate.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[rotate](rotate.html)
 
 
 
@@ -37,7 +37,7 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Rotation](-rotation/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Rotation](-rotation/index.html) |  |
 
 
 

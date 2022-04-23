@@ -1,7 +1,7 @@
 ---
 title: livestreamMenu
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Menus](index.html)/[livestreamMenu](livestream-menu.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Menus](index.html)/[livestreamMenu](livestream-menu.html)
 
 
 

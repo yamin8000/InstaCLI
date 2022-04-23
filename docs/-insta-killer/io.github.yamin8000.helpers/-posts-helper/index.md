@@ -1,7 +1,7 @@
 ---
 title: PostsHelper
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[PostsHelper](index.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[PostsHelper](index.html)
 
 
 

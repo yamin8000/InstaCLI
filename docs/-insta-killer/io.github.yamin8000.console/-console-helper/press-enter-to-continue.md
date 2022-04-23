@@ -1,7 +1,7 @@
 ---
 title: pressEnterToContinue
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.console](../index.html)/[ConsoleHelper](index.html)/[pressEnterToContinue](press-enter-to-continue.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.console](../index.html)/[ConsoleHelper](index.html)/[pressEnterToContinue](press-enter-to-continue.html)
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: UserModule
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.modules](../index.html)/[UserModule](index.html)/[UserModule](-user-module.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.modules](../index.html)/[UserModule](index.html)/[UserModule](-user-module.html)
 
 
 

@@ -1,7 +1,7 @@
 ---
 title: OP_ANTIALIAS
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[OP_ANTIALIAS](-o-p_-a-n-t-i-a-l-i-a-s.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[OP_ANTIALIAS](-o-p_-a-n-t-i-a-l-i-a-s.html)
 
 
 

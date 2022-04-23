@@ -1,7 +1,7 @@
 ---
 title: directMessageMenu
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Menus](index.html)/[directMessageMenu](direct-message-menu.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Menus](index.html)/[directMessageMenu](direct-message-menu.html)
 
 
 

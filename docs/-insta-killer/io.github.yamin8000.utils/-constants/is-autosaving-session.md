@@ -1,7 +1,7 @@
 ---
 title: isAutosavingSession
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Constants](index.html)/[isAutosavingSession](is-autosaving-session.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Constants](index.html)/[isAutosavingSession](is-autosaving-session.html)
 
 
 

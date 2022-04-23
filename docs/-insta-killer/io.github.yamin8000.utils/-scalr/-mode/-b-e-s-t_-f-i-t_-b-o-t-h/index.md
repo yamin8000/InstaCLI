@@ -1,7 +1,7 @@
 ---
 title: BEST_FIT_BOTH
 ---
-//[InstaKiller](../../../../../index.html)/[io.github.yamin8000.utils](../../../index.html)/[Scalr](../../index.html)/[Mode](../index.html)/[BEST_FIT_BOTH](index.html)
+//[InstaKiller](../../../../../index.html)/[io.github.instakiller.utils](../../../index.html)/[Scalr](../../index.html)/[Mode](../index.html)/[BEST_FIT_BOTH](index.html)
 
 
 

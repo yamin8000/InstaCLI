@@ -1,7 +1,7 @@
 ---
 title: logIn
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[LoginHelper](index.html)/[logIn](log-in.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[LoginHelper](index.html)/[logIn](log-in.html)
 
 
 

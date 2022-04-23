@@ -1,7 +1,7 @@
 ---
 title: getLiveInfo
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.helpers](../index.html)/[LiveStreamHelper](index.html)/[getLiveInfo](get-live-info.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.helpers](../index.html)/[LiveStreamHelper](index.html)/[getLiveInfo](get-live-info.html)
 
 
 

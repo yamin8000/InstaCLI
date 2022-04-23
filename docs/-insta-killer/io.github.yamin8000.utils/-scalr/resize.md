@@ -1,7 +1,7 @@
 ---
 title: resize
 ---
-//[InstaKiller](../../../index.html)/[io.github.yamin8000.utils](../index.html)/[Scalr](index.html)/[resize](resize.html)
+//[InstaKiller](../../../index.html)/[io.github.instakiller.utils](../index.html)/[Scalr](index.html)/[resize](resize.html)
 
 
 
@@ -90,7 +90,7 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Method](-method/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Method](-method/index.html) |  |
 
 
 
@@ -151,7 +151,7 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Mode](-mode/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Mode](-mode/index.html) |  |
 
 
 
@@ -208,8 +208,8 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Method](-method/index.html) |  |
-| [io.github.yamin8000.utils.Scalr.Mode](-mode/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Method](-method/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Mode](-mode/index.html) |  |
 
 
 
@@ -329,7 +329,7 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Method](-method/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Method](-method/index.html) |  |
 
 
 
@@ -395,7 +395,7 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Mode](-mode/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Mode](-mode/index.html) |  |
 
 
 
@@ -457,8 +457,8 @@ jvm
 
 | | |
 |---|---|
-| [io.github.yamin8000.utils.Scalr.Method](-method/index.html) |  |
-| [io.github.yamin8000.utils.Scalr.Mode](-mode/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Method](-method/index.html) |  |
+| [io.github.instakiller.utils.Scalr.Mode](-mode/index.html) |  |
 
 
 
