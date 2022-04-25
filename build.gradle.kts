@@ -6,7 +6,7 @@ plugins {
     application
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("java")
-    id("org.jetbrains.dokka") version "1.6.20"
+    id("org.jetbrains.dokka") version "1.6.21"
 }
 
 group = "io.github.instakiller"
