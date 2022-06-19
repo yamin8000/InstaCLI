@@ -20,7 +20,7 @@ dependencies {
     implementation("com.github.instagram4j:instagram4j:2.0.7")
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta7")
 
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.8")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.9")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha7")
 }
 
