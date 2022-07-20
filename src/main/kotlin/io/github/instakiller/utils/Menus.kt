@@ -35,7 +35,7 @@ object Menus {
     val userMenu = """
             0. Back
             1. Show menu
-            2. Show user info by username
+            2. Show user/users info by username
             3. Save user profile picture
     """.trimIndent()
 

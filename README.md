@@ -64,13 +64,13 @@ Alternatively, you can use command-line options to log in and skip the login men
 - Login with username and password using command-line options
 
 ```powershell
-   java -jar instakiller.jar -login [username] [password]
+java -jar instakiller.jar -login [username] [password]
 ```
 
 - Log in using session from command-line options
 
 ```powershell
-   java -jar instakiller.jar -session [session_name]
+java -jar instakiller.jar -session [session_name]
 ```
 
 #### Menu
@@ -168,7 +168,7 @@ in `resources/META-INF/native-image`. You can find native executable for Windows
 #### Friends
 
 - [x] See user(other, yourself) friends (followers, following)
-- [x] See user(other, yourself) unfollowers (both ways)
+- [x] See user(other, yourself) un-followers (both ways)
 
 #### Batch download
 
