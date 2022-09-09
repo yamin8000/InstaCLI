@@ -6,7 +6,7 @@ import io.github.instakiller.Dyad
 import io.github.instakiller.console.ConsoleHelper.readCleanLine
 import java.util.concurrent.Callable
 
-class LoginHelper() {
+class LoginHelper {
 
     private val client = IGClient.builder()
 

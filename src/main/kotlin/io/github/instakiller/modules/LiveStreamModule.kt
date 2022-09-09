@@ -98,7 +98,7 @@ class LiveStreamModule(private val igClient: IGClient) : BaseModule(Menus.livest
     private fun showLiveStreamViewerCount() {
         loading { stopLoading ->
             requireCreatedLive()
-            liveStream?.let { it ->
+            liveStream?.let {
                 val (liveInfo, error) = helper.getLiveInfo(it.broadcast_id)
                 stopLoading()
                 if (liveInfo != null && error == null) {
