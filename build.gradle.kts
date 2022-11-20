@@ -21,7 +21,7 @@ dependencies {
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta7")
 
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.10")
-    implementation("org.slf4j:slf4j-simple:2.0.0")
+    implementation("org.slf4j:slf4j-simple:2.0.4")
 }
 
 application {
