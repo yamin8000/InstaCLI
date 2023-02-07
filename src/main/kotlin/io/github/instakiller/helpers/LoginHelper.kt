@@ -1,6 +1,7 @@
 package io.github.instakiller.helpers
 
 import com.github.instagram4j.instagram4j.IGClient
+import com.github.instagram4j.instagram4j.responses.accounts.LoginResponse
 import com.github.instagram4j.instagram4j.utils.IGChallengeUtils
 import io.github.instakiller.Dyad
 import io.github.instakiller.console.ConsoleHelper.readCleanLine
@@ -30,29 +31,39 @@ class LoginHelper {
      */
     fun logInWithChallenge(username: String, password: String): Dyad<IGClient?> {
         val challengeHandler = getChallengeHandler()
+        val twoFactorHandler = get2faHandler()
 
         return try {
-            client.username(username).password(password).onChallenge(challengeHandler).login() to null
+            client.username(username)
+                .password(password)
+                .onChallenge(challengeHandler)
+                .onTwoFactor(twoFactorHandler)
+                .login() to null
         } catch (e: Exception) {
             null to e
         }
     }
 
-    private fun getChallengeHandler(): IGClient.Builder.LoginHandler {
+    private fun challengeLoginHandler(
+        handler: (IGClient, LoginResponse, Callable<String>) -> LoginResponse
+    ): IGClient.Builder.LoginHandler {
         val inputCode = Callable {
             print("Please input code: ")
             readCleanLine()
         }
 
-        val challengeHandler = IGClient.Builder.LoginHandler { client, response ->
-            if (client != null && response != null) {
-                IGChallengeUtils.resolveChallenge(
-                    client,
-                    response,
-                    inputCode
-                )
-            } else null
+        return IGClient.Builder.LoginHandler { client, response -> handler(client, response, inputCode) }
+    }
+
+    private fun getChallengeHandler(): IGClient.Builder.LoginHandler {
+        return challengeLoginHandler { igClient, loginResponse, callable ->
+            IGChallengeUtils.resolveChallenge(igClient, loginResponse, callable)
         }
-        return challengeHandler
+    }
+
+    private fun get2faHandler(): IGClient.Builder.LoginHandler {
+        return challengeLoginHandler { igClient, loginResponse, callable ->
+            IGChallengeUtils.resolveTwoFactor(igClient, loginResponse, callable)
+        }
     }
 }
