@@ -20,7 +20,7 @@ dependencies {
     implementation("com.github.ajalt.mordant:mordant:2.0.0-beta11")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.14.2")
-    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.10")
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
     implementation("org.slf4j:slf4j-simple:2.0.6")
 }
 
