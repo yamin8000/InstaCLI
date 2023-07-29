@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation("com.github.instagram4j:instagram4j:2.0.7")
-    implementation("com.github.ajalt.mordant:mordant:2.0.0-beta11")
+    implementation("com.github.ajalt.mordant:mordant:2.1.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.14.2")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.14.2")
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
